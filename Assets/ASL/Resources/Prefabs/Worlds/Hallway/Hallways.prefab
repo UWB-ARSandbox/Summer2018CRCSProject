@@ -69,6 +69,7 @@ GameObject:
   - component: {fileID: 4582375688191866}
   - component: {fileID: 33291073520431726}
   - component: {fileID: 23681680821026486}
+  - component: {fileID: 64869896746991508}
   m_Layer: 0
   m_Name: Hallway2 Model
   m_TagString: Untagged
@@ -258,3 +259,17 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 9688805697e388b4e8553209ad0cb44c, type: 3}
+--- !u!64 &64869896746991508
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1597101205801776}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: cc5175539ba0c704497ae4fc0c259367, type: 3}
