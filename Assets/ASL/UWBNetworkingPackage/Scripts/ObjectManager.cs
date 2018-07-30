@@ -332,7 +332,7 @@ namespace UWBNetworkingPackage
                 if (prefabGo == null)
                 {
                     string directory = resourceFolderPath;
-                    directory = string.Join("\\", directory.Split(new char[1] { '/' }));
+                    directory = string.Join("/", directory.Split(new char[1] { '/' }));
                     //directory = ConvertToResourcePath(directory);
                     prefabGo = ResourceDive(prefabName, directory);
                 }
