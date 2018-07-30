@@ -37,4 +37,4 @@ The culmination of the VR/AR/RC teamwork done by Saam, Ben, Justin, Albert, Stan
 
 ##### Future Functionality
 
-## Future Functionality
+## Future Applications
