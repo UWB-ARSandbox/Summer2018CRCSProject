@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028355, g: 0.22571374, b: 0.30692255, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1676,6 +1676,7 @@ GameObject:
   m_Component:
   - component: {fileID: 40863147}
   - component: {fileID: 40863146}
+  - component: {fileID: 40863148}
   m_Layer: 0
   m_Name: androrobot
   m_TagString: Untagged
@@ -1697,6 +1698,7 @@ MonoBehaviour:
   leftCamera: {fileID: 1364878269807776, guid: 2518630f20372fe44878b2c5ae4dbf62, type: 2}
   rightCamera: {fileID: 1936116895083966, guid: 526508966b5159d43805a6b8fb0b0216,
     type: 2}
+  QRReader: {fileID: 1086007522965034, guid: 15e19dc10dc9fdf42b3b5a831974aae6, type: 2}
 --- !u!4 &40863147
 Transform:
   m_ObjectHideFlags: 0
@@ -2665,6 +2667,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &40863148
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 40863145}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 154.08855, y: 168.06471, z: 138.0105}
+  m_Center: {x: -45.546043, y: -7.056551, z: -23.76849}
 --- !u!1 &41339732
 GameObject:
   m_ObjectHideFlags: 0

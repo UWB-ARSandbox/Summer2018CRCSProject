@@ -28,6 +28,7 @@ public class RCBehavior_TCP : MonoBehaviour {
     
     public GameObject leftCamera; 
     public GameObject rightCamera;
+    public GameObject QRReader;
 
 	/*
      * The Start method initializes variables used by the script, 
@@ -263,5 +264,6 @@ public class RCBehavior_TCP : MonoBehaviour {
         }
         Instantiate(leftCamera);
         Instantiate(rightCamera);
+        Instantiate(QRReader);
     }
 }

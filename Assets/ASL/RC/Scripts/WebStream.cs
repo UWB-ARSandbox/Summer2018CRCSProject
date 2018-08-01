@@ -24,13 +24,18 @@ public class WebStream : MonoBehaviour {
      */ 
     void Start()
     {
-        if(left)
-            sourceURL = "http://194.103.218.15/mjpg/video.mjpg";
+        if (left)
+            sourceURL = "http://172.24.1.1:8080/?action=stream";
         else
-            sourceURL = "http://194.103.218.15/mjpg/video.mjpg";
+            sourceURL = "http://172.24.1.1:8070/?action=stream";
         frame = this.GetComponent<MeshRenderer>();
         texture = new Texture2D(2, 2);
         GetStream();
+    }
+
+    public Texture getTextureFeed()
+    {
+        return texture;
     }
 
     /*
