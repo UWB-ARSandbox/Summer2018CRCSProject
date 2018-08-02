@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using ASL.PortalSystem;
 using ASL.Manipulation.Objects;
@@ -14,6 +15,7 @@ public class PortalInstantiator : MonoBehaviour
 
     private PortalManager mPortalManager;
     private Portal mPortalInstance;
+    private PortalSelector mPortalSelectorInstance;
     private ObjectInteractionManager mObjectInteractionManager;
 
     private bool instantiated = false;
@@ -24,6 +26,7 @@ public class PortalInstantiator : MonoBehaviour
         mPortalManager = GameObject.Find("PortalManager").GetComponent<PortalManager>();
         mObjectInteractionManager = GameObject.Find("ObjectInteractionManager").GetComponent<ObjectInteractionManager>();
 
+        // Destroy the postion placeholder for the 
         foreach (Transform child in transform)
         {
             GameObject.Destroy(child.gameObject);
@@ -40,7 +43,14 @@ public class PortalInstantiator : MonoBehaviour
             if (!instantiated)
             {
 
-
+                if (includeSelector)
+                {
+                    instantiated = instantiateWithSelector();
+                }
+                else
+                {
+                    instantiated = instantiateWithoutSelector();
+                }
                 mPortalInstance = mPortalManager.MakePortal(transform.position, transform.forward, transform.up, Portal.ViewType.VIRTUAL, "Portal");
                 
 
@@ -70,5 +80,49 @@ public class PortalInstantiator : MonoBehaviour
         }
 
 
+    }
+
+    private bool instantiateWithSelector()
+    {
+        instantiatePortal();
+
+        if (mPortalInstance == null)
+        {
+            return false;
+        }
+
+        mPortalSelectorInstance = mObjectInteractionManager.Instantiate("Portal Selector").GetComponent<PortalSelector>();
+        if (mPortalSelectorInstance == null)
+        {
+            return false;
+        }
+        else
+        {
+            mPortalSelectorInstance.transform.parent = mPortalInstance.transform;
+            mPortalSelectorInstance.Initialize(mPortalManager.player.GetComponentInChildren<Camera>(), mPortalInstance);
+        }
+
+        return true;
+
+    }
+
+    private bool instantiateWithoutSelector()
+    {
+        instantiatePortal();
+
+        if (mPortalInstance == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void instantiatePortal()
+    {
+        if (mPortalInstance == null)
+        {
+            mPortalInstance = mPortalManager.MakePortal(transform.position, transform.forward, transform.up, Portal.ViewType.VIRTUAL, "Portal");
+        }
     }
 }
