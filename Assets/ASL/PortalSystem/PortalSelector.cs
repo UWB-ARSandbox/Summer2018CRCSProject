@@ -57,7 +57,10 @@ namespace ASL.PortalSystem
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    ChangeDestination();
+                    if (transform.GetComponent<PhotonView>() != null && transform.GetComponent<PhotonView>().isMine)
+                    {
+                        ChangeDestination();
+                    }
                 }
 
                 return;
