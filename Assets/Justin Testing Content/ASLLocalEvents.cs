@@ -2,77 +2,52 @@
 using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-// source: https://unity3d.com/learn/tutorials/topics/scripting/events-creating-simple-messaging-system
-
-public class ASLLocalEventManager : MonoBehaviour
-{
-
-    private Dictionary<string, UnityEvent> eventDictionary;
-
-    private static ASLLocalEventManager eventManager;
-
-    public static ASLLocalEventManager instance
+public class ASLLocalEvents : MonoBehaviour
+{   
+    // Event Argument that contains a LocalEvent code (Enum)
+    public class LocalEventArgs : EventArgs
     {
-        get
+        public LocalEvents MyEvent { get; set; }
+    }
+
+    // Enum of supported events.
+    public enum LocalEvents
+    {
+        PlayerInitialized
+    }
+
+    private static ASLLocalEvents _instance = null;
+
+    public static ASLLocalEvents Instance { get { return _instance; } }
+    public static event EventHandler<LocalEventArgs> LocalEventTriggered;
+
+
+    void Awake()
+    {
+        if (Instance == null)
         {
-            if (!eventManager)
-            {
-                eventManager = FindObjectOfType(typeof(ASLLocalEventManager)) as ASLLocalEventManager;
-
-                if (!eventManager)
-                {
-                    Debug.LogError("There needs to be one active EventManger script on a GameObject in your scene.");
-                }
-                else
-                {
-                    eventManager.Init();
-                }
-            }
-
-            return eventManager;
+            _instance = this;
+        }
+        else if(Instance != this)
+        {
+            Destroy(gameObject);
         }
     }
 
-    void Init()
-    {
-        if (eventDictionary == null)
-        {
-            eventDictionary = new Dictionary<string, UnityEvent>();
-        }
-    }
 
-    public static void StartListening(string eventName, UnityAction listener)
+    public bool Trigger(object sender, LocalEvents eventToTrigger) 
     {
-        UnityEvent thisEvent = null;
-        if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent.AddListener(listener);
+        if (LocalEventTriggered != null)
+        { 
+            LocalEventTriggered(sender, new LocalEventArgs { MyEvent = eventToTrigger });
+            return true;
         }
         else
         {
-            thisEvent = new UnityEvent();
-            thisEvent.AddListener(listener);
-            instance.eventDictionary.Add(eventName, thisEvent);
-        }
-    }
-
-    public static void StopListening(string eventName, UnityAction listener)
-    {
-        if (eventManager == null) return;
-        UnityEvent thisEvent = null;
-        if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent.RemoveListener(listener);
-        }
-    }
-
-    public static void TriggerEvent(string eventName)
-    {
-        UnityEvent thisEvent = null;
-        if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
-        {
-            thisEvent.Invoke();
+            //Debug.Log("No subscribers to Local Events");
+            return false;
         }
     }
 }
