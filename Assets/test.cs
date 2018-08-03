@@ -9,12 +9,12 @@ public class test : MonoBehaviour {
 	void OnEnable()
     {
 
-        ASLLocalEvents.LocalEventTriggered += ReactToEvent;
+        ASLLocalEventManager.LocalEventTriggered += ReactToEvent;
     }
 
     void OnDisable()
     {
-        ASLLocalEvents.LocalEventTriggered -= ReactToEvent;
+        ASLLocalEventManager.LocalEventTriggered -= ReactToEvent;
     }
 
     // Update is called once per frame
@@ -23,15 +23,15 @@ public class test : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("Trying to trigger Event Handler");
-            ASLLocalEvents.Instance.Trigger(this, ASLLocalEvents.LocalEvents.PlayerInitialized);
+            ASLLocalEventManager.Instance.Trigger(this, ASLLocalEventManager.LocalEvents.PlayerInitialized);
         }
     }
 
-    public void ReactToEvent(object sender, ASLLocalEvents.LocalEventArgs args)
+    public void ReactToEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
     {
         switch(args.MyEvent)
         {
-            case ASLLocalEvents.LocalEvents.PlayerInitialized:
+            case ASLLocalEventManager.LocalEvents.PlayerInitialized:
             {
                 Debug.Log("reacting to player initilization event");
                 break;

@@ -4,8 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class ASLLocalEvents : MonoBehaviour
+public class ASLLocalEventManager : MonoBehaviour
 {   
+    private static ASLLocalEventManager _instance = null;
+
+    public static ASLLocalEventManager Instance { get { return _instance; } }
+    public static event EventHandler<LocalEventArgs> LocalEventTriggered;
+
     // Event Argument that contains a LocalEvent code (Enum)
     public class LocalEventArgs : EventArgs
     {
@@ -17,12 +22,6 @@ public class ASLLocalEvents : MonoBehaviour
     {
         PlayerInitialized
     }
-
-    private static ASLLocalEvents _instance = null;
-
-    public static ASLLocalEvents Instance { get { return _instance; } }
-    public static event EventHandler<LocalEventArgs> LocalEventTriggered;
-
 
     void Awake()
     {
@@ -51,3 +50,4 @@ public class ASLLocalEvents : MonoBehaviour
         }
     }
 }
+

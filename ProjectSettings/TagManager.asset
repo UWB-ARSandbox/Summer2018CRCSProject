@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Room
   - Player Camera
+  - CarView
+  - Local Player
   layers:
   - Default
   - TransparentFX
