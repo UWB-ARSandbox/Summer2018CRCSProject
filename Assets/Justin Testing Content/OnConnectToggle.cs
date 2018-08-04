@@ -9,6 +9,7 @@ public class OnConnectToggle : Photon.PunBehaviour
     public MonoBehaviour[] ScriptsToDeactivate;
     public GameObject[] GameObjectsToActivate;
     public GameObject[] GameObjectsToDeactivate;
+    public ASLLocalEventManager.LocalEvents[] EventsToTrigger;
     public Camera[] CamerasToActivate;
     public Camera[] CamerasToDeactivate;
 
@@ -38,6 +39,11 @@ public class OnConnectToggle : Photon.PunBehaviour
                 c.enabled = false;
             }
 
+            foreach(ASLLocalEventManager.LocalEvents ev in EventsToTrigger)
+            {
+                ASLLocalEventManager.Instance.Trigger(gameObject, ev);
+            }
+
             foreach (GameObject go in GameObjectsToActivate)
             {
                 go.SetActive(true);
@@ -47,6 +53,8 @@ public class OnConnectToggle : Photon.PunBehaviour
             {
                 go.SetActive(false);
             }
+
+
         }
     }
 }

@@ -4,7 +4,7 @@ using ASL.Manipulation.Objects;
 public class PrefabInstantiator : MonoBehaviour {
 
     public GameObject prefabReference;
-    public bool maintainParent = true;
+    public GameObject parent = null;
 
 
     private GameObject prefabInstance;
@@ -35,9 +35,9 @@ public class PrefabInstantiator : MonoBehaviour {
                     instantiated = true;
                     transform.GetComponent<PrefabInstantiator>().enabled = false;
                     translateInstance();
-                    if(maintainParent)
+                    if(parent != null)
                     {
-                        prefabInstance.transform.parent = transform.parent;
+                        prefabInstance.transform.parent = parent.transform;
                     }
                     GameObject.Destroy(gameObject);
                 }

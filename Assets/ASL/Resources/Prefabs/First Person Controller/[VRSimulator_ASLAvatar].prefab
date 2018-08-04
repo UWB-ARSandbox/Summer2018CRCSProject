@@ -1774,11 +1774,13 @@ MonoBehaviour:
   ScriptsToActivate:
   - {fileID: 114812624428740072}
   - {fileID: 114812624428740072}
+  - {fileID: 0}
   ScriptsToDeactivate: []
   GameObjectsToActivate:
   - {fileID: 1219599273405328}
   - {fileID: 1365269144739758}
   GameObjectsToDeactivate: []
+  EventsToTrigger: 01000000
   CamerasToActivate: []
   CamerasToDeactivate: []
 --- !u!114 &114475644951794880
@@ -1887,8 +1889,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114020457373293902}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 2
+  instantiationId: 2
   currentMasterID: -1
   isRuntimeInstantiated: 1
 --- !u!114 &114576273377034128
@@ -2048,8 +2050,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114403823578293306}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 1
+  instantiationId: 1
   currentMasterID: -1
   isRuntimeInstantiated: 1
 --- !u!114 &114812624428740072
