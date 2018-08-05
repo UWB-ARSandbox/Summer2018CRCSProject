@@ -32,12 +32,12 @@ class TCP_CarControl:
         # world coordinate unit are temporary values that need to updated when
         # actual values are known
         # self.WHEEL_ROT_S = Number of Wheel Rotations per Second = 1
-        self.WHEEL_ROT_S = 1
+        self.WHEEL_ROT_S = 81 / 30
         # self.WHEEL_CIRC = Circumference of the Car's Wheels = 
         # 2 * PI * Wheel Radius (2") = 2 * 3.14 * 0.165 ft = 1.05 ft   
-        self.WHEEL_CIRC = 1.05
+        self.WHEEL_CIRC = 2.75 * 3.14 
         # Conversion factor for feet per world coordinate unit, 100ft per WC unit
-        self.WORLD_FT = 100
+        self.WORLD_FT = 1.33
         self.MAX_MESSAGE_LENGTH = 16
         self.sock = None
         self.connectionOpen = False
