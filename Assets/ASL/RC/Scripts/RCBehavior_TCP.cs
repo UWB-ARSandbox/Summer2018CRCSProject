@@ -7,8 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class RCBehavior_TCP : MonoBehaviour {
-    private const string rcAddress = "172.24.1.1";
-    //private const string rcAddress = "127.0.0.1";
+    //private const string rcAddress = "172.24.1.1";
+    private const string rcAddress = "127.0.0.1";
     private const short rcCPort = 1030;
     private const short MAX_MESSAGE_LENGTH = 16;
     private const float LERP_SLICE = 5f;
@@ -46,8 +46,8 @@ public class RCBehavior_TCP : MonoBehaviour {
 	
     void connectRemote() {
         client = new TcpClient();
-        ep = new IPEndPoint(IPAddress.Parse(rcAddress), rcCPort);
-        //ep = new IPEndPoint(IPAddress.Loopback, rcCPort);
+        //ep = new IPEndPoint(IPAddress.Parse(rcAddress), rcCPort);
+        ep = new IPEndPoint(IPAddress.Loopback, rcCPort);
         client.Connect(ep);
         sock = client.GetStream();
         connected = true;
