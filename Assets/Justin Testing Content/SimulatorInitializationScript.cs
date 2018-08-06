@@ -25,6 +25,28 @@ public class SimulatorInitializationScript : LocalEventHandler {
     }
     void OnSimulatorInstantiated()
     {
-        GameObject.Find("VRTK_SDKManager").GetComponent<VRTK.VRTK_SDKManager>().enabled = true;
+        Debug.Log("Looking for the Simulator");
+        GameObject simulator = transform.Find("Simulator").gameObject;
+        Debug.Log("Simulator found");
+        simulator.GetComponent<VRTK.VRTK_SDKSetup>().enabled = true;
+        Debug.Log("Enabled SDK Setup for the simulator");
+
+        //GameObject cameraRig = simulator.transform.childCount
+
+        //transform.Find("Simulator").gameObject.GetComponentInChildren<VRTK.SDK_InputSimulator>().enabled = true;
+
+        VRTK.SDK_InputSimulator[] inputSimulators = Resources.FindObjectsOfTypeAll<VRTK.SDK_InputSimulator>();
+
+        foreach (VRTK.SDK_InputSimulator input in inputSimulators)
+        {
+            if (input.transform.name.Equals("[VRSimulator_ASLAvatar]"))
+            {
+                input.enabled = true;
+                break;
+            }
+        }
+        gameObject.GetComponent<VRTK.VRTK_SDKManager>().enabled = true;
+
+
     }
 }

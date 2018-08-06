@@ -18,43 +18,68 @@ public class OnConnectToggle : Photon.PunBehaviour
         Debug.Log(transform.name + " has been instantiated");
         if (transform.GetComponent<PhotonView>().isMine)
         {
-            foreach (MonoBehaviour script in ScriptsToDeactivate)
-            {
-                script.enabled = false;
-            }
+            Debug.Log("I own " + transform.name + " handling the activations and deactivations");
 
-            foreach (MonoBehaviour script in ScriptsToActivate)
-            {
-                script.enabled = true;
-            }
+            HandleOwnedGameObjects();
 
-            foreach (Camera c in CamerasToActivate)
-            {
-                c.enabled = true;
-            }
+            HandleOwnedScripts();
 
+            HandleOwnedCameras();
 
-            foreach (Camera c in CamerasToDeactivate)
-            {
-                c.enabled = false;
-            }
+            TriggerEvents();
+        }
+    }
 
-            foreach(ASLLocalEventManager.LocalEvents ev in EventsToTrigger)
-            {
-                ASLLocalEventManager.Instance.Trigger(gameObject, ev);
-            }
+    private void HandleOwnedScripts()
+    {
+        foreach (MonoBehaviour script in ScriptsToDeactivate)
+        {
+            Debug.Log("Disabling Script: " + script.name);
+            script.enabled = false;
+        }
 
-            foreach (GameObject go in GameObjectsToActivate)
-            {
-                go.SetActive(true);
-            }
+        foreach (MonoBehaviour script in ScriptsToActivate)
+        {
+            Debug.Log("Enabling Script: " + script.name);
+            script.enabled = true;
+        }
+    }
 
-            foreach (GameObject go in GameObjectsToDeactivate)
-            {
-                go.SetActive(false);
-            }
+    private void HandleOwnedCameras()
+    {
+        foreach (Camera c in CamerasToActivate)
+        {
+            c.enabled = true;
+        }
 
 
+        foreach (Camera c in CamerasToDeactivate)
+        {
+            c.enabled = false;
+        }
+    }
+
+    private void HandleOwnedGameObjects()
+    {
+        foreach (GameObject go in GameObjectsToActivate)
+        {
+            Debug.Log("Activating Game Object: " + go.name);
+            go.SetActive(true);
+        }
+
+        foreach (GameObject go in GameObjectsToDeactivate)
+        {
+            Debug.Log("Deactivating Game Object: " + go.name);
+            go.SetActive(false);
+        }
+    }
+
+    private void TriggerEvents()
+    {
+        foreach (ASLLocalEventManager.LocalEvents ev in EventsToTrigger)
+        {
+            Debug.Log("Triggering event " + ev.ToString());
+            ASLLocalEventManager.Instance.Trigger(gameObject, ev);
         }
     }
 }

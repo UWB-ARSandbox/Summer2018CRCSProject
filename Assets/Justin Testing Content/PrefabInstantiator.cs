@@ -18,7 +18,7 @@ public class PrefabInstantiator : MonoBehaviour {
     {
         mObjectInteractionManager = GameObject.Find("ObjectInteractionManager").GetComponent<ObjectInteractionManager>();
         transform.GetComponent<MeshRenderer>().enabled = false;
-
+        
     }
 	
 	// Update is called once per frame
@@ -38,6 +38,7 @@ public class PrefabInstantiator : MonoBehaviour {
                     if(parent != null)
                     {
                         prefabInstance.transform.parent = parent.transform;
+                        Debug.Log("Changed parent");
                     }
                     GameObject.Destroy(gameObject);
                 }
