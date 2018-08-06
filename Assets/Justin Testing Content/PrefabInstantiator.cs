@@ -5,6 +5,7 @@ public class PrefabInstantiator : MonoBehaviour {
 
     public GameObject prefabReference;
     public GameObject parent = null;
+    public bool LocalOnly = false;
 
 
     private GameObject prefabInstance;
@@ -28,7 +29,14 @@ public class PrefabInstantiator : MonoBehaviour {
         {
             if (!instantiated && PhotonNetwork.inRoom)
             {
-                prefabInstance = instantiatePrefab(prefabReference);
+                if (!LocalOnly)
+                {
+                    prefabInstance = instantiatePrefab(prefabReference);
+                }
+                else
+                {
+                    prefabInstance = (GameObject)Instantiate(prefabReference);
+                }
                 
                 if (prefabInstance != null)
                 {
