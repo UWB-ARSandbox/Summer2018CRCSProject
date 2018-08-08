@@ -52,7 +52,7 @@ class TCP_CarControl:
         self.connectionOpen = False
 
         if connectionPort is None:
-            self.TCP_PORT = 8060
+            self.TCP_PORT = 1030
         else:
             self.TCP_PORT = connectionPort
         if myIP is None:

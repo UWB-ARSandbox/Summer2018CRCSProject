@@ -24,8 +24,8 @@ public class RCBehavior_TCP : MonoBehaviour {
     private Byte[] rBuff;
     private Byte[] sBuff;
     private float lastHeading;
+    private float headingOffset;
     private short lastCommand;
-    
     public GameObject leftCamera; 
     public GameObject rightCamera;
     public GameObject QRReader;
@@ -42,6 +42,7 @@ public class RCBehavior_TCP : MonoBehaviour {
         sBuff = new Byte[MAX_MESSAGE_LENGTH];
         rBuff = new Byte[MAX_MESSAGE_LENGTH];
         xform = this.GetComponent<Transform>();
+        headingOffset = xform.rotation.eulerAngles.y;
         connectRemote();
     }
 	
@@ -62,13 +63,18 @@ public class RCBehavior_TCP : MonoBehaviour {
      */
 	void Update () {
         if(connected) {
-            if (headingDirty) 
+            if (headingDirty) {
+                print("Calling updateHeading()");
                 updateHeading();
-            if(distanceDirty)
+            } 
+            if(distanceDirty) {
+                print("Calling updateDistance()");
                 updateDistance();
+            }
             updateCommand();
         }
         else {
+            print("Closing the TCP connection to the remote control car");
             sock.Close();
             client.Close();
         }
@@ -84,7 +90,7 @@ public class RCBehavior_TCP : MonoBehaviour {
         float heading = getData();
         if(heading != -1) {
             setNewHeading(heading);
-            headingDirty = false;
+            headingDirty = false;      
         }
         else {
             print("A new heading could not be read from the stream");
@@ -102,9 +108,10 @@ public class RCBehavior_TCP : MonoBehaviour {
         @return float The new value read from the stream
      */
     float getData() {
-        int temp = 0;
         int headLen = 0;
         string tempS = "";
+        int temp = 0;
+    
         while(temp != -1 && (char)temp != 'l') {
             temp = sock.ReadByte();
             if((char)temp != 'l')
@@ -127,7 +134,9 @@ public class RCBehavior_TCP : MonoBehaviour {
         @param target The new rotation for the game object to interpolate toward
      */
     void setNewHeading(float target) {
-        Quaternion rQ = Quaternion.Euler(0, target, 0);
+        print("Setting New Heading: " + target + " with offset: " + headingOffset 
+        + " Result: " + (target - headingOffset));
+        Quaternion rQ = Quaternion.Euler(0, (target - headingOffset), 0);
         //xform.rotation = Quaternion.Slerp(xform.rotation, rQ, Time.deltaTime);
         xform.rotation = rQ;
         lastHeading = target;
@@ -142,7 +151,7 @@ public class RCBehavior_TCP : MonoBehaviour {
     bool updateDistance() {
         float dist = getData();
         // For Debug
-        // print("Retrieved Distance: " + dist);
+        print("Retrieved Distance: " + dist);
         // End Debug
         if(dist != -1) {
             setTranslation(dist);
@@ -219,7 +228,6 @@ public class RCBehavior_TCP : MonoBehaviour {
         {
             if(lastCommand > 0)
             {
-                //Debug.Log("Stopping");
                 sBuff = Encoding.ASCII.GetBytes("S");
                 lastCommand = 0;
                 headingDirty = false;
