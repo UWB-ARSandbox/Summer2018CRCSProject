@@ -14,7 +14,7 @@ public class OnConnectToggle : Photon.PunBehaviour
 
     public override void OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        Debug.Log(info);
+        Debug.Log(transform.name + " has been instantiated");
         if (transform.GetComponent<PhotonView>().isMine)
         {
             foreach (MonoBehaviour script in ScriptsToDeactivate)
