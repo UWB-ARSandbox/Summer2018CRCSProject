@@ -32,16 +32,18 @@ class TCP_CarControl:
         # world coordinate unit are temporary values that need to updated when
         # actual values are known
         # self.WHEEL_ROT_S = Number of Wheel Rotations per Second = 1
-        self.WHEEL_ROT_S = 81 / 30
+        # self.WHEEL_ROT_S = 81 / 30
+        self.WHEEL_ROT_S = 3.243
         # self.WHEEL_CIRC = Circumference of the Car's Wheels = 
         # 2 * PI * Wheel Radius (2") = 2 * 3.14 * 0.165 ft = 1.05 ft   
-        self.WHEEL_CIRC = 2.75 * 3.14 
+        self.WHEEL_CIRC = 0.23 * 3.14 
         # Conversion factor for feet per world coordinate unit, 100ft per WC unit
         self.WORLD_FT = 1.33
         self.MAX_MESSAGE_LENGTH = 16
         self.sock = None
         self.connectionOpen = False
         self.bno = None
+        self.headingOffset = None
         self.pwm = None
         self.mh = None
         self.myMotor1 = None
@@ -50,7 +52,7 @@ class TCP_CarControl:
         self.dcTranSpd = 255
         self.dcOneTime = 0
         self.dcTwoTime = 0
-        self.heading = 25
+        self.heading = 0
         self.isMoving = False
         self.backward = False
 
@@ -74,6 +76,16 @@ class TCP_CarControl:
     """
     def initHardware(self):
         print("Initializing the BNO")
+        self.initMotors()
+        self.initBNO()
+        
+    
+    """
+        The initBNO function initializes the BNO055 orientation sensor. 
+        The function prints the system status, versions, and IDs before
+        calling the calibrateBNO function to calibrate the magnetometer
+    """
+    def initBNO(self):
         self.bno = BNO055.BNO055(serial_port='/dev/serial0')
 
         # Enable verbose debug logging if -v is passed as a parameter.
@@ -100,7 +112,16 @@ class TCP_CarControl:
         print('Accelerometer ID:   0x{0:02X}'.format(accel))
         print('Magnetometer ID:    0x{0:02X}'.format(mag))
         print('Gyroscope ID:       0x{0:02X}\n'.format(gyro))
-        
+
+        self.calibrateBNO()
+
+    """
+        The initMotors function creates new instances of the Adafruit
+        motor controllers used by the class and assigns them to their
+        respective fields. The function also initializes the myMotor1
+        and myMotor2 fields and sets the frequency for the pwm controller.
+    """
+    def initMotors(self):
         print("Initializing the PCA9685")
         # Initialize the PCA9685 using the default address (0x40).
         self.pwm = Adafruit_PCA9685.PCA9685()
@@ -111,6 +132,69 @@ class TCP_CarControl:
         self.mh.getMotor(1).run(Adafruit_MotorHAT.RELEASE)
         self.mh.getMotor(2).run(Adafruit_MotorHAT.RELEASE)
 
+    """
+        The calibrateBNO() function uses console input and output to
+        walk the user through the calibration routine for the magnetometer
+        of the BNO055.
+    """
+    def calibrateBNO(self):
+        self.printEulerAndCalibration()
+        s, a, g, m = self.bno.get_calibration_status()
+        count = 1
+        messages = ["Please Enter ", "W", "D", "W", "D", "W", "A", "W", "A"]
+        if(m == 0):
+            print("Calibration Required - Please follow prompts to calibrate")
+       
+        while m == 0:
+            answer = raw_input(messages[0] + messages[count] + " ")
+            count += 1
+            if count % 9 == 0:
+                count = 1
+            yaw, roll, pitch = self.bno.read_euler()
+            print("Current Heading: " + str(yaw))
+            self.setDistanceDrive(answer)
+            print("New Heading: " + str(yaw))
+            s, a, g, m = self.bno.get_calibration_status()
+            print("Current Calibration - Magnetometer: " + str(m))
+        print("Calibration Complete - The sensor was successfully calibrated")
+        self.setHeadingOffset(self.headingOffset)
+
+    """
+        Given a string command the setDistanceDrive function sends appropriate 
+        commands to the dc motors to run the motors for a set time quantum.
+        Recognized commands are 'W', 'A', 'S', and 'D': forward, left, backward,
+        and right. No action is taken for unrecognized commands.
+        @param command A string representing the direction resulting from commands
+        sent to the dc motors
+    """    
+    def setDistanceDrive(self, command):
+        timeSlice = 2
+        timeSliceTwo = 0.5
+        runTime = 0
+        startTime = time.time()
+       
+        if command == 'W':
+            # Run both motors forward
+            self.setDCMotors(1)
+            while(runTime < timeSlice):
+                runTime = time.time() - self.dcOneTime
+        elif command == 'A':
+            self.setDCMotors(3)
+        elif command == 'S':
+            self.setDCMotors(2)
+            while(runTime < timeSlice):
+                runTime = time.time() - startTime
+        elif command == 'D':
+            self.setDCMotors(4)
+            while(runTime < timeSliceTwo):
+                runTime = time.time() - startTime
+        else:
+            print("Unrecognized Command: received " + command + " in setDistanceDrive()")
+        self.setDCMotors(0)
+        self.dcOneTime = 0
+        self.dcTwoTime = 0
+        self.isMoving = False
+       
     """
         The acceptConnections function initializes the socket, binds it to
         the port used for communication, and sets the socket in a listening state.
@@ -141,11 +225,16 @@ class TCP_CarControl:
         # Currently the heading is only sent if a command is recieved and the 
         # car has moved, requiring a heading update
         print("Handling the New Connection")
-        while self.connectionOpen :
-            if(self.isMoving) :
+        while self.connectionOpen:
+            if self.isMoving:
+                print("Calling calculate distance")
                 d = self.calculateDistance()
-                self.sendDistance(cSock, d)
-            if self.receiveCommand(cSock) :
+                print("Calling send distance")
+                #self.sendDistance(cSock, d)
+                self.sendData(cSock, d)
+            print("Calling receive command")
+            if self.receiveCommand(cSock):
+                print("Calling send heading")
                 self.sendHeading(cSock)
         cSock.close()
      
@@ -206,13 +295,13 @@ class TCP_CarControl:
         and right. 
     """
     def setDCMotors(self, dcSet) :
-        if dcSet == 0 :
+        if dcSet == 0:
             # Stop - Release the motors
             self.myMotor1.run(Adafruit_MotorHAT.RELEASE)
             self.myMotor2.run(Adafruit_MotorHAT.RELEASE)
             self.pwm.set_pwm(1, 0, 0) 
             self.pwm.set_pwm(0, 0, 0)
-        elif dcSet == 1 :
+        elif dcSet == 1:
             # Forward
             self.isMoving = True
             self.dcOneTime = time.time()
@@ -221,7 +310,7 @@ class TCP_CarControl:
             self.myMotor1.run(Adafruit_MotorHAT.BACKWARD)
             self.myMotor2.setSpeed(self.dcTranSpd)
             self.myMotor2.run(Adafruit_MotorHAT.BACKWARD)
-        elif dcSet == 2 :
+        elif dcSet == 2:
             # Backward
             self.isMoving = True
             self.backward = True
@@ -231,22 +320,30 @@ class TCP_CarControl:
             self.myMotor2.run(Adafruit_MotorHAT.FORWARD)
             self.myMotor2.setSpeed(self.dcTranSpd)
             self.myMotor1.run(Adafruit_MotorHAT.FORWARD)
-        elif dcSet == 3 :
+        elif dcSet == 3:
             # Left
             self.myMotor1.setSpeed(self.dcRotSpd)
             self.myMotor1.run(Adafruit_MotorHAT.FORWARD)
             self.myMotor2.setSpeed(self.dcRotSpd)
             self.myMotor2.run(Adafruit_MotorHAT.BACKWARD)
-        elif dcSet == 4 :
+        elif dcSet == 4:
             # Right
             self.myMotor1.setSpeed(self.dcRotSpd)
             self.myMotor2.run(Adafruit_MotorHAT.FORWARD)
             self.myMotor2.setSpeed(self.dcRotSpd)
             self.myMotor1.run(Adafruit_MotorHAT.BACKWARD) 
-        else :
+        else:
             print("setDCMotors: No action taken," +
             " because the parameter is not a valid command")
-
+    
+    """
+        The getHeading function returns the Euler angle for the 
+        yaw axis as retrieved from the BNO055 orientation sensor
+        @return Numeric The Euler angle for the yaw axis
+    """
+    def getHeading(self):
+        yaw, roll, pitch = self.bno.read_euler()
+        return yaw
     """
         The sendHeading function reads the current heading value from the BNO
         and sends the value to the socket.
@@ -254,13 +351,19 @@ class TCP_CarControl:
         reported by the BNO orientation sensor.
     """
     def sendHeading(self, cSock) :
-        heading, roll, pitch = self.bno.read_euler()
-        toSend = str(heading)
-        if len(toSend) > self.MAX_MESSAGE_LENGTH :
-            toSend = toSend[:self.MAX_MESSAGE_LENGTH]
-        msHead = str(len(toSend)) + "l"
-        message = msHead + toSend
-        cSock.sendall(message.encode('utf-8'))
+        #heading, roll, pitch = self.bno.read_euler()
+        heading = self.getHeading()
+        
+        # --------- FOR DEBUG ---------
+        print("sendHeading() - Heading: " + str(heading) + " Offset: " + str(self.headingOffset) + 
+        " toSend: " + str(heading - self.headingOffset))
+        sys, gyro, accel, mag = self.bno.get_calibration_status()
+        print("Calibration - S: " + str(sys) + " G: " + str(gyro) + " A: " + str(accel) + " M: " + str(mag))
+        # --------- END DEBUG ---------
+
+        heading -= self.headingOffset
+        self.sendData(cSock, heading)
+  
     """
         The calculateDistance function determines the time that the dcMotors
         have been running, calculates the distance traveled, and returns the
@@ -291,20 +394,63 @@ class TCP_CarControl:
         @param cSock The socket that the given data is written to
         @param distance The distance to be written to the given socket
     """
-    def sendDistance(self, cSock, distance) :
+    def sendDistance(self, cSock, distance):
         toSend = str(distance)
         if len(toSend) > self.MAX_MESSAGE_LENGTH :
             toSend = toSend[:self.MAX_MESSAGE_LENGTH]
         msHead = str(len(toSend)) + "l"
         message = msHead + toSend
         cSock.sendall(message.encode('utf-8'))
-    
+
+    """
+        The sendData function sends the given numeric data
+        to the given socket using sendall. A string representation
+        of the numberic data is sent with the length of the string
+        and the character 'l' preceding it. If the number is more 
+        than 15 digits, then it is truncated to 15 digits.
+        @param cSock The socket that the given data is written to
+        @param data The data to be written to the given socket
+    """
+    def sendData(self, cSock, data):
+        toSend = str(data)
+        if len(toSend) > self.MAX_MESSAGE_LENGTH :
+            toSend = toSend[:self.MAX_MESSAGE_LENGTH]
+        msHead = str(len(toSend)) + "l"
+        message = msHead + toSend
+        cSock.sendall(message.encode('utf-8'))
+
+    """
+        The printEulerAndCalibration function retrieves current
+        roll, pitch and yaw values and respective calibration 
+        values from the BNO055 and prints them to console output.
+    """
     def printEulerAndCalibration(self) :
         heading, roll, pitch = self.bno.read_euler()
         # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
         sys, gyro, accel, mag = self.bno.get_calibration_status()
-        print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F}\tSys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
+        print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F} Sys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
                heading, roll, pitch, sys, gyro, accel, mag))
-        
+    
+    """
+        Given a value, the setHeadingOffset function assigns the 
+        given value to the heading offset field. If the parameter
+        is None, then the current yaw value is retrieved from the
+        BNO055 and assigned to the heading offset field
+        @param offset The value to be assigned as the new heading offset
+    """
+    def setHeadingOffset(self, offset):
+        if(offset is None):
+            print("Preparing to set a new heading offset.")
+            userReady = False
+            while not userReady:
+                userIn = raw_input("When the Current Heading May be Used for the Offset Please Enter 'Y'")
+                if userIn == 'Y':
+                    userReady = True
+            yaw, roll, pitch = self.bno.read_euler()
+            self.headingOffset = yaw
+        else:
+            self.headingOffset = offset
+        print("Set Heading Offset: " + str(self.headingOffset))
+
 # Instantiate an instance of the TCP_CarControl class
 car = TCP_CarControl()
