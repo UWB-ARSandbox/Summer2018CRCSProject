@@ -20,7 +20,9 @@ public class ASLLocalEventManager : MonoBehaviour
     // Enum of supported events.
     public enum LocalEvents
     {
-        PlayerInitialized
+        PlayerInitialized,
+        SimulatorCameraRigInstantiated,
+        ViveCameraRigInstantiated
     }
 
     void Awake()
