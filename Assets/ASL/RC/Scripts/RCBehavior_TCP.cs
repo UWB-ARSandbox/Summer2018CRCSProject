@@ -135,8 +135,8 @@ public class RCBehavior_TCP : MonoBehaviour {
      */
     void setNewHeading(float target) {
         print("Setting New Heading: " + target + " with offset: " + headingOffset 
-        + " Result: " + (target - headingOffset));
-        Quaternion rQ = Quaternion.Euler(0, (target - headingOffset), 0);
+        + " Result: " + (target + headingOffset));
+        Quaternion rQ = Quaternion.Euler(0, (target + headingOffset), 0);
         //xform.rotation = Quaternion.Slerp(xform.rotation, rQ, Time.deltaTime);
         xform.rotation = rQ;
         lastHeading = target;

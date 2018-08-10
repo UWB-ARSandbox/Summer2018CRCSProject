@@ -38,7 +38,7 @@ class TCP_CarControl:
         # 2 * PI * Wheel Radius (2") = 2 * 3.14 * 0.165 ft = 1.05 ft   
         self.WHEEL_CIRC = 0.23 * 3.14 
         # Conversion factor for feet per world coordinate unit, 100ft per WC unit
-        self.WORLD_FT = 1.33
+        self.WORLD_FT = 5.33
         self.MAX_MESSAGE_LENGTH = 16
         self.sock = None
         self.connectionOpen = False
