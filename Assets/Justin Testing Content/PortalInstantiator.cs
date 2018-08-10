@@ -5,7 +5,7 @@ using UnityEngine;
 using ASL.PortalSystem;
 using ASL.Manipulation.Objects;
 
-public class PortalInstantiator : MonoBehaviour
+public class PortalInstantiator : LocalEventHandler
 {
 
 
@@ -19,6 +19,7 @@ public class PortalInstantiator : MonoBehaviour
     private ObjectInteractionManager mObjectInteractionManager;
 
     private bool instantiated = false;
+    private bool playerAvaliable = false;
 
 
     void Awake()
@@ -38,43 +39,29 @@ public class PortalInstantiator : MonoBehaviour
     void Update()
     {
 
-        if (PhotonNetwork.inRoom)
+        if (playerAvaliable)
         {
             if (!instantiated)
             {
+                Debug.Log("Instantiating a portal");
 
                 if (includeSelector)
                 {
+                    Debug.Log("Creating with a selector");
                     instantiated = instantiateWithSelector();
                 }
                 else
                 {
+                    Debug.Log("Creating without a selector");
                     instantiated = instantiateWithoutSelector();
-                }
-                mPortalInstance = mPortalManager.MakePortal(transform.position, transform.forward, transform.up, Portal.ViewType.VIRTUAL, "Portal");
-                
-
-                if (mPortalInstance != null)
-                {
-                    instantiated = true;
                 }
             }
             else
             {
+            Debug.Log("Portal was created, attempting to register");
                 if (mPortalManager.RequestRegisterPortal(mPortalInstance))
                 {
-                    GameObject selector = mObjectInteractionManager.InstantiateOwnedObject("PortalSelector");
-                    Debug.Log("Creating portal selector");
-                    if (selector != null)
-                    {
-                        Debug.Log("Selector Created");
-                        selector.transform.parent = mPortalInstance.transform;
-                        selector.transform.localPosition = selectorPosition;
-                        selector.transform.rotation = selectorDirection;
-                        selector.GetComponent<PortalSelector>().Initialize(mPortalManager.player.GetComponentInChildren<Camera>(), mPortalInstance);
-                        GameObject.Destroy(gameObject);
-
-                    }
+                    GameObject.Destroy(gameObject);
                 }
             }
         }
@@ -90,8 +77,8 @@ public class PortalInstantiator : MonoBehaviour
         {
             return false;
         }
-
-        mPortalSelectorInstance = mObjectInteractionManager.Instantiate("Portal Selector").GetComponent<PortalSelector>();
+        GameObject temp = mObjectInteractionManager.Instantiate("PortalSelector");
+        mPortalSelectorInstance = temp.GetComponent<PortalSelector>();
         if (mPortalSelectorInstance == null)
         {
             return false;
@@ -123,6 +110,22 @@ public class PortalInstantiator : MonoBehaviour
         if (mPortalInstance == null)
         {
             mPortalInstance = mPortalManager.MakePortal(transform.position, transform.forward, transform.up, Portal.ViewType.VIRTUAL, "Portal");
+        }
+    }
+
+    protected override void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
+    {
+        switch (args.MyEvent)
+        {
+            case ASLLocalEventManager.LocalEvents.PlayerInitialized:
+                {
+                    playerAvaliable = true;
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
         }
     }
 }

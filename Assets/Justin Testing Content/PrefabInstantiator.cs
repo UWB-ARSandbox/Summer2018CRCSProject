@@ -4,7 +4,8 @@ using ASL.Manipulation.Objects;
 public class PrefabInstantiator : MonoBehaviour {
 
     public GameObject prefabReference;
-    public bool maintainParent = true;
+    public GameObject parent = null;
+    public bool LocalOnly = false;
 
 
     private GameObject prefabInstance;
@@ -18,7 +19,7 @@ public class PrefabInstantiator : MonoBehaviour {
     {
         mObjectInteractionManager = GameObject.Find("ObjectInteractionManager").GetComponent<ObjectInteractionManager>();
         transform.GetComponent<MeshRenderer>().enabled = false;
-
+        
     }
 	
 	// Update is called once per frame
@@ -28,16 +29,24 @@ public class PrefabInstantiator : MonoBehaviour {
         {
             if (!instantiated && PhotonNetwork.inRoom)
             {
-                prefabInstance = instantiatePrefab(prefabReference);
+                if (!LocalOnly)
+                {
+                    prefabInstance = instantiatePrefab(prefabReference);
+                }
+                else
+                {
+                    prefabInstance = (GameObject)Instantiate(prefabReference);
+                }
                 
                 if (prefabInstance != null)
                 {
                     instantiated = true;
                     transform.GetComponent<PrefabInstantiator>().enabled = false;
                     translateInstance();
-                    if(maintainParent)
+                    if(parent != null)
                     {
-                        prefabInstance.transform.parent = transform.parent;
+                        prefabInstance.transform.parent = parent.transform;
+                        Debug.Log("Changed parent");
                     }
                     GameObject.Destroy(gameObject);
                 }

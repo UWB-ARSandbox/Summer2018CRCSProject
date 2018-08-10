@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class PlayerSetupScript : MonoBehaviour
 {
-    void OnAwake()
-    {
-    }
-
-    void OnDestroy()
+    private void Update()
     {
         
     }
