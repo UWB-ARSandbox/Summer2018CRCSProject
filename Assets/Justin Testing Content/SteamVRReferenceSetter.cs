@@ -15,20 +15,6 @@ public class SteamVRReferenceSetter : LocalEventHandler
         myFollowScript = transform.GetComponent<VRTK.VRTK_ObjectFollow>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (myFollowScript.gameObjectToFollow == null)
-        {
-            Debug.Log(GameObject.Find(followObjectName));
-            myFollowScript.gameObjectToFollow = GameObject.Find(followObjectName);
-        }
-        else
-        {
-            Debug.Log(myFollowScript.gameObjectToFollow.name);
-        }
-    }
-
     protected override void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
     {
         switch (args.MyEvent)
