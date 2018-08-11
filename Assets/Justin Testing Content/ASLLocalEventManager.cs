@@ -22,7 +22,8 @@ public class ASLLocalEventManager : MonoBehaviour
     {
         PlayerInitialized,
         SimulatorCameraRigInstantiated,
-        ViveCameraRigInstantiated
+        ViveCameraRigInstantiated,
+        PlayerInstanceActive
     }
 
     void Awake()

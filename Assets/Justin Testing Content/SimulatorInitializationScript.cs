@@ -46,7 +46,5 @@ public class SimulatorInitializationScript : LocalEventHandler {
             }
         }
         gameObject.GetComponent<VRTK.VRTK_SDKManager>().enabled = true;
-
-
     }
 }

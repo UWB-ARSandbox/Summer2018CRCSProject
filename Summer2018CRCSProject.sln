@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio for Mac
+# Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Summer2018CRCSProject", "Assembly-CSharp.csproj", "{69208558-EF3C-70F5-95CB-63214988CC0C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Summer2018CRCSProject", "Assembly-CSharp-Editor.csproj", "{E59849C5-DE97-5205-B3C1-8D628F482CB8}"
