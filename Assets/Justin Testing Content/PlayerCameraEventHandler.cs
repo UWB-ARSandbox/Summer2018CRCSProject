@@ -12,6 +12,13 @@ public class PlayerCameraEventHandler : LocalEventHandler
         {
             case ASLLocalEventManager.LocalEvents.PlayerInstanceActive:
                 {
+                    SetPrimaryCameraTag();
+                    break;
+                }
+            case ASLLocalEventManager.LocalEvents.SimulatorCameraRigInstantiated:
+                {
+                    SetPrimaryCameraTag();
+                    ASLLocalEventManager.Instance.Trigger(gameObject, ASLLocalEventManager.LocalEvents.PlayerInitialized);
                     break;
                 }
             default:
@@ -24,6 +31,7 @@ public class PlayerCameraEventHandler : LocalEventHandler
 
     private void SetPrimaryCameraTag()
     {
+        Debug.Log("Changing camera tag");
         if (playerCamera == null)
         {
             FindCamera();

@@ -8,6 +8,7 @@ TagManager:
   - Player Camera
   - CarView
   - Local Player
+  - Local Primary Camera
   layers:
   - Default
   - TransparentFX

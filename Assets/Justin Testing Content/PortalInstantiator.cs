@@ -16,6 +16,7 @@ public class PortalInstantiator : LocalEventHandler
     private PortalManager mPortalManager;
     private Portal mPortalInstance;
     private PortalSelector mPortalSelectorInstance;
+    private Camera mPlayerCamera;
     private ObjectInteractionManager mObjectInteractionManager;
 
     private bool instantiated = false;
@@ -86,7 +87,7 @@ public class PortalInstantiator : LocalEventHandler
         else
         {
             mPortalSelectorInstance.transform.parent = mPortalInstance.transform;
-            mPortalSelectorInstance.Initialize(mPortalManager.player.GetComponentInChildren<Camera>(), mPortalInstance);
+            mPortalSelectorInstance.Initialize(mPlayerCamera, mPortalInstance);
         }
 
         return true;
@@ -119,7 +120,7 @@ public class PortalInstantiator : LocalEventHandler
         {
             case ASLLocalEventManager.LocalEvents.PlayerInitialized:
                 {
-                    playerAvaliable = true;
+                    PlayerInitializedEventHandler();
                     break;
                 }
             default:
@@ -127,5 +128,11 @@ public class PortalInstantiator : LocalEventHandler
                     break;
                 }
         }
+    }
+
+    private void PlayerInitializedEventHandler()
+    {
+        playerAvaliable = true;
+        mPlayerCamera = GameObject.FindGameObjectWithTag("Local Primary Camera").GetComponent<Camera>();
     }
 }
