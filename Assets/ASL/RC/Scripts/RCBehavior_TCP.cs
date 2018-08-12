@@ -7,6 +7,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class RCBehavior_TCP : MonoBehaviour {
+    public GameObject leftCamera; 
+    public GameObject rightCamera;
+    public GameObject QRReader;
+    
     private const string rcAddress = "172.24.1.1";
     //private const string rcAddress = "127.0.0.1";
     private const short rcCPort = 1030;
@@ -16,6 +20,9 @@ public class RCBehavior_TCP : MonoBehaviour {
     private bool distanceDirty;
     private bool isMoving;
     private bool connected;
+    private bool connectionClosed;
+    private bool isOwned;
+    private bool isFirstPerson;
     private MeshRenderer carRend;
     private Transform xform;
     private TcpClient client;
@@ -26,16 +33,17 @@ public class RCBehavior_TCP : MonoBehaviour {
     private float lastHeading;
     private float headingOffset;
     private short lastCommand;
-    public GameObject leftCamera; 
-    public GameObject rightCamera;
-    public GameObject QRReader;
+
 
 	/*
      * The Start method initializes variables used by the script, 
      * creates a new  TcpClient and connects the client to the host.
      */
 	void Start () {
+        isOwned = false;
+        isFirstPerson = false;
         connected = false;
+        connectionClosed = false;
         headingDirty = false;
         distanceDirty = false;
         isMoving = false;
@@ -48,8 +56,8 @@ public class RCBehavior_TCP : MonoBehaviour {
 	
     void connectRemote() {
         client = new TcpClient();
-        ep = new IPEndPoint(IPAddress.Parse(rcAddress), rcCPort);
-        //ep = new IPEndPoint(IPAddress.Loopback, rcCPort);
+        //ep = new IPEndPoint(IPAddress.Parse(rcAddress), rcCPort);
+        ep = new IPEndPoint(IPAddress.Loopback, rcCPort);
         client.Connect(ep);
         sock = client.GetStream();
         connected = true;
@@ -63,20 +71,25 @@ public class RCBehavior_TCP : MonoBehaviour {
      */
 	void Update () {
         if(connected) {
-            if (headingDirty) {
-                print("Calling updateHeading()");
-                updateHeading();
-            } 
-            if(distanceDirty) {
-                print("Calling updateDistance()");
-                updateDistance();
+            if(isOwned) {
+                if (headingDirty) {
+                    //print("Calling updateHeading()");
+                    updateHeading();
+                } 
+                if(distanceDirty) {
+                    //print("Calling updateDistance()");
+                    updateDistance();
+                }
+                updateCommand();
             }
-            updateCommand();
         }
         else {
-            print("Closing the TCP connection to the remote control car");
-            sock.Close();
-            client.Close();
+            if(!connectionClosed) {
+                connectionClosed = true;
+                print("Closing the TCP connection to the remote control car");
+                sock.Close();
+                client.Close();
+            }
         }
     }
 
@@ -134,8 +147,8 @@ public class RCBehavior_TCP : MonoBehaviour {
         @param target The new rotation for the game object to interpolate toward
      */
     void setNewHeading(float target) {
-        print("Setting New Heading: " + target + " with offset: " + headingOffset 
-        + " Result: " + (target + headingOffset));
+        //print("Setting New Heading: " + target + " with offset: " + headingOffset 
+        //+ " Result: " + (target + headingOffset));
         Quaternion rQ = Quaternion.Euler(0, (target + headingOffset), 0);
         //xform.rotation = Quaternion.Slerp(xform.rotation, rQ, Time.deltaTime);
         xform.rotation = rQ;
@@ -151,7 +164,7 @@ public class RCBehavior_TCP : MonoBehaviour {
     bool updateDistance() {
         float dist = getData();
         // For Debug
-        print("Retrieved Distance: " + dist);
+        //print("Retrieved Distance: " + dist);
         // End Debug
         if(dist != -1) {
             setTranslation(dist);
@@ -216,7 +229,7 @@ public class RCBehavior_TCP : MonoBehaviour {
             headingDirty = true;
             sendCommand();
         }
-        else if(Input.GetKey(KeyCode.Escape))
+        else if(Input.GetKey(KeyCode.E))
         {
             //Debug.Log("Exiting");
             sBuff = Encoding.Default.GetBytes("E");
@@ -263,15 +276,53 @@ public class RCBehavior_TCP : MonoBehaviour {
      * (leftCamera and rightCamera).
      */
     void OnMouseDown() {
-        print("In OnMouseDown()");
-        MeshRenderer tempRend;
-        for (int i = 0; i < xform.childCount - 1; i++)
-        {
-            tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
-            tempRend.enabled = false;
+        // print("In OnMouseDown()");
+        if(!isOwned) {
+            isOwned = true;
+            // For Debug
+            print("In RCBehavior_TCP.OnMouseDown() isOwned = true. Car is now owned!");
+            // End Deubg
         }
-        Instantiate(leftCamera);
-        Instantiate(rightCamera);
-        Instantiate(QRReader);
+        else {
+            if(!isFirstPerson) {
+                isFirstPerson = true;
+                // For Debug
+                print("In RCBehavior_TCP.OnMouseDown() isOwned = true " +
+                " isFirstPerson = true. Instantiating cameras, becasue car is now first person!");
+                // End Debug
+                Instantiate(leftCamera);
+                Instantiate(rightCamera);
+                Instantiate(QRReader);
+            }        
+        }
     }
+
+    /*
+        The isCarOwned method returns true if the isOwned field is true.
+        @return bool Returns false if the isOwned field is false.
+    */
+    public bool isCarOwned() {
+        return isOwned;
+    }
+
+    /*
+        The isCarFirstPerson method returns true if the isFirstPerson field
+        is true.
+        @return bool Returns false if the isFirstPerson field is false.
+    */
+    public bool isCarFirstPerson() {
+        return isFirstPerson;
+    }
+
 }
+
+/*
+    --------------  OLD CODE  ----------------
+    // Disables MeshRenderer to Make Car Invisible in First Person 
+    MeshRenderer tempRend;
+    for (int i = 0; i < xform.childCount - 1; i++)
+    {
+        tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
+        tempRend.enabled = false;
+    }
+*/
