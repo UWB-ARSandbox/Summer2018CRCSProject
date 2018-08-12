@@ -994,10 +994,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScriptssToDeactivate: []
   ScriptsToActivate:
   - {fileID: 114669628664466956}
   - {fileID: 114181992392719966}
+  ScriptsToDeactivate: []
+  GameObjectsToActivate: []
+  GameObjectsToDeactivate: []
+  EventsToTrigger: 
   CamerasToActivate:
   - {fileID: 20772621504804230}
   CamerasToDeactivate: []

@@ -160,6 +160,46 @@ namespace ASL.PortalSystem
             return true;
         }
 
+        public bool RequestLinkPortal(string source, string destination)
+        {
+
+            Debug.Log("Trying to link portals based off of name");
+
+            Portal sourcePortal = null;
+            bool sourceFound = false;
+
+            Portal destinationPortal = null;
+            bool destinationFound = false;
+
+            foreach (KeyValuePair<int, Portal> entry in portalSet)
+            {
+                if (entry.Value.portalName.Equals(source) && !sourceFound)
+                {
+                    Debug.Log("Found the source portal");
+                    sourcePortal = entry.Value;
+                    sourceFound = true;
+                }
+                if (entry.Value.portalName.Equals(destination) && !destinationFound)
+                {
+                    Debug.Log("Found the destination portal");
+                    destinationPortal = entry.Value;
+                    destinationFound = true;
+                }
+            }
+
+            if (sourceFound && destinationFound)
+            {
+                Debug.Log("Found both portals as registered portals, attempting to link");
+                return RequestLinkPortal(sourcePortal, destinationPortal);
+            }
+            else
+            {
+                return false;
+            }
+
+
+        }
+
         /// <summary>
         /// Request that the given source portal be linked to the given destination portal.
         /// Both portals must be registered for successful linking. 

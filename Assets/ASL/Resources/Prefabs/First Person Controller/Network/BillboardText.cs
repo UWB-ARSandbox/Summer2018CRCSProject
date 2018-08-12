@@ -56,7 +56,7 @@ public class BillboardText : Photon.PunBehaviour{
         else
         {
             Debug.Log("Looking for Camera");
-            myCamera = GameObject.FindGameObjectWithTag("Player Camera").GetComponent<Camera>();
+            myCamera = GameObject.FindGameObjectWithTag("Local Primary Camera").GetComponent<Camera>();
         }
     }
 }
