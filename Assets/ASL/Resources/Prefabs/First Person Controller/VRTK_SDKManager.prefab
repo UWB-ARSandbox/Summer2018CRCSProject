@@ -450,7 +450,8 @@ GameObject:
   - component: {fileID: 4325308420159732}
   - component: {fileID: 20648722969929058}
   - component: {fileID: 124350274604665524}
-  - component: {fileID: 114734268351317652}
+  - component: {fileID: 114900487699080004}
+  - component: {fileID: 114466446212820558}
   m_Layer: 0
   m_Name: Camera (eye)
   m_TagString: MainCamera
@@ -2281,6 +2282,20 @@ MonoBehaviour:
   useRotationTracking: 1
   useIPDInPositionTracking: 1
   resetTrackerOnLoad: 0
+--- !u!114 &114466446212820558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1656630266043130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _head: {fileID: 4311284324390986}
+  _ears: {fileID: 4189991218793004}
+  wireframe: 0
 --- !u!114 &114485029659422078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2334,20 +2349,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   origin: {fileID: 0}
---- !u!114 &114734268351317652
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1656630266043130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bca9ccf900ccc84c887d783321d27e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _head: {fileID: 4311284324390986}
-  _ears: {fileID: 4189991218793004}
-  wireframe: 0
 --- !u!114 &114739278829289788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2426,6 +2427,18 @@ MonoBehaviour:
   - {fileID: 114353890256502076}
   excludeTargetGroups: 1b0000001a000000
   persistOnLoad: 0
+--- !u!114 &114900487699080004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1656630266043130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf4123a83bda7184cbd11eba700cb011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 20648722969929058}
 --- !u!114 &114916599512088336
 MonoBehaviour:
   m_ObjectHideFlags: 1

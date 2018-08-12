@@ -37,16 +37,16 @@ public class SimulatorInitializationScript : LocalEventHandler {
 
         VRTK.SDK_InputSimulator[] inputSimulators = Resources.FindObjectsOfTypeAll<VRTK.SDK_InputSimulator>();
 
+        Debug.Log("Trying to enable the input simulator");
         foreach (VRTK.SDK_InputSimulator input in inputSimulators)
         {
+            Debug.Log("Searching through found input input simulators");
             if (input.transform.name.Equals("[VRSimulator_ASLAvatar]"))
             {
+                Debug.Log("Trying to enable the input simulator in " + input.gameObject.name + "which is currently active: " + input.enabled);
                 input.enabled = true;
-                break;
             }
         }
         gameObject.GetComponent<VRTK.VRTK_SDKManager>().enabled = true;
-
-
     }
 }
