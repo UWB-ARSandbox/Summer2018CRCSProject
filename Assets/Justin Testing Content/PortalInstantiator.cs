@@ -39,10 +39,15 @@ public class PortalInstantiator : LocalEventHandler
 
     }
 
+    private void OnEnable()
+    {
+        CheckForPlayer();
+    }
+
     // Update is called once per frame
     void Update()
     {
-
+        
         if (playerAvaliable)
         {
             if (!instantiated)
@@ -169,5 +174,15 @@ public class PortalInstantiator : LocalEventHandler
     {
         playerAvaliable = true;
         mPlayerCamera = GameObject.FindGameObjectWithTag("Local Primary Camera").GetComponent<Camera>();
+    }
+
+    private void CheckForPlayer()
+    {
+        mPlayerCamera = GameObject.FindGameObjectWithTag("Local Primary Camera").GetComponent<Camera>();
+
+        if (mPlayerCamera != null)
+        {
+            playerAvaliable = true;
+        }
     }
 }
