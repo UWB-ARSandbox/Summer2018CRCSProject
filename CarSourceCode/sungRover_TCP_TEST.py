@@ -30,12 +30,12 @@ class TCP_CarControl:
         # NOTE: Wheel rotations per second and wheel circumference are temporary values
         #       that need to updated when actual values are known
         # self.WHEEL_ROT_S = Number of Wheel Rotations per Second = 1
-        self.WHEEL_ROT_S = 2
+        self.WHEEL_ROT_S = 4
         # self.WHEEL_CIRC = Circumference of the Car's Wheels = 
-        # 2 * PI * Wheel Radius (2") = 2 * 3.14 * 0.165 ft = 1.05 ft   
-        self.WHEEL_CIRC = 1.05
+        # 2 * PI * Wheel Radius (2.75") = (2.75/12) * 3.14 =  0.72 ft   
+        self.WHEEL_CIRC = 0.72
         # Conversion factor for feet per world coordinate unit, 100ft per WC unit
-        self.WORLD_FT = 100
+        self.WORLD_FT = 5
         self.sock = None
         # self.bno = None
         # self.pwm = None
@@ -46,7 +46,7 @@ class TCP_CarControl:
         self.dcTranSpd = 255
         self.dcOneTime = 0
         self.dcTwoTime = 0
-        self.heading = 25
+        self.heading = 0
         self.isMoving = False
         self.backward = False
         self.connectionOpen = False
@@ -138,8 +138,8 @@ class TCP_CarControl:
         # Currently the heading is only sent if a command is recieved and the 
         # car has moved, requiring a heading update
         print("Handling the New Connection")
-        while self.connectionOpen :
-            if(self.isMoving) :
+        while self.connectionOpen:
+            if(self.isMoving):
                 d = self.calculateDistance()
                 self.sendDistance(cSock, d)
             if self.receiveCommand(cSock) :

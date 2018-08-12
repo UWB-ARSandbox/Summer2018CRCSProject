@@ -15,13 +15,15 @@ public class PlayerController : MonoBehaviour
     #endregion Public Fields
 
     #region Private Fields
-    private bool gravityEnabled = false;
-    private bool clippingEnabled = true;
+    private bool transEnabled;
+    private bool gravityEnabled;
+    private bool clippingEnabled;
     private bool previousGState;
     private Vector3 _velocity;
     private Collider _collider;
     private CharacterController _controller;
     private Rigidbody _rigid;
+    private GameObject car;
     private float distToGround;
     #endregion Private Fields
 
@@ -30,6 +32,9 @@ public class PlayerController : MonoBehaviour
     // Collider. These enable movement and toggling of clipping.
     void Start()
     {
+        transEnabled = true;
+        gravityEnabled = false;
+        clippingEnabled = true;
         _velocity = new Vector3(0, Gravity, 0);
         _rigid = GetComponent<Rigidbody>();
         _collider = GetComponent<Collider>();
@@ -107,26 +112,37 @@ public class PlayerController : MonoBehaviour
                 _controller.Move(_velocity * Time.deltaTime);
             }
         }
+    
+        if(transEnabled) {
+            if (Input.GetAxis("Vertical") < 0)
+            {
+                forward = -1 * forward;
+            }
+            if (Input.GetAxis("Vertical") == 0)
+            {
+                forward *= 0;
+            }
 
-        if (Input.GetAxis("Vertical") < 0)
-        {
-            forward = -1 * forward;
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                strafe *= -1;
+            }
+            if (Input.GetAxis("Horizontal") == 0)
+            {
+                strafe *= 0;
+            }
         }
-        if (Input.GetAxis("Vertical") == 0)
-        {
-            forward *= 0;
-        }
-
-        if (Input.GetAxis("Horizontal") < 0)
-        {
-            strafe *= -1;
-        }
-        if (Input.GetAxis("Horizontal") == 0)
-        {
-            strafe *= 0;
-        }
-
         _controller.Move((forward * Time.deltaTime * Speed) + (strafe * Time.deltaTime * Speed));
+    }
 
+    /*
+        The setTransEnabled method assigns the given value 
+        to the transEnabled field. If the value is false then
+        the player will not be translated with user input from
+        keyboard keys.
+        @param enabled The new value assigned to the transEnabled field.
+    */
+    public void setTransEnabled(bool enabled) {
+        transEnabled = enabled;
     }
 }
