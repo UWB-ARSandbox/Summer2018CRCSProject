@@ -61,6 +61,12 @@ namespace ASL.PortalSystem
         /// </summary>
         public Material webCamMat = null;
 
+        /// <summary>
+        /// This string should be set on instantation to allow for finding portal instance without
+        /// knowing the Photon ID assigned at runtime.
+        /// </summary>
+        public string portalName = null;
+
         private Portal destinationPortal = null;    //destination portal ref
         private Camera copyCamera = null;           //portal cam ref
         private Camera userCamera = null;           //user cam ref

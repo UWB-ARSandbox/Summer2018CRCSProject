@@ -4,7 +4,8 @@ using UnityEngine;
 using ASL.Manipulation.Objects;
 using ASL.PortalSystem;
 
-public class ControllerInstantiation : MonoBehaviour {
+public class ControllerInstantiation : LocalEventHandler
+{
 
     public Material avatarMaterial;
     public GameObject prefabReference;
@@ -22,6 +23,11 @@ public class ControllerInstantiation : MonoBehaviour {
     {
         mObjectInteractionManager = GameObject.Find("ObjectInteractionManager").GetComponent<ObjectInteractionManager>();
         Debug.Log("Controller Instantiation script initialized");
+    }
+
+    private void OnDisable()
+    {
+        ASLLocalEventManager.Instance.Trigger(myFPSCamera, ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
     }
 
     // Update is called once per frame
@@ -59,7 +65,9 @@ public class ControllerInstantiation : MonoBehaviour {
             myPlayer.transform.position = initialPosition;
             myPlayer.transform.localScale = initialScale;
 
-            setPortalManagerPlayer(transform.GetComponentInChildren<Rigidbody>().gameObject);
+            myFPSCamera = transform.GetComponentInChildren<Camera>().gameObject;
+
+            setPortalManagerPlayer(myFPSCamera);
 
 
             if (!instantiated)
@@ -79,7 +87,6 @@ public class ControllerInstantiation : MonoBehaviour {
     {
         myPlayer.AddComponent<PlayerController>();
         myPlayer.AddComponent<SmoothMouseLook>();
-
     }
 
     private void cleanUp()
@@ -90,6 +97,7 @@ public class ControllerInstantiation : MonoBehaviour {
 
     private void setPortalManagerPlayer(GameObject go)
     {
+        go.tag = "Local Primary Camera";
         GameObject.Find("PortalManager").GetComponent<PortalManager>().player = go;
     }
 }

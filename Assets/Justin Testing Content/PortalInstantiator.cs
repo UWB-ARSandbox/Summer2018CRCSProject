@@ -8,7 +8,9 @@ using ASL.Manipulation.Objects;
 public class PortalInstantiator : LocalEventHandler
 {
 
-
+    public string portalName = "Portal";
+    public bool setDestination = false;
+    public string destinationName;
     public bool includeSelector = false;
     public Quaternion selectorDirection;
     public Vector3 selectorPosition;
@@ -21,6 +23,7 @@ public class PortalInstantiator : LocalEventHandler
 
     private bool instantiated = false;
     private bool playerAvaliable = false;
+    private bool registered = false;
 
 
     void Awake()
@@ -36,10 +39,15 @@ public class PortalInstantiator : LocalEventHandler
 
     }
 
+    private void OnEnable()
+    {
+        CheckForPlayer();
+    }
+
     // Update is called once per frame
     void Update()
     {
-
+        
         if (playerAvaliable)
         {
             if (!instantiated)
@@ -59,15 +67,38 @@ public class PortalInstantiator : LocalEventHandler
             }
             else
             {
-            Debug.Log("Portal was created, attempting to register");
-                if (mPortalManager.RequestRegisterPortal(mPortalInstance))
+                if (mPortalManager.RequestRegisterPortal(mPortalInstance) && !registered)
                 {
-                    GameObject.Destroy(gameObject);
+                    Debug.Log("Portal was registered");
+                    if (!setDestination)
+                    {
+                        GameObject.Destroy(gameObject);
+                    }
+                    else
+                    {
+                        registered = true;
+                        AttemptToLink();
+                    }
+                }
+                else
+                {
+                    Debug.Log("Already registered, attempting to link");
+                    AttemptToLink();
                 }
             }
         }
+    }
 
-
+    private void AttemptToLink()
+    {
+        if (mPortalManager.RequestLinkPortal(portalName, destinationName))
+        {
+            GameObject.Destroy(gameObject);
+        }
+        else
+        {
+            Debug.Log("Unable to link portals");
+        }
     }
 
     private bool instantiateWithSelector()
@@ -87,11 +118,18 @@ public class PortalInstantiator : LocalEventHandler
         else
         {
             mPortalSelectorInstance.transform.parent = mPortalInstance.transform;
+            SelectorTranslation();
             mPortalSelectorInstance.Initialize(mPlayerCamera, mPortalInstance);
         }
 
         return true;
 
+    }
+
+    private void SelectorTranslation()
+    {
+        mPortalSelectorInstance.transform.parent = mPortalInstance.transform;
+        mPortalSelectorInstance.transform.localPosition = selectorPosition;
     }
 
     private bool instantiateWithoutSelector()
@@ -111,6 +149,8 @@ public class PortalInstantiator : LocalEventHandler
         if (mPortalInstance == null)
         {
             mPortalInstance = mPortalManager.MakePortal(transform.position, transform.forward, transform.up, Portal.ViewType.VIRTUAL, "Portal");
+            mPortalInstance.portalName = portalName;
+            mPortalInstance.gameObject.name = portalName;
         }
     }
 
@@ -118,7 +158,7 @@ public class PortalInstantiator : LocalEventHandler
     {
         switch (args.MyEvent)
         {
-            case ASLLocalEventManager.LocalEvents.PlayerInitialized:
+            case ASLLocalEventManager.LocalEvents.PlayerInstanceActive:
                 {
                     PlayerInitializedEventHandler();
                     break;
@@ -134,5 +174,15 @@ public class PortalInstantiator : LocalEventHandler
     {
         playerAvaliable = true;
         mPlayerCamera = GameObject.FindGameObjectWithTag("Local Primary Camera").GetComponent<Camera>();
+    }
+
+    private void CheckForPlayer()
+    {
+        mPlayerCamera = GameObject.FindGameObjectWithTag("Local Primary Camera").GetComponent<Camera>();
+
+        if (mPlayerCamera != null)
+        {
+            playerAvaliable = true;
+        }
     }
 }
