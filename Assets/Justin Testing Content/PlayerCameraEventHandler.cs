@@ -8,16 +8,13 @@ public class PlayerCameraEventHandler : LocalEventHandler
 
     protected override void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
     {
+        Debug.Log("Player Camera Event Handler received event: " + args.MyEvent.ToString());
         switch (args.MyEvent)
         {
-            case ASLLocalEventManager.LocalEvents.PlayerInstanceActive:
-                {
-                    SetPrimaryCameraTag();
-                    break;
-                }
             case ASLLocalEventManager.LocalEvents.SimulatorCameraRigInstantiated:
                 {
                     SetPrimaryCameraTag();
+                    GameObject.Find("PortalManager").GetComponent<ASL.PortalSystem.PortalManager>().player = playerCamera.gameObject;
                     ASLLocalEventManager.Instance.Trigger(gameObject, ASLLocalEventManager.LocalEvents.PlayerInitialized);
                     break;
                 }

@@ -9,9 +9,10 @@ public class OnEnableTrigger : MonoBehaviour
 
     void OnEnable()
     {
+        Debug.Log(gameObject.name + " is triggering events");
         foreach (ASLLocalEventManager.LocalEvents ev in EventsToTrigger)
         {
-            Debug.Log("Enabling on enable event: " + ev.ToString());
+            Debug.Log("Triggering on enable event: " + ev.ToString());
             ASLLocalEventManager.Instance.Trigger(gameObject, ev);
         }
     }
