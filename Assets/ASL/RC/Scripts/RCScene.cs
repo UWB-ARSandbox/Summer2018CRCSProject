@@ -7,11 +7,10 @@ using UnityEngine;
 */
 public class RCScene : MonoBehaviour {
 	private ASL.Manipulation.Objects.ObjectInteractionManager objManager;
-	private bool playerIsCarView;
 	private bool playerOwnsCar;
 	private bool objsInstantiated;
 	private RCBehavior_TCP car;
-	private GameObject player;
+	//private GameObject player;
 	//private PlayerController playerControl;
 
 	// NOTE: Change to the Awake() method instead of using a bool and polling in update()
@@ -19,7 +18,7 @@ public class RCScene : MonoBehaviour {
 	void Start () {
 		print("In RCScene.Start() initializing class fields");
 		objsInstantiated = false;
-		playerIsCarView = playerOwnsCar = false;
+		playerOwnsCar = false;
 	}
 	
 	/*
@@ -55,49 +54,28 @@ public class RCScene : MonoBehaviour {
 				// For Debug
 				print("In RCScene.update() MouseButtonDown = true and playerOwnsCar = false");
 				// End Debug
-                if(car.isCarOwned()) {
+				if(car.isCarOwned()) {
 					playerOwnsCar = true;
-					if(player == null)
-					{
-						print("Player Avatar null at time of initialization" +
-						" Attempting to assign now.");
-						player = GameObject.Find("Player Avatar");
-					}
-					if(player == null) {
-						print("Player still equals null");
-					}
-					else
-					player.GetComponent<PlayerController>().setTransEnabled(false);
+					playerCarTransition();
 				}
-            }
-        }
-        else { 
-            if(!playerIsCarView)
-            {
-				if(Input.GetMouseButtonDown(0)) {
-					// For Debug
-					print("In RCScene.update() MouseButtonDown = true and playerIsCarView = false");
-					// End Debug
-                if(car.isCarFirstPerson())
-                    {
-                        playerIsCarView = true;
-                        disablePlayerAvatar();
-                    }
-                }
-            }
+			}
         }
 	}
 
 	void instantiateSceneObjects() {
-		//print("Instantiating a ROBOT!");
 		objsInstantiated = true;
 		objManager = GameObject.Find("ObjectInteractionManager").GetComponent<ASL.Manipulation.Objects.ObjectInteractionManager>();
+		print("Instantiating a ROBOT!");
+		objManager.InstantiateOwnedObject("BlueCar");
 		objManager.InstantiateOwnedObject("ASL Player");
-		objManager.InstantiateOwnedObject("Robot");
-	
-		car = GameObject.Find("Robot").GetComponent<RCBehavior_TCP>();
-		player = GameObject.Find("Player Avatar");
-		//playerControl = GameObject.Find("Player Avatar").GetComponent<PlayerController>();
+		car = GameObject.Find("BlueCar").GetComponent<RCBehavior_TCP>();
+		// For Debug 
+		if(car == null)
+			print("In RCScene.instantiateSceneObjects() with car == null");
+		else
+			car.enabled = true;
+		// End Debug
+		//player = GameObject.Find("Player Avatar");
 	}
 
 	/*
@@ -105,13 +83,24 @@ public class RCScene : MonoBehaviour {
 		for the ASL Player invisible by disabling the MeshRenderer
 		for each of the avatar's children.
 	*/
-	void disablePlayerAvatar() {
-		MeshRenderer tempRend;
-		Transform xform = player.GetComponent<Transform>();
-		for (int i = 0; i < xform.childCount - 1; i++)
-		{
-			tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
-			tempRend.enabled = false;
+	void playerCarTransition() {
+		GameObject player = GameObject.Find("Player Avatar");
+		if(player != null) {
+			player.GetComponent<PlayerController>().setTransEnabled(false);
+			player.GetComponent<SmoothMouseLook>().enabled = false;
+			
+			MeshRenderer tempRend;
+			Transform xform = GameObject.Find("Player Avatar").GetComponent<Transform>();
+			for (int i = 0; i < xform.childCount - 1; i++)
+			{
+				tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
+				if(tempRend != null)
+					tempRend.enabled = false;
+			}
+		}
+		else {
+			print("Error: Game Object: 'Player Avatar' could not be located in the scene." +
+			" RCScene.playerCarTransition() line 101");
 		}
 	}
 }

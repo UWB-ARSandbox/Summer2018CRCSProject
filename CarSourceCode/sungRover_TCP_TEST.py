@@ -35,7 +35,7 @@ class TCP_CarControl:
         # 2 * PI * Wheel Radius (2.75") = (2.75/12) * 3.14 =  0.72 ft   
         self.WHEEL_CIRC = 0.72
         # Conversion factor for feet per world coordinate unit, 100ft per WC unit
-        self.WORLD_FT = 5
+        self.WORLD_FT = 10
         self.sock = None
         # self.bno = None
         # self.pwm = None
@@ -52,7 +52,7 @@ class TCP_CarControl:
         self.connectionOpen = False
 
         if connectionPort is None:
-            self.TCP_PORT = 1030
+            self.TCP_PORT = 1060
         else:
             self.TCP_PORT = connectionPort
         if myIP is None:

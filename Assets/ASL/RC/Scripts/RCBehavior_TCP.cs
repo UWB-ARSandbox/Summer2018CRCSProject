@@ -13,7 +13,7 @@ public class RCBehavior_TCP : MonoBehaviour {
     
     private const string rcAddress = "172.24.1.1";
     //private const string rcAddress = "127.0.0.1";
-    private const short rcCPort = 1030;
+    private const short rcCPort = 1060;
     private const short MAX_MESSAGE_LENGTH = 16;
     private const float LERP_SLICE = 5f;
     private bool headingDirty;
@@ -22,7 +22,6 @@ public class RCBehavior_TCP : MonoBehaviour {
     private bool connected;
     private bool connectionClosed;
     private bool isOwned;
-    private bool isFirstPerson;
     private MeshRenderer carRend;
     private Transform xform;
     private TcpClient client;
@@ -39,9 +38,9 @@ public class RCBehavior_TCP : MonoBehaviour {
      * The Start method initializes variables used by the script, 
      * creates a new  TcpClient and connects the client to the host.
      */
-	void Start () {
+     /* 
+    void Start () {
         isOwned = false;
-        isFirstPerson = false;
         connected = false;
         connectionClosed = false;
         headingDirty = false;
@@ -53,18 +52,37 @@ public class RCBehavior_TCP : MonoBehaviour {
         headingOffset = xform.rotation.eulerAngles.y;
         connectRemote();
     }
-	
+	*/
+     
+    void Awake() {
+        print("In RCBehavior.Awake()");
+        isOwned = false;
+        connected = false;
+        connectionClosed = true;
+        headingDirty = false;
+        distanceDirty = false;
+        isMoving = false;
+        sBuff = new Byte[MAX_MESSAGE_LENGTH];
+        rBuff = new Byte[MAX_MESSAGE_LENGTH];
+        xform = this.GetComponent<Transform>();
+        headingOffset = xform.rotation.eulerAngles.y;
+        connectRemote();
+    }
+    
+    
     void connectRemote() {
         client = new TcpClient();
-        //ep = new IPEndPoint(IPAddress.Parse(rcAddress), rcCPort);
-        ep = new IPEndPoint(IPAddress.Loopback, rcCPort);
+        ep = new IPEndPoint(IPAddress.Parse(rcAddress), rcCPort);
+        //ep = new IPEndPoint(IPAddress.Loopback, rcCPort);
         client.Connect(ep);
         sock = client.GetStream();
         connected = true;
+        connectionClosed = false;
         print("TcpClient is connected to the end point with address: " + 
         rcAddress + " and port: " + rcCPort);
     }
-	/*
+	
+    /*
      * The update method checks if a key on the keyboard was pressed
      * during the current frame and sends the appropriate command to 
      * the remote control car if a control key was pressed.
@@ -278,22 +296,13 @@ public class RCBehavior_TCP : MonoBehaviour {
     void OnMouseDown() {
         // print("In OnMouseDown()");
         if(!isOwned) {
-            isOwned = true;
             // For Debug
             print("In RCBehavior_TCP.OnMouseDown() isOwned = true. Car is now owned!");
             // End Deubg
-        }
-        else {
-            if(!isFirstPerson) {
-                isFirstPerson = true;
-                // For Debug
-                print("In RCBehavior_TCP.OnMouseDown() isOwned = true " +
-                " isFirstPerson = true. Instantiating cameras, becasue car is now first person!");
-                // End Debug
-                Instantiate(leftCamera);
-                Instantiate(rightCamera);
-                Instantiate(QRReader);
-            }        
+            isOwned = true;
+            Instantiate(leftCamera);
+            Instantiate(rightCamera);
+            Instantiate(QRReader);
         }
     }
 
@@ -304,16 +313,6 @@ public class RCBehavior_TCP : MonoBehaviour {
     public bool isCarOwned() {
         return isOwned;
     }
-
-    /*
-        The isCarFirstPerson method returns true if the isFirstPerson field
-        is true.
-        @return bool Returns false if the isFirstPerson field is false.
-    */
-    public bool isCarFirstPerson() {
-        return isFirstPerson;
-    }
-
 }
 
 /*
@@ -325,4 +324,14 @@ public class RCBehavior_TCP : MonoBehaviour {
         tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
         tempRend.enabled = false;
     }
+
+      
+    The isCarFirstPerson method returns true if the isFirstPerson field
+    is true.
+    @return bool Returns false if the isFirstPerson field is false.
+
+    public bool isCarFirstPerson() {
+        return isFirstPerson;
+    }
+
 */

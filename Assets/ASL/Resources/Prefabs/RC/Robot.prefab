@@ -2350,6 +2350,7 @@ GameObject:
   - component: {fileID: 4954726468211836}
   - component: {fileID: 114952279370384736}
   - component: {fileID: 65260366447850450}
+  - component: {fileID: 114041187721785962}
   m_Layer: 0
   m_Name: Robot
   m_TagString: Untagged
@@ -69695,7 +69696,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 175.4, y: 169.4, z: 147}
   m_Center: {x: -50.5, y: -12.2, z: -22.7}
---- !u!114 &114952279370384736
+--- !u!114 &114041187721785962
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -69703,12 +69704,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1139547914692284}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptsToActivate:
+  - {fileID: 114952279370384736}
+  ScriptsToDeactivate: []
+  GameObjectsToActivate: []
+  GameObjectsToDeactivate: []
+  EventsToTrigger: 
+  CamerasToActivate: []
+  CamerasToDeactivate: []
+--- !u!114 &114952279370384736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1139547914692284}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f257e2d901d7d6244b8cd228069a95ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOwned: 0
   leftCamera: {fileID: 1364878269807776, guid: 2518630f20372fe44878b2c5ae4dbf62, type: 2}
   rightCamera: {fileID: 1936116895083966, guid: 526508966b5159d43805a6b8fb0b0216,
     type: 2}
   QRReader: {fileID: 1086007522965034, guid: 15e19dc10dc9fdf42b3b5a831974aae6, type: 2}
-  isMoving: 0

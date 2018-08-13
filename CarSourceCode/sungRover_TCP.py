@@ -57,7 +57,7 @@ class TCP_CarControl:
         self.backward = False
 
         if connectionPort is None:
-            self.TCP_PORT = 1030
+            self.TCP_PORT = 1060
         else:
             self.TCP_PORT = connectionPort
         if myIP is None:
