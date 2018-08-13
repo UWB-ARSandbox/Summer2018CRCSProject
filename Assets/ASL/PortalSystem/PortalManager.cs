@@ -277,7 +277,8 @@ namespace ASL.PortalSystem
                     if (p != null)
                     {
                         portalSet.Add(view.viewID, p);
-                        //view.transform.parent = transform.Find("Registered Portals").transform;
+                        view.transform.parent = transform.Find("Registered Portals").transform;
+                        p.SetUser(player);
                         return true;
                     }
                     else
@@ -312,7 +313,7 @@ namespace ASL.PortalSystem
                     {
                         portalSet.Remove(view.viewID);
                         p.Close();
-                        //view.transform.parent = transform.Find("Unregistered Portals").transform;
+                        view.transform.parent = transform.Find("Unregistered Portals").transform;
                         return true;
                     }
                     else
