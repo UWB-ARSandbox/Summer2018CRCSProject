@@ -42,7 +42,6 @@ public class PortalInstantiator : LocalEventHandler
     protected override void OnEnable()
     {
         base.OnEnable();
-        Debug.Log("Portal instantiator has been enabled");
         CheckForPlayer();
     }
 
@@ -161,9 +160,14 @@ public class PortalInstantiator : LocalEventHandler
         Debug.Log("Portal Instantiator has received an event: " + args.MyEvent.ToString());
         switch (args.MyEvent)
         {
-            case ASLLocalEventManager.LocalEvents.PlayerInstanceActive:
+            case ASLLocalEventManager.LocalEvents.PortalManagerPlayerSet:
                 {
-                    PlayerInitializedEventHandler();
+                    PlayerSetEventHandler();
+                    break;
+                }
+            case ASLLocalEventManager.LocalEvents.TriggerPortalCreation:
+                {
+                    PortalCreationHandler();
                     break;
                 }
             default:
@@ -173,7 +177,7 @@ public class PortalInstantiator : LocalEventHandler
         }
     }
 
-    private void PlayerInitializedEventHandler()
+    private void PlayerSetEventHandler()
     {
         Debug.Log("trying to find the Camera for the player");
         CheckForPlayer();
@@ -182,6 +186,11 @@ public class PortalInstantiator : LocalEventHandler
             Debug.Log("found the camera");
             playerAvaliable = true;
         }
+    }
+
+    private void PortalCreationHandler()
+    {
+
     }
 
     private void CheckForPlayer()
@@ -193,7 +202,6 @@ public class PortalInstantiator : LocalEventHandler
         }
         else
         {
-            Debug.Log("Can't find Local Primary Camera");
             return;
         }
 
