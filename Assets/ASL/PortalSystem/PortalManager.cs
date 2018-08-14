@@ -80,6 +80,17 @@ namespace ASL.PortalSystem
             return p;
         }
 
+        /// <summary>
+        /// Assign a GameObject as the player to be used by portals managed by the portal manager. 
+        /// </summary>
+        /// <param name="p">Player to be assigned.</param>
+        /// Sets the player and triggers local event for other scripts to respond to the event.
+        public void SetPlayer(GameObject p)
+        {
+            player = p;
+            ASLLocalEventManager.Instance.Trigger(gameObject, ASLLocalEventManager.LocalEvents.PortalManagerPlayerSet);
+        }
+
         /*
          * Portal System Action Requests
          * (Pre-Master Client Verification)
