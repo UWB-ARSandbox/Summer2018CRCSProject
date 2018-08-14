@@ -54,5 +54,5 @@ MonoBehaviour:
   avatarMaterial: {fileID: 2100000, guid: c7cf1bb431b424a468eb880c591a6177, type: 2}
   prefabReference: {fileID: 1142105121046680, guid: 62059ecb1955fe044971d953f3334c44,
     type: 2}
-  initialPosition: {x: 6, y: 1, z: 15}
+  initialPosition: {x: -100, y: -67, z: 12}
   initialScale: {x: 1, y: 1, z: 1}
