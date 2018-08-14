@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LocalEventHandler : MonoBehaviour {
+public abstract class LocalEventHandler : Photon.PunBehaviour
+{
 
     protected virtual void OnEnable()
     {
@@ -14,15 +15,7 @@ public class LocalEventHandler : MonoBehaviour {
         ASLLocalEventManager.LocalEventTriggered += OnLocalEvent;
     }
 
-    protected virtual void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
-    {
-        switch (args.MyEvent)
-        {
-            default:
-                {
-                    Debug.Log("Event not handled");
-                    break;
-                }
-        }
-    }
+    public override void OnPhotonInstantiate(PhotonMessageInfo info) { }
+    protected abstract void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args);
+
 }
