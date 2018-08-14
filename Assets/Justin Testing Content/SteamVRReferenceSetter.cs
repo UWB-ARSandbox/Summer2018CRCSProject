@@ -19,7 +19,7 @@ public class SteamVRReferenceSetter : LocalEventHandler
     {
         switch (args.MyEvent)
         {
-            case ASLLocalEventManager.LocalEvents.ViveCameraRigInstantiated:
+            case ASLLocalEventManager.LocalEvents.SteamVRActivated:
                 {
                     ViveCameraRigEventHandler();
                     break;
@@ -76,6 +76,11 @@ public class SteamVRReferenceSetter : LocalEventHandler
     private bool FindFollowScript()
     {
         myFollowScript = transform.GetComponent<VRTK.VRTK_ObjectFollow>();
+        if (myFollowScript)
+        {
+            myFollowScript.enabled = true;
+            Debug.Log("Found the follow script");
+        }
         return myFollowScript != null;
     }
 }

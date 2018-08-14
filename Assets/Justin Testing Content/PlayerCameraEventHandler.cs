@@ -11,11 +11,10 @@ public class PlayerCameraEventHandler : LocalEventHandler
         Debug.Log("Player Camera Event Handler received event: " + args.MyEvent.ToString());
         switch (args.MyEvent)
         {
-            case ASLLocalEventManager.LocalEvents.SimulatorCameraRigInstantiated:
+            case ASLLocalEventManager.LocalEvents.VRPlayerActivated:
                 {
                     SetPrimaryCameraTag();
-                    GameObject.Find("PortalManager").GetComponent<ASL.PortalSystem.PortalManager>().player = playerCamera.gameObject;
-                    ASLLocalEventManager.Instance.Trigger(gameObject, ASLLocalEventManager.LocalEvents.PlayerInitialized);
+                    GameObject.Find("PortalManager").GetComponent<ASL.PortalSystem.PortalManager>().SetPlayer(playerCamera.gameObject);
                     break;
                 }
             default:
@@ -24,6 +23,13 @@ public class PlayerCameraEventHandler : LocalEventHandler
                     break;
                 }
         }
+    }
+
+
+
+    public override void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+
     }
 
     private void SetPrimaryCameraTag()
