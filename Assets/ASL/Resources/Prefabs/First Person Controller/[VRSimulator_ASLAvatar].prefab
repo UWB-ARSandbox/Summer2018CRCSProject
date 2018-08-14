@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 114812624428740072}
   - component: {fileID: 54899429566326572}
   - component: {fileID: 136390270616895264}
-  - component: {fileID: 114465388785502796}
+  - component: {fileID: 114810005101750222}
   m_Layer: 0
   m_Name: '[VRSimulator_ASLAvatar]'
   m_TagString: Untagged
@@ -267,7 +267,6 @@ GameObject:
   - component: {fileID: 92015947369314084}
   - component: {fileID: 81095231452553644}
   - component: {fileID: 114208127745853638}
-  - component: {fileID: 114374421949176224}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Player Camera
@@ -1672,18 +1671,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114374421949176224
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1365269144739758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf4123a83bda7184cbd11eba700cb011, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 20987167333703540}
 --- !u!114 &114403823578293306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1773,26 +1760,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selected: 0
---- !u!114 &114465388785502796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1334481778259688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScriptsToActivate: []
-  ScriptsToDeactivate: []
-  GameObjectsToActivate:
-  - {fileID: 1219599273405328}
-  - {fileID: 1365269144739758}
-  GameObjectsToDeactivate: []
-  EventsToTrigger: 01000000
-  CamerasToActivate: []
-  CamerasToDeactivate: []
 --- !u!114 &114475644951794880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1899,8 +1866,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114020457373293902}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 2
+  instantiationId: 2
   currentMasterID: -1
   isRuntimeInstantiated: 1
 --- !u!114 &114576273377034128
@@ -2060,10 +2027,22 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114403823578293306}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 1
+  instantiationId: 1
   currentMasterID: -1
   isRuntimeInstantiated: 1
+--- !u!114 &114810005101750222
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1334481778259688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9c7927c3321d14fb1073978e02223b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventsToTrigger: 03000000
 --- !u!114 &114812624428740072
 MonoBehaviour:
   m_ObjectHideFlags: 1

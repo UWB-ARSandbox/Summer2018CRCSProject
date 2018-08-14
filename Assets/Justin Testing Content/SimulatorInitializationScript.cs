@@ -1,24 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ASL.Manipulation.Objects;
 
 public class SimulatorInitializationScript : LocalEventHandler {
+
+    public Vector3 origin;
+    public GameObject simulator;
 
     protected override void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
     {
         switch (args.MyEvent)
         {
-            case ASLLocalEventManager.LocalEvents.SimulatorCameraRigInstantiated:
-                {
-                    OnSimulatorInstantiated();
-                    break;
-                }
             default:
                 {
                     break;
                 }
         }
     }
+
+    public override void OnJoinedRoom()
+    {
+        InstantiateSimulatorCameraRig();
+    }
+
+    private void InstantiateSimulatorCameraRig()
+    {
+        GameObject.Find("ObjectInteractionManager").GetComponent<ObjectInteractionManager>().InstantiateOwnedObject(simulator.name);
+
+    }
+
     void OnSimulatorInstantiated()
     {
         Debug.Log("Looking for the Simulator");
@@ -45,6 +56,6 @@ public class SimulatorInitializationScript : LocalEventHandler {
         }
         gameObject.GetComponent<VRTK.VRTK_SDKManager>().enabled = true;
 
-        ASLLocalEventManager.Instance.Trigger(GameObject.FindGameObjectsWithTag("Local Primary Camera"), ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
+        //ASLLocalEventManager.Instance.Trigger(GameObject.FindGameObjectsWithTag("Local Primary Camera"), ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
     }
 }

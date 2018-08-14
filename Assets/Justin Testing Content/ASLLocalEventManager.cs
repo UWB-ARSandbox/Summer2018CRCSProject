@@ -23,6 +23,7 @@ public class ASLLocalEventManager : MonoBehaviour
         VRPlayerActivated,
         SimCameraRigCreationFailed,
         SimCameraRigCreationSucceeded,
+        SimCameraRigActivated,
         SimulatorActivated,
         SteamVRActivated,
         PCPlayerActivated,

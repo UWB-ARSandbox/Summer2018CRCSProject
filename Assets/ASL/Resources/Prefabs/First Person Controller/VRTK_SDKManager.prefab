@@ -85,6 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4688569781623342}
   - component: {fileID: 114916599512088336}
+  - component: {fileID: 114956871072781560}
   m_Layer: 0
   m_Name: Simulator
   m_TagString: Untagged
@@ -101,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4356218828511730}
   - component: {fileID: 114353890256502076}
+  - component: {fileID: 114130493464337870}
   m_Layer: 0
   m_Name: Oculus
   m_TagString: Untagged
@@ -150,6 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4970474705831688}
   - component: {fileID: 114392361948275934}
+  - component: {fileID: 114222826910064940}
   m_Layer: 0
   m_Name: SteamVR
   m_TagString: Untagged
@@ -401,6 +404,8 @@ GameObject:
   - component: {fileID: 23567680150463702}
   - component: {fileID: 33343853778912988}
   - component: {fileID: 114986348612806086}
+  - component: {fileID: 54700811428383700}
+  - component: {fileID: 65436510506933010}
   m_Layer: 0
   m_Name: '[ASLViveCameraRig]'
   m_TagString: Untagged
@@ -450,7 +455,6 @@ GameObject:
   - component: {fileID: 4325308420159732}
   - component: {fileID: 20648722969929058}
   - component: {fileID: 124350274604665524}
-  - component: {fileID: 114900487699080004}
   - component: {fileID: 114466446212820558}
   m_Layer: 0
   m_Name: Camera (eye)
@@ -533,7 +537,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4650883768646128}
   - component: {fileID: 114799758217321308}
-  - component: {fileID: 114529264543575822}
+  - component: {fileID: 114203813549130442}
   m_Layer: 0
   m_Name: VRTK_SDKManager
   m_TagString: Untagged
@@ -1021,7 +1025,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1810675265426544}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2037,6 +2041,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1195332101820320}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54700811428383700
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1574181698991158}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65436510506933010
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1574181698991158}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &81321415641463058
 AudioListener:
   m_ObjectHideFlags: 1
@@ -2117,6 +2148,18 @@ MonoBehaviour:
   mouseScale: {x: 1, y: 1}
   curvedRange: {x: 1, y: 2}
   inputMethod: 0
+--- !u!114 &114130493464337870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165942685942002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9c7927c3321d14fb1073978e02223b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventsToTrigger: 03000000
 --- !u!114 &114198914429858368
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2134,6 +2177,33 @@ MonoBehaviour:
   verbose: 0
   createComponents: 1
   updateDynamically: 1
+--- !u!114 &114203813549130442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1810675265426544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05f28f927e04f744ab32fad4cba27e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DeviceToUse: 0
+  origin: {x: 0, y: 0, z: 0}
+  simulator: {fileID: 1154513001556496}
+  steamVR: {fileID: 1246377244417168}
+--- !u!114 &114222826910064940
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1246377244417168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9c7927c3321d14fb1073978e02223b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventsToTrigger: 03000000
 --- !u!114 &114319053974099062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2325,17 +2395,6 @@ MonoBehaviour:
   externalCamera: {fileID: 0}
   externalCameraConfigPath: externalcamera.cfg
   trackingSpace: 1
---- !u!114 &114529264543575822
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1810675265426544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b95971096e7c9274ebcf2c778a64ecc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114553623646806554
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2410,7 +2469,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1810675265426544}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5837af0260a118e4d808bfe0405429a1, type: 3}
   m_Name: 
@@ -2427,18 +2486,6 @@ MonoBehaviour:
   - {fileID: 114353890256502076}
   excludeTargetGroups: 1b0000001a000000
   persistOnLoad: 0
---- !u!114 &114900487699080004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1656630266043130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf4123a83bda7184cbd11eba700cb011, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 20648722969929058}
 --- !u!114 &114916599512088336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2477,6 +2524,18 @@ MonoBehaviour:
     fallbackTypeName: VRTK.SDK_FallbackController
     typeName: VRTK.SDK_SimController
     descriptionIndex: 0
+--- !u!114 &114956871072781560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1154513001556496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9c7927c3321d14fb1073978e02223b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventsToTrigger: 03000000
 --- !u!114 &114986348612806086
 MonoBehaviour:
   m_ObjectHideFlags: 1
