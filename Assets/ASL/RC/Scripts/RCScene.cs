@@ -61,7 +61,8 @@ public class RCScene : MonoBehaviour {
 
 		if(player != null) {
 			player.tag = "Local Primary Camera";
-			ASLLocalEventManager.Instance.Trigger(myFPSCamera, ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
+			GameObject.Find("PortalManager").GetComponent<PortalManager>().player = player;
+			ASLLocalEventManager.Instance.Trigger(player.GetComponent<Camera>(), ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
 		}
 		else 
 			print("Error: RCScene.instantiateSceneObjects() Line 59. Unable to instantiate 'Player Avatar'");
