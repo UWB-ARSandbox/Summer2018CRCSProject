@@ -104,16 +104,16 @@ public class PlayerController : MonoBehaviour
 
         forward = Vector3.Normalize(forward);
         strafe = Vector3.Normalize(strafe);
-        
-        if (gravityEnabled)
-        {
-            if (!_controller.isGrounded)
+         if(transEnabled) { 
+            if (gravityEnabled)
             {
-                _controller.Move(_velocity * Time.deltaTime);
+                if (!_controller.isGrounded)
+                {
+                    _controller.Move(_velocity * Time.deltaTime);
+                }
             }
-        }
-    
-        if(transEnabled) {
+        
+       
             if (Input.GetAxis("Vertical") < 0)
             {
                 forward = -1 * forward;

@@ -9,32 +9,39 @@ public class RCScene : MonoBehaviour {
 	private ASL.Manipulation.Objects.ObjectInteractionManager objManager;
 	private bool playerOwnsCar;
 	private bool objsInstantiated;
+	private Vector3 clickPosition;
+	private Vector3 firstPersonCam;
 	private RCBehavior_TCP car;
 	//private GameObject player;
 	//private PlayerController playerControl;
 
 	// NOTE: Change to the Awake() method instead of using a bool and polling in update()
 	// Use this for initialization
+	/* 
 	void Start () {
 		print("In RCScene.Start() initializing class fields");
 		objsInstantiated = false;
 		playerOwnsCar = false;
+		clickPosition = new Vector3(0, 0, 0);
 	}
-	
+	*/
 	/*
 		The Awake method is called for the RCScene after all Start
 		methods have completed to instantiate game objects for the
 		scene across the Photon Unity Network.
 	*/
-	/* 
+	 
 	void Awake() {
 		// For Debug
 		print("In RCScene.Awake instantiating game objects for the scene across PUN");
 		// End Debug
-		playerIsCarView = playerOwnsCar = false;
-		instantiateSceneObjects();
+		objsInstantiated = false;
+		playerOwnsCar = false;
+		clickPosition = new Vector3(0, 0, 0);
+		firstPersonCam = new Vector3(0, 0, 40);
+		//instantiateSceneObjects();
 	}
-	*/
+	
 	/*
 		The update function for the RCScene class updates members
 		and functions for the scene that must be addressed once per frame.
@@ -42,65 +49,93 @@ public class RCScene : MonoBehaviour {
 	void Update () {
 		 
 		if(!objsInstantiated) {
-			if(PhotonNetwork.connectedAndReady) {
+			if(PhotonNetwork.inRoom) {
 				instantiateSceneObjects();
 			}
 		}
-		
-		
-		if(!playerOwnsCar) {
-            if(Input.GetMouseButtonDown(0))
-            {
-				// For Debug
-				print("In RCScene.update() MouseButtonDown = true and playerOwnsCar = false");
-				// End Debug
-				if(car.isCarOwned()) {
-					playerOwnsCar = true;
-					playerCarTransition();
+		else {
+			if(!playerOwnsCar) {
+				if(Input.GetMouseButtonDown(0)) {
+					if(car.isCarOwned()) {
+						playerOwnsCar = true;
+						playerCarTransition();
+					}
 				}
-			}
-        }
+        	}
+		}
+		
+		
 	}
 
+	/*
+		The instantiateSceneObjects method instantiates all networked
+		objects for the RCScene across PUN using the ASL object interaction
+		and network managers. The method instantiates the ASL Player and
+		Blue Car prefabs and enables the RCBehavior_TCP component of the 
+		Blue Car prefab.
+	*/
 	void instantiateSceneObjects() {
 		objsInstantiated = true;
 		objManager = GameObject.Find("ObjectInteractionManager").GetComponent<ASL.Manipulation.Objects.ObjectInteractionManager>();
-		print("Instantiating a ROBOT!");
-		objManager.InstantiateOwnedObject("BlueCar");
 		objManager.InstantiateOwnedObject("ASL Player");
-		car = GameObject.Find("BlueCar").GetComponent<RCBehavior_TCP>();
+		car = objManager.InstantiateOwnedObject("BlueCar").GetComponent<RCBehavior_TCP>();
 		// For Debug 
 		if(car == null)
 			print("In RCScene.instantiateSceneObjects() with car == null");
 		else
-			car.enabled = true;
-		// End Debug
-		//player = GameObject.Find("Player Avatar");
+			car.GetComponent<RCBehavior_TCP>().enabled = true;
+		
 	}
 
 	/*
-		The disablePlayerAvatar method makes the Player Avatar 
-		for the ASL Player invisible by disabling the MeshRenderer
-		for each of the avatar's children.
+		The playerCarTransition method assigns the current position
+		of the ASL Player to the main camera, destroys the player 
+		across PUN using the ASL object interaction manager, and 
+		activates the main camera.
 	*/
 	void playerCarTransition() {
-		GameObject player = GameObject.Find("Player Avatar");
-		if(player != null) {
-			player.GetComponent<PlayerController>().setTransEnabled(false);
-			player.GetComponent<SmoothMouseLook>().enabled = false;
-			
-			MeshRenderer tempRend;
-			Transform xform = GameObject.Find("Player Avatar").GetComponent<Transform>();
-			for (int i = 0; i < xform.childCount - 1; i++)
-			{
-				tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
-				if(tempRend != null)
-					tempRend.enabled = false;
-			}
+		//GameObject playAvatar = GameObject.Find("Player Avatar");
+		GameObject aslPlayer = GameObject.Find("ASL Player");
+		GameObject cam = GameObject.Find("Main Camera");
+		if(aslPlayer != null && cam != null) {
+			// Determine the position of the Player Avatar and assign it to the camera
+			cam.transform.position = firstPersonCam;
+			// Activate the Main Camera in the hierarchy
+			cam.SetActive(true);
+			// Destroy the ASL Player
+			objManager.Destroy(aslPlayer);
 		}
 		else {
-			print("Error: Game Object: 'Player Avatar' could not be located in the scene." +
-			" RCScene.playerCarTransition() line 101");
+			if(aslPlayer == null)
+				print("Error: Game Object: ASL Player could not be found in the scene. RCScene Line 95-97");
+			else
+				print("Error: Game Object: Main Camera could not be found in the scene. RCScene Line 95-97");
 		}
 	}
+
+	public Vector3 getClickPosition() {
+		return clickPosition;
+	}
 }
+
+/*
+	-------------------		OLD CODE	 ----------------------------
+	// FROM playerCarTransition() 
+	if(player != null) {
+		player.GetComponent<PlayerController>().setTransEnabled(false);
+		player.GetComponent<SmoothMouseLook>().enabled = false;
+		MeshRenderer tempRend;
+		Transform xform = GameObject.Find("Player Avatar").GetComponent<Transform>();
+		for (int i = 0; i < xform.childCount - 1; i++)
+		{
+			tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
+			if(tempRend != null)
+				tempRend.enabled = false;
+		}
+		player.transform.position = clickPosition;
+	}
+	else {
+		print("Error: Game Object: 'Player Avatar' could not be located in the scene." +
+		" RCScene.playerCarTransition() line 101");
+	}
+*/

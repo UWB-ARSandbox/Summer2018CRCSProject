@@ -227,14 +227,9 @@ class TCP_CarControl:
         print("Handling the New Connection")
         while self.connectionOpen:
             if self.isMoving:
-                print("Calling calculate distance")
                 d = self.calculateDistance()
-                print("Calling send distance")
-                #self.sendDistance(cSock, d)
                 self.sendData(cSock, d)
-            print("Calling receive command")
             if self.receiveCommand(cSock):
-                print("Calling send heading")
                 self.sendHeading(cSock)
         cSock.close()
      
@@ -248,7 +243,6 @@ class TCP_CarControl:
         car's heading.
     """
     def receiveCommand(self, cSock): 
-        #print("Waiting for a Command")
         data = cSock.recv(16) # buffer size is 1024 bytes
         data = data.decode('utf-8')
     
@@ -351,16 +345,7 @@ class TCP_CarControl:
         reported by the BNO orientation sensor.
     """
     def sendHeading(self, cSock) :
-        #heading, roll, pitch = self.bno.read_euler()
         heading = self.getHeading()
-        
-        # --------- FOR DEBUG ---------
-        print("sendHeading() - Heading: " + str(heading) + " Offset: " + str(self.headingOffset) + 
-        " toSend: " + str(heading - self.headingOffset))
-        sys, gyro, accel, mag = self.bno.get_calibration_status()
-        print("Calibration - S: " + str(sys) + " G: " + str(gyro) + " A: " + str(accel) + " M: " + str(mag))
-        # --------- END DEBUG ---------
-
         heading -= self.headingOffset
         self.sendData(cSock, heading)
   

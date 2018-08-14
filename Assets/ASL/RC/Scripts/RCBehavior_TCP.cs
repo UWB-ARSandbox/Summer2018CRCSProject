@@ -10,7 +10,9 @@ public class RCBehavior_TCP : MonoBehaviour {
     public GameObject leftCamera; 
     public GameObject rightCamera;
     public GameObject QRReader;
-    
+
+    private const float CAM_H = 6f;  
+    private const float CAM_Z = 30.5f;  
     private const string rcAddress = "172.24.1.1";
     //private const string rcAddress = "127.0.0.1";
     private const short rcCPort = 1060;
@@ -296,13 +298,8 @@ public class RCBehavior_TCP : MonoBehaviour {
     void OnMouseDown() {
         // print("In OnMouseDown()");
         if(!isOwned) {
-            // For Debug
-            print("In RCBehavior_TCP.OnMouseDown() isOwned = true. Car is now owned!");
-            // End Deubg
             isOwned = true;
-            Instantiate(leftCamera);
-            Instantiate(rightCamera);
-            Instantiate(QRReader);
+            startCarFirstPerson();
         }
     }
 
@@ -312,6 +309,35 @@ public class RCBehavior_TCP : MonoBehaviour {
     */
     public bool isCarOwned() {
         return isOwned;
+    }
+
+    void startCarFirstPerson() {
+        //Vector3 clickPosition = GameObject.Find("Launch_MasterClient").GetComponent<RCScene>().getClickPosition();
+        Camera cam = Camera.main;
+        Instantiate(leftCamera);
+        Instantiate(rightCamera);
+        //Instantiate(QRReader);
+        GameObject temp = GameObject.Find("LeftCam(Clone)");
+        if(temp != null) {
+            // Change the scale of the webcam
+            float camWidth = cam.aspect * CAM_H;
+            temp.transform.localScale = new Vector3(camWidth, CAM_H, 1);
+            // Change the position of the webcam
+            temp.transform.position = new Vector3(cam.transform.position.x + (0.5f * camWidth), 0f, CAM_Z) ;
+        }
+            
+        else
+            print("Error: Game Object: LeftCam not found in scene. RCBehavior.OnMouseDown() line 306");
+        temp = GameObject.Find("RightCam(Clone)");
+        if(temp != null) {
+            // Change the scale of the webcam
+            float camWidth = cam.aspect * CAM_H;
+            temp.transform.localScale = new Vector3(camWidth, CAM_H, 1);
+            // Change the position of the webcam
+            temp.transform.position = new Vector3(cam.transform.position.x - (0.5f * camWidth), 0f, CAM_Z) ;
+        }
+        else
+            print("Error: Game Object: RightCam not found in scene. RCBehavior.OnMouseDown() line 311");
     }
 }
 
