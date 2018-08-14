@@ -25,79 +25,100 @@ public class ControllerInstantiation : LocalEventHandler
         Debug.Log("Controller Instantiation script initialized");
     }
 
-    private void OnDisable()
+    public override void OnJoinedRoom()
     {
-        ASLLocalEventManager.Instance.Trigger(myFPSCamera, ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
+        InstantiatePCPlayer();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
     {
-        if (PhotonNetwork.inRoom && !instantiated)
+        switch (args.MyEvent)
         {
-            Debug.Log("Trying to create components for first person controller");
-            instantiated = true;
-
-            myPlayer = mObjectInteractionManager.InstantiateOwnedObject("Player Avatar");
-            if (myPlayer != null)
-            {
-                Debug.Log("The player avatar component was created");
-
-            }
-            else
-            {
-                Debug.Log("The player capsule component of the avatar was not created properly");
-                instantiated = false;
-            }
-
-            Debug.Log("Material set");
-            myPlayer.GetComponent<MeshRenderer>().sharedMaterial = avatarMaterial;
-
-            //Debug.Log("Creating the mouse control/local components");
-            //myFPSCamera = Instantiate(prefabReference, myPlayer.transform);
-            //createLocalComponents();
-            //myFPSCamera.transform.parent = myPlayer.transform;
-            myPlayer.transform.parent = transform;
-            transform.GetComponentInChildren<Camera>().enabled = true;
-            myLabel = transform.GetComponentInChildren<BillboardText>();
-            myLabel.setCamera(transform.GetComponentInChildren<Camera>());
-
-            myPlayer.transform.position = initialPosition;
-            myPlayer.transform.localScale = initialScale;
-
-            myFPSCamera = transform.GetComponentInChildren<Camera>().gameObject;
-
-            setPortalManagerPlayer(myFPSCamera);
-
-
-            if (!instantiated)
-            {
-                cleanUp();
-            }
-            else
-            {
-                Debug.Log("successfully created, disabling instantiation script");
-                gameObject.GetComponent<ControllerInstantiation>().enabled = false;
-            }
-
+            case ASLLocalEventManager.LocalEvents.PCPlayerCreationFailed:
+                {
+                    InstantiatePCPlayer();
+                    break;
+                }
+            case ASLLocalEventManager.LocalEvents.PCPlayerCreationSucceeded:
+                {
+                    SucessfulCreationEventHandler();
+                    break;
+                }
+            case ASLLocalEventManager.LocalEvents.PortalManagerPlayerSet:
+                {
+                    GameObject.Destroy(gameObject);
+                    break;
+                } 
+            default:
+                {
+                    Debug.Log(this.name + ": Event not handled");
+                    break;
+                }
         }
     }
 
-    private void createLocalComponents()
+    private void SucessfulCreationEventHandler()
     {
-        myPlayer.AddComponent<PlayerController>();
-        myPlayer.AddComponent<SmoothMouseLook>();
+        if (myPlayer.GetComponent<PhotonView>().isMine)
+        {
+            myPlayer.gameObject.name = "MyAvatar";
+            myFPSCamera = myPlayer.GetComponentInChildren<Camera>(true).gameObject;
+            myPlayer.GetComponentInChildren<Camera>(true).enabled = true;
+            myPlayer.GetComponentInChildren<SmoothMouseLook>(true).enabled = true;
+            myPlayer.GetComponentInChildren<PlayerController>(true).enabled = true;
+
+            myPlayer.transform.Find("Cursor Canvas").gameObject.SetActive(true);
+            myPlayer.transform.Find("World Space Canvas").gameObject.SetActive(true);
+
+            myLabel = myPlayer.transform.GetComponentInChildren<BillboardText>(true);
+            if (myLabel)
+            {
+                myLabel.enabled = true;
+                myLabel.setCamera(myFPSCamera.GetComponent<Camera>());
+            }
+
+
+            SetPortalManagerPlayer();
+        }
+        else
+        {
+            // I don't think this will ever be called
+            myPlayer.gameObject.name = "OtherAvatar";
+            myPlayer.GetComponentInChildren<Camera>().enabled = false;
+            myPlayer.GetComponentInChildren<SmoothMouseLook>().enabled = false;
+            myPlayer.GetComponentInChildren<PlayerController>().enabled = false;
+
+            transform.Find("Cursor Canvas").gameObject.SetActive(false);
+            transform.Find("World Space Canvas").gameObject.SetActive(false);
+        }
     }
 
-    private void cleanUp()
+    private void InstantiatePCPlayer()
     {
-        mObjectInteractionManager.Destroy(myPlayer);
+        myPlayer = mObjectInteractionManager.InstantiateOwnedObject("Player Avatar");
+        if (myPlayer == null)
+        {
+            ASLLocalEventManager.Instance.Trigger(this, ASLLocalEventManager.LocalEvents.PCPlayerCreationFailed);
+            return;
+        }
+
+        SetInitialProperties();
+
+        ASLLocalEventManager.Instance.Trigger(this, ASLLocalEventManager.LocalEvents.PCPlayerCreationSucceeded);
+
+    }
+
+    private void SetInitialProperties()
+    {
+        myPlayer.GetComponent<MeshRenderer>().sharedMaterial = avatarMaterial;
+        myPlayer.transform.position = initialPosition;
+        myPlayer.transform.localScale = initialScale;
     }
 
 
-    private void setPortalManagerPlayer(GameObject go)
+    private void SetPortalManagerPlayer()
     {
-        go.tag = "Local Primary Camera";
-        GameObject.Find("PortalManager").GetComponent<PortalManager>().player = go;
+        myFPSCamera.tag = "Local Primary Camera";
+        GameObject.Find("PortalManager").GetComponent<PortalManager>().SetPlayer(myFPSCamera);
     }
 }
