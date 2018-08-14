@@ -8,10 +8,6 @@ public class SimulatorInitializationScript : LocalEventHandler {
     {
         switch (args.MyEvent)
         {
-            case ASLLocalEventManager.LocalEvents.PlayerInitialized:
-                {
-                    break;
-                }
             case ASLLocalEventManager.LocalEvents.SimulatorCameraRigInstantiated:
                 {
                     OnSimulatorInstantiated();
@@ -48,5 +44,7 @@ public class SimulatorInitializationScript : LocalEventHandler {
             }
         }
         gameObject.GetComponent<VRTK.VRTK_SDKManager>().enabled = true;
+
+        ASLLocalEventManager.Instance.Trigger(GameObject.FindGameObjectsWithTag("Local Primary Camera"), ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
     }
 }

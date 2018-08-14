@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 23091482995526050}
   - component: {fileID: 114670142289663252}
   - component: {fileID: 114264395371006896}
+  - component: {fileID: 114598634158938656}
   m_Layer: 10
   m_Name: Left Controller
   m_TagString: Untagged
@@ -260,6 +261,7 @@ GameObject:
   - component: {fileID: 4260530492340280}
   - component: {fileID: 114709462056212448}
   - component: {fileID: 114065675463815966}
+  - component: {fileID: 114588451000685470}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -279,6 +281,7 @@ GameObject:
   - component: {fileID: 23866201234839740}
   - component: {fileID: 114320762814802308}
   - component: {fileID: 114080965778042982}
+  - component: {fileID: 114715654495599122}
   m_Layer: 10
   m_Name: Body
   m_TagString: Untagged
@@ -298,6 +301,7 @@ GameObject:
   - component: {fileID: 23777920223038420}
   - component: {fileID: 114117841013721254}
   - component: {fileID: 114846245994929944}
+  - component: {fileID: 114553771008337496}
   m_Layer: 10
   m_Name: Right Controller
   m_TagString: Untagged
@@ -465,7 +469,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180508855020310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.571648, y: -1.0275981e-17, z: 1.9761091}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4190304614673526}
@@ -1162,7 +1166,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1933162843737630}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe5040c2eaa9ff147b80ded004191c67, type: 3}
   m_Name: 
@@ -1214,6 +1218,66 @@ MonoBehaviour:
   smoothsScale: 0
   maxAllowedPerFrameSizeDifference: 0.003
   _moment: 3
+--- !u!114 &114553771008337496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1933162843737630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptsToActivate:
+  - {fileID: 114117841013721254}
+  - {fileID: 114846245994929944}
+  ScriptsToDeactivate: []
+  GameObjectsToActivate: []
+  GameObjectsToDeactivate: []
+  EventsToTrigger: 
+  CamerasToActivate: []
+  CamerasToDeactivate: []
+--- !u!114 &114588451000685470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878732786751490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptsToActivate:
+  - {fileID: 114709462056212448}
+  - {fileID: 114065675463815966}
+  ScriptsToDeactivate: []
+  GameObjectsToActivate: []
+  GameObjectsToDeactivate: []
+  EventsToTrigger: 
+  CamerasToActivate: []
+  CamerasToDeactivate: []
+--- !u!114 &114598634158938656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1621089604932768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptsToActivate:
+  - {fileID: 114264395371006896}
+  - {fileID: 114670142289663252}
+  ScriptsToDeactivate: []
+  GameObjectsToActivate: []
+  GameObjectsToDeactivate: []
+  EventsToTrigger: 
+  CamerasToActivate: []
+  CamerasToDeactivate: []
 --- !u!114 &114603404539385852
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1225,7 +1289,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScriptsToActivate: []
+  ScriptsToActivate:
+  - {fileID: 114812550431364374}
+  - {fileID: 114945069666900972}
   ScriptsToDeactivate: []
   GameObjectsToActivate: []
   GameObjectsToDeactivate: []
@@ -1278,13 +1344,33 @@ MonoBehaviour:
   smoothsScale: 0
   maxAllowedPerFrameSizeDifference: 0.003
   _moment: 3
+--- !u!114 &114715654495599122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1927297168881342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScriptsToActivate:
+  - {fileID: 114320762814802308}
+  - {fileID: 114080965778042982}
+  ScriptsToDeactivate: []
+  GameObjectsToActivate: []
+  GameObjectsToDeactivate: []
+  EventsToTrigger: 
+  CamerasToActivate: []
+  CamerasToDeactivate: []
 --- !u!114 &114812550431364374
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180508855020310}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dacc8dcbfabd4b14ea29f93b78d415d3, type: 3}
   m_Name: 
@@ -1296,7 +1382,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1933162843737630}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dacc8dcbfabd4b14ea29f93b78d415d3, type: 3}
   m_Name: 
@@ -1308,7 +1394,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1180508855020310}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe5040c2eaa9ff147b80ded004191c67, type: 3}
   m_Name: 

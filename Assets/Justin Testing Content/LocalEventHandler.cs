@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class LocalEventHandler : MonoBehaviour {
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         ASLLocalEventManager.LocalEventTriggered += OnLocalEvent;
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         ASLLocalEventManager.LocalEventTriggered += OnLocalEvent;
     }

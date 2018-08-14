@@ -22,7 +22,7 @@ public class PortalInstantiator : LocalEventHandler
     private ObjectInteractionManager mObjectInteractionManager;
 
     private bool instantiated = false;
-    private bool playerAvaliable = false;
+    public bool playerAvaliable = false;
     private bool registered = false;
 
 
@@ -39,8 +39,10 @@ public class PortalInstantiator : LocalEventHandler
 
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+        Debug.Log("Portal instantiator has been enabled");
         CheckForPlayer();
     }
 
@@ -156,6 +158,7 @@ public class PortalInstantiator : LocalEventHandler
 
     protected override void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
     {
+        Debug.Log("Portal Instantiator has received an event: " + args.MyEvent.ToString());
         switch (args.MyEvent)
         {
             case ASLLocalEventManager.LocalEvents.PlayerInstanceActive:
@@ -172,13 +175,27 @@ public class PortalInstantiator : LocalEventHandler
 
     private void PlayerInitializedEventHandler()
     {
-        playerAvaliable = true;
-        mPlayerCamera = GameObject.FindGameObjectWithTag("Local Primary Camera").GetComponent<Camera>();
+        Debug.Log("trying to find the Camera for the player");
+        CheckForPlayer();
+        if (mPlayerCamera)
+        {
+            Debug.Log("found the camera");
+            playerAvaliable = true;
+        }
     }
 
     private void CheckForPlayer()
     {
-        mPlayerCamera = GameObject.FindGameObjectWithTag("Local Primary Camera").GetComponent<Camera>();
+        GameObject temp = GameObject.FindGameObjectWithTag("Local Primary Camera");
+        if (temp)
+        {
+            mPlayerCamera = temp.GetComponent<Camera>();
+        }
+        else
+        {
+            Debug.Log("Can't find Local Primary Camera");
+            return;
+        }
 
         if (mPlayerCamera != null)
         {
