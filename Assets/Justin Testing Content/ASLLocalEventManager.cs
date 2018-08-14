@@ -21,11 +21,18 @@ public class ASLLocalEventManager : MonoBehaviour
     public enum LocalEvents
     {
         VRPlayerActivated,
+        SimCameraRigCreationFailed,
+        SimCameraRigCreationSucceeded,
+        SimulatorActivated,
+        SteamVRActivated,
         PCPlayerActivated,
         PCPlayerCreationSucceeded,
         PCPlayerCreationFailed,
         PrimaryCameraSet,
-        PortalManagerPlayerSet
+        PortalManagerPlayerSet,
+        PortalCreationSucceeded,
+        PortalCreationFailed,
+        TriggerPortalCreation,
     }
 
     void Awake()

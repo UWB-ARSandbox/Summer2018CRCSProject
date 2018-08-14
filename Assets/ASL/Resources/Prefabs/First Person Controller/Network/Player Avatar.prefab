@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 20772621504804230}
   - component: {fileID: 114181992392719966}
   - component: {fileID: 114669628664466956}
-  - component: {fileID: 114919289548663672}
   m_Layer: 8
   m_Name: Player Avatar
   m_TagString: Untagged
@@ -186,7 +185,7 @@ GameObject:
   - component: {fileID: 225951750349930396}
   - component: {fileID: 114815142769332708}
   m_Layer: 8
-  m_Name: Wolrd Space Canvas
+  m_Name: World Space Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -813,8 +812,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114305711022608698}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 1
+  instantiationId: 1
   currentMasterID: -1
   isRuntimeInstantiated: 1
 --- !u!114 &114498591737309586
@@ -850,8 +849,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 114245663691922492}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 0
-  instantiationId: -1
+  viewIdField: 2
+  instantiationId: 2
   currentMasterID: -1
   isRuntimeInstantiated: 1
 --- !u!114 &114597837792362566
@@ -983,27 +982,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114919289548663672
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1162704477161366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb3ad4c5fab6a6a4e81e410f33549be0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ScriptsToActivate:
-  - {fileID: 114669628664466956}
-  - {fileID: 114181992392719966}
-  ScriptsToDeactivate: []
-  GameObjectsToActivate: []
-  GameObjectsToDeactivate: []
-  EventsToTrigger: 
-  CamerasToActivate:
-  - {fileID: 20772621504804230}
-  CamerasToDeactivate: []
 --- !u!114 &114954685710642282
 MonoBehaviour:
   m_ObjectHideFlags: 1
