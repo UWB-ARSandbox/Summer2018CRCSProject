@@ -20,8 +20,16 @@ public class ContinuousDemo : MonoBehaviour {
 	{
 		Screen.autorotateToPortrait = false;
 		Screen.autorotateToPortraitUpsideDown = false;
-	}
+		// Changes
+		BarcodeScanner = new Scanner();
+		BarcodeScanner.Camera.Play();
 
+	 	GameObject [] Cam = GameObject.FindGameObjectsWithTag("CarView");
+        Debug.Log(Cam.Length);
+        BarcodeScanner.setTexture((Texture2D) Cam[0].GetComponent<WebStream>().getTextureFeed());
+		// End Changes
+	}
+	/* 
 	void Start () {
 		// Create a basic scanner
 		BarcodeScanner = new Scanner();
@@ -44,10 +52,12 @@ public class ContinuousDemo : MonoBehaviour {
 
 			RestartTime = Time.realtimeSinceStartup;
 		}; */
-        GameObject [] Cam = GameObject.FindGameObjectsWithTag("CarView");
+	/* 
+	    GameObject [] Cam = GameObject.FindGameObjectsWithTag("CarView");
         Debug.Log(Cam.Length);
         BarcodeScanner.setTexture((Texture2D) Cam[0].GetComponent<WebStream>().getTextureFeed());
 	}
+	*/
 
 	/// <summary>
 	/// Start a scan and wait for the callback (wait 1s after a scan success to avoid scanning multiple time the same element)

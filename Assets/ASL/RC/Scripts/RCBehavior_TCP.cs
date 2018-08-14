@@ -15,7 +15,7 @@ public class RCBehavior_TCP : MonoBehaviour {
     private const float CAM_Z = 30.5f;  
     private const string rcAddress = "172.24.1.1";
     //private const string rcAddress = "127.0.0.1";
-    private const short rcCPort = 1060;
+    private const short rcCPort = 1070;
     private const short MAX_MESSAGE_LENGTH = 16;
     private const float LERP_SLICE = 5f;
     private bool headingDirty;
@@ -35,27 +35,10 @@ public class RCBehavior_TCP : MonoBehaviour {
     private float headingOffset;
     private short lastCommand;
 
-
 	/*
      * The Start method initializes variables used by the script, 
      * creates a new  TcpClient and connects the client to the host.
      */
-     /* 
-    void Start () {
-        isOwned = false;
-        connected = false;
-        connectionClosed = false;
-        headingDirty = false;
-        distanceDirty = false;
-        isMoving = false;
-        sBuff = new Byte[MAX_MESSAGE_LENGTH];
-        rBuff = new Byte[MAX_MESSAGE_LENGTH];
-        xform = this.GetComponent<Transform>();
-        headingOffset = xform.rotation.eulerAngles.y;
-        connectRemote();
-    }
-	*/
-     
     void Awake() {
         print("In RCBehavior.Awake()");
         isOwned = false;
@@ -311,12 +294,17 @@ public class RCBehavior_TCP : MonoBehaviour {
         return isOwned;
     }
 
+    /*
+        The startCarFirstPerson method locally instantiates instances of the 
+        LeftCam, RightCam, and QRReader prefabs. The method also scales and
+        translates the LeftCam and RightCam instances to completely cover the
+        main camera. 
+    */
     void startCarFirstPerson() {
         //Vector3 clickPosition = GameObject.Find("Launch_MasterClient").GetComponent<RCScene>().getClickPosition();
         Camera cam = Camera.main;
         Instantiate(leftCamera);
         Instantiate(rightCamera);
-        //Instantiate(QRReader);
         GameObject temp = GameObject.Find("LeftCam(Clone)");
         if(temp != null) {
             // Change the scale of the webcam
@@ -338,6 +326,11 @@ public class RCBehavior_TCP : MonoBehaviour {
         }
         else
             print("Error: Game Object: RightCam not found in scene. RCBehavior.OnMouseDown() line 311");
+        //Instantiate(QRReader);
+    }
+
+    void startQR() {
+        Instantiate(QRReader);
     }
 }
 

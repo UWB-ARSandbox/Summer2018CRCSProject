@@ -9,37 +9,19 @@ public class RCScene : MonoBehaviour {
 	private ASL.Manipulation.Objects.ObjectInteractionManager objManager;
 	private bool playerOwnsCar;
 	private bool objsInstantiated;
-	private Vector3 clickPosition;
 	private Vector3 firstPersonCam;
 	private RCBehavior_TCP car;
-	//private GameObject player;
-	//private PlayerController playerControl;
-
-	// NOTE: Change to the Awake() method instead of using a bool and polling in update()
-	// Use this for initialization
-	/* 
-	void Start () {
-		print("In RCScene.Start() initializing class fields");
-		objsInstantiated = false;
-		playerOwnsCar = false;
-		clickPosition = new Vector3(0, 0, 0);
-	}
-	*/
+	private GameObject player;
+	
 	/*
 		The Awake method is called for the RCScene after all Start
 		methods have completed to instantiate game objects for the
 		scene across the Photon Unity Network.
 	*/
-	 
 	void Awake() {
-		// For Debug
-		print("In RCScene.Awake instantiating game objects for the scene across PUN");
-		// End Debug
 		objsInstantiated = false;
 		playerOwnsCar = false;
-		clickPosition = new Vector3(0, 0, 0);
 		firstPersonCam = new Vector3(0, 0, 40);
-		//instantiateSceneObjects();
 	}
 	
 	/*
@@ -47,7 +29,6 @@ public class RCScene : MonoBehaviour {
 		and functions for the scene that must be addressed once per frame.
 	*/
 	void Update () {
-		 
 		if(!objsInstantiated) {
 			if(PhotonNetwork.inRoom) {
 				instantiateSceneObjects();
@@ -63,8 +44,6 @@ public class RCScene : MonoBehaviour {
 				}
         	}
 		}
-		
-		
 	}
 
 	/*
@@ -77,14 +56,19 @@ public class RCScene : MonoBehaviour {
 	void instantiateSceneObjects() {
 		objsInstantiated = true;
 		objManager = GameObject.Find("ObjectInteractionManager").GetComponent<ASL.Manipulation.Objects.ObjectInteractionManager>();
-		objManager.InstantiateOwnedObject("ASL Player");
+		player = objManager.InstantiateOwnedObject("Player Avatar");
 		car = objManager.InstantiateOwnedObject("BlueCar").GetComponent<RCBehavior_TCP>();
-		// For Debug 
+
+		if(player != null) {
+			player.tag = "Local Primary Camera";
+			ASLLocalEventManager.Instance.Trigger(myFPSCamera, ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
+		}
+		else 
+			print("Error: RCScene.instantiateSceneObjects() Line 59. Unable to instantiate 'Player Avatar'");
 		if(car == null)
-			print("In RCScene.instantiateSceneObjects() with car == null");
+			print("Error: RCScene.instantiateSceneObjects() Line 60. Unable to instantiate 'BlueCar'");
 		else
 			car.GetComponent<RCBehavior_TCP>().enabled = true;
-		
 	}
 
 	/*
@@ -94,27 +78,15 @@ public class RCScene : MonoBehaviour {
 		activates the main camera.
 	*/
 	void playerCarTransition() {
-		//GameObject playAvatar = GameObject.Find("Player Avatar");
-		GameObject aslPlayer = GameObject.Find("ASL Player");
 		GameObject cam = GameObject.Find("Main Camera");
-		if(aslPlayer != null && cam != null) {
-			// Determine the position of the Player Avatar and assign it to the camera
+		if(cam != null) {
 			cam.transform.position = firstPersonCam;
-			// Activate the Main Camera in the hierarchy
 			cam.SetActive(true);
-			// Destroy the ASL Player
-			objManager.Destroy(aslPlayer);
+			objManager.Destroy(player);
 		}
-		else {
-			if(aslPlayer == null)
-				print("Error: Game Object: ASL Player could not be found in the scene. RCScene Line 95-97");
-			else
-				print("Error: Game Object: Main Camera could not be found in the scene. RCScene Line 95-97");
-		}
-	}
-
-	public Vector3 getClickPosition() {
-		return clickPosition;
+		else 
+			print("Error: Game Object: Main Camera could not be found in the scene. RCScene Line 92");
+		
 	}
 }
 
