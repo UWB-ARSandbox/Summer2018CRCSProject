@@ -71,8 +71,8 @@ public class RCScene : MonoBehaviour {
 			print("Error: RCScene.instantiateSceneObjects() Line 59. Unable to instantiate 'Player Avatar'");
 		if(car == null)
 			print("Error: RCScene.instantiateSceneObjects() Line 60. Unable to instantiate 'BlueCar'");
-		//else
-			//car.GetComponent<RCBehavior_TCP>().enabled = true;
+		else
+			car.GetComponent<RCBehavior_TCP>().enabled = true;
 	}
 
 	/*
