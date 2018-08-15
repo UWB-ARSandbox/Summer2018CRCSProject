@@ -59,7 +59,9 @@ public class RCScene : MonoBehaviour {
 		objManager = GameObject.Find("ObjectInteractionManager").GetComponent<ASL.Manipulation.Objects.ObjectInteractionManager>();
 		player = objManager.InstantiateOwnedObject("Player Avatar");
 		car = objManager.InstantiateOwnedObject("BlueCar").GetComponent<RCBehavior_TCP>();
-
+		Camera mainCam = Camera.main;
+		mainCam.transform.position = firstPersonCam;
+		
 		if(player != null) {
 			player.tag = "Local Primary Camera";
 			GameObject.Find("PortalManager").GetComponent<PortalManager>().player = player;
@@ -69,8 +71,8 @@ public class RCScene : MonoBehaviour {
 			print("Error: RCScene.instantiateSceneObjects() Line 59. Unable to instantiate 'Player Avatar'");
 		if(car == null)
 			print("Error: RCScene.instantiateSceneObjects() Line 60. Unable to instantiate 'BlueCar'");
-		else
-			car.GetComponent<RCBehavior_TCP>().enabled = true;
+		//else
+			//car.GetComponent<RCBehavior_TCP>().enabled = true;
 	}
 
 	/*

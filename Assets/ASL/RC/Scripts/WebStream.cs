@@ -24,7 +24,6 @@ public class WebStream : MonoBehaviour {
      */ 
     void Start()
     {
-        print("Webstream.start()");
         if (left)
             sourceURL = "http://172.24.1.1:8080/?action=stream";
         else

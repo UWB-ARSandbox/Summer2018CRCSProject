@@ -33,7 +33,8 @@ class TCP_CarControl:
         # actual values are known
         # self.WHEEL_ROT_S = Number of Wheel Rotations per Second = 1
         # self.WHEEL_ROT_S = 81 / 30
-        self.WHEEL_ROT_S = 3.243
+        #self.WHEEL_ROT_S = 3.243
+        self.WHEEL_ROT_S = 2.243
         # self.WHEEL_CIRC = Circumference of the Car's Wheels = 
         # 2 * PI * Wheel Radius (2") = 2 * 3.14 * 0.165 ft = 1.05 ft   
         self.WHEEL_CIRC = 0.23 * 3.14 

@@ -12,7 +12,8 @@ public class RCBehavior_TCP : MonoBehaviour {
     public GameObject QRReader;
 
     private const float CAM_H = 6f;  
-    private const float CAM_Z = 30.5f;  
+    private const float CAM_Z = 30.5f; 
+    private const float CAM_ASPECT = 4/3; 
     private const string rcAddress = "172.24.1.1";
     //private const string rcAddress = "127.0.0.1";
     private const short rcCPort = 1070;
@@ -39,7 +40,7 @@ public class RCBehavior_TCP : MonoBehaviour {
      * The Start method initializes variables used by the script, 
      * creates a new  TcpClient and connects the client to the host.
      */
-    void Awake() {
+    void Start() {
         print("In RCBehavior.Awake()");
         isOwned = false;
         connected = false;
@@ -75,14 +76,10 @@ public class RCBehavior_TCP : MonoBehaviour {
 	void Update () {
         if(connected) {
             if(isOwned) {
-                if (headingDirty) {
-                    //print("Calling updateHeading()");
+                if (headingDirty) 
                     updateHeading();
-                } 
-                if(distanceDirty) {
-                    //print("Calling updateDistance()");
+                if(distanceDirty) 
                     updateDistance();
-                }
                 updateCommand();
             }
         }
@@ -127,7 +124,6 @@ public class RCBehavior_TCP : MonoBehaviour {
         int headLen = 0;
         string tempS = "";
         int temp = 0;
-    
         while(temp != -1 && (char)temp != 'l') {
             temp = sock.ReadByte();
             if((char)temp != 'l')
@@ -150,10 +146,7 @@ public class RCBehavior_TCP : MonoBehaviour {
         @param target The new rotation for the game object to interpolate toward
      */
     void setNewHeading(float target) {
-        //print("Setting New Heading: " + target + " with offset: " + headingOffset 
-        //+ " Result: " + (target + headingOffset));
         Quaternion rQ = Quaternion.Euler(0, (target + headingOffset), 0);
-        //xform.rotation = Quaternion.Slerp(xform.rotation, rQ, Time.deltaTime);
         xform.rotation = rQ;
         lastHeading = target;
     }
@@ -166,9 +159,6 @@ public class RCBehavior_TCP : MonoBehaviour {
     */
     bool updateDistance() {
         float dist = getData();
-        // For Debug
-        //print("Retrieved Distance: " + dist);
-        // End Debug
         if(dist != -1) {
             setTranslation(dist);
             distanceDirty = false;
@@ -197,10 +187,8 @@ public class RCBehavior_TCP : MonoBehaviour {
         then sendCommand is called and dirty flags are updated appropriately
     */
     void updateCommand() {
-        //Byte[] sBuff;
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            //Debug.Log("Going Foward");
             sBuff = Encoding.Default.GetBytes("F");
             lastCommand = 1;
             headingDirty = true;
@@ -209,7 +197,6 @@ public class RCBehavior_TCP : MonoBehaviour {
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            //Debug.Log("Going Backward");
             sBuff = Encoding.Default.GetBytes("B");
             lastCommand = 2;
             headingDirty = true;
@@ -218,7 +205,6 @@ public class RCBehavior_TCP : MonoBehaviour {
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            //Debug.Log("Turning Left");
             sBuff = Encoding.Default.GetBytes("L");
             lastCommand = 3;
             headingDirty = true;
@@ -226,7 +212,6 @@ public class RCBehavior_TCP : MonoBehaviour {
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            //Debug.Log("Turning Right");
             sBuff = Encoding.Default.GetBytes("R");
             lastCommand = 4;
             headingDirty = true;
@@ -234,7 +219,6 @@ public class RCBehavior_TCP : MonoBehaviour {
         }
         else if(Input.GetKey(KeyCode.E))
         {
-            //Debug.Log("Exiting");
             sBuff = Encoding.Default.GetBytes("E");
             sendCommand();
             connected = false;
@@ -262,7 +246,6 @@ public class RCBehavior_TCP : MonoBehaviour {
         if(connected) {
             if(sock.CanWrite) {
                 sock.Write(sBuff, 0, sBuff.Length);
-                //print("Command Sent");
             }
         }
         else {
@@ -279,10 +262,10 @@ public class RCBehavior_TCP : MonoBehaviour {
      * (leftCamera and rightCamera).
      */
     void OnMouseDown() {
-        // print("In OnMouseDown()");
         if(!isOwned) {
             isOwned = true;
             startCarFirstPerson();
+            //startQR();
         }
     }
 
@@ -301,56 +284,35 @@ public class RCBehavior_TCP : MonoBehaviour {
         main camera. 
     */
     void startCarFirstPerson() {
-        //Vector3 clickPosition = GameObject.Find("Launch_MasterClient").GetComponent<RCScene>().getClickPosition();
         Camera cam = Camera.main;
         Instantiate(leftCamera);
         Instantiate(rightCamera);
         GameObject temp = GameObject.Find("LeftCam(Clone)");
         if(temp != null) {
-            // Change the scale of the webcam
-            float camWidth = cam.aspect * CAM_H;
-            temp.transform.localScale = new Vector3(camWidth, CAM_H, 1);
-            // Change the position of the webcam
-            temp.transform.position = new Vector3(cam.transform.position.x + (0.5f * camWidth), 0f, CAM_Z) ;
+            float camWidth = CAM_ASPECT * CAM_H;
+            temp.transform.localScale = new Vector3(camWidth, CAM_H, 1f);
+            temp.transform.position = new Vector3(cam.transform.position.x + (0.5f * camWidth), cam.transform.position.y, CAM_Z) ;
         }
-            
         else
             print("Error: Game Object: LeftCam not found in scene. RCBehavior.OnMouseDown() line 306");
         temp = GameObject.Find("RightCam(Clone)");
         if(temp != null) {
-            // Change the scale of the webcam
-            float camWidth = cam.aspect * CAM_H;
+            float camWidth = CAM_ASPECT * CAM_H;
             temp.transform.localScale = new Vector3(camWidth, CAM_H, 1);
-            // Change the position of the webcam
-            temp.transform.position = new Vector3(cam.transform.position.x - (0.5f * camWidth), 0f, CAM_Z) ;
+            temp.transform.position = new Vector3(cam.transform.position.x - (0.5f * camWidth), cam.transform.position.y, CAM_Z) ;
         }
         else
             print("Error: Game Object: RightCam not found in scene. RCBehavior.OnMouseDown() line 311");
-        //Instantiate(QRReader);
     }
 
+    /*
+        The startQR method locally instantiates an instance of
+        the QRReader prefab to be used by the RC car for scanning
+        QR codes and syncing the virtual position to absolute.
+        TO DO: The QR Scanning feature has not been fully integrated
+            and requires further testing. 
+    */
     void startQR() {
         Instantiate(QRReader);
     }
 }
-
-/*
-    --------------  OLD CODE  ----------------
-    // Disables MeshRenderer to Make Car Invisible in First Person 
-    MeshRenderer tempRend;
-    for (int i = 0; i < xform.childCount - 1; i++)
-    {
-        tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
-        tempRend.enabled = false;
-    }
-
-      
-    The isCarFirstPerson method returns true if the isFirstPerson field
-    is true.
-    @return bool Returns false if the isFirstPerson field is false.
-
-    public bool isCarFirstPerson() {
-        return isFirstPerson;
-    }
-
-*/
