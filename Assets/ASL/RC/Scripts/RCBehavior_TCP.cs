@@ -13,7 +13,7 @@ public class RCBehavior_TCP : MonoBehaviour {
 
     private const float CAM_H = 6f;  
     private const float CAM_Z = 30.5f; 
-    private const float CAM_ASPECT = 4/3; 
+    private const float CAM_ASPECT = 1.33f; 
     private const string rcAddress = "172.24.1.1";
     //private const string rcAddress = "127.0.0.1";
     private const short rcCPort = 1070;
