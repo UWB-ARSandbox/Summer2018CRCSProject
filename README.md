@@ -40,7 +40,10 @@ activate portals by selecting the empty check box at the top of the `Portals` pr
 
 ## Future Applications
 Search and Rescue mission
+
 Real Estate, touring homes virtually
+
 Safety training
+
 Tour of a site (residential, commercial, university, shopping complex)
 
