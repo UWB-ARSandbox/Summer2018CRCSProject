@@ -34,7 +34,8 @@ public class ContinuousDemo : MonoBehaviour {
 		// Create a basic scanner
 		BarcodeScanner = new Scanner();
 		BarcodeScanner.Camera.Play();
-
+		
+        //CRCS Modification - removed image showing on game object as this is not needed
 		// Display the camera texture through a RawImage
         /*
 		BarcodeScanner.OnReady += (sender, arg) => {
@@ -52,7 +53,8 @@ public class ContinuousDemo : MonoBehaviour {
 
 			RestartTime = Time.realtimeSinceStartup;
 		}; */
-	/* 
+	/* 		
+        //CRCS Moodification - changed scanner to look for QR code in RC cam feed instead of webcam
 	    GameObject [] Cam = GameObject.FindGameObjectsWithTag("CarView");
         Debug.Log(Cam.Length);
         BarcodeScanner.setTexture((Texture2D) Cam[0].GetComponent<WebStream>().getTextureFeed());
@@ -72,6 +74,8 @@ public class ContinuousDemo : MonoBehaviour {
 			}
             TextHeader.text += "Found: QR Code \n";
 			RestartTime += Time.realtimeSinceStartup + 1f;
+			
+            //CRCS comment - add statements here to do something given what barCodeType and barCodeValue are. 
 
 			// Feedback
 			Audio.Play();
