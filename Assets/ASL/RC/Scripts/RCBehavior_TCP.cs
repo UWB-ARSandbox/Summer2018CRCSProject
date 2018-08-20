@@ -6,6 +6,12 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
+/*
+    Instances of the RCBehavior_TCP class establish a TCP connection
+    to the RC car, listen for control commands and pass them to the car,
+    receive yaw and translation data and update the virtual car, and
+    respond to mouse clicks to take control of the car.
+*/
 public class RCBehavior_TCP : MonoBehaviour {
     public GameObject leftCamera; 
     public GameObject rightCamera;
@@ -55,7 +61,10 @@ public class RCBehavior_TCP : MonoBehaviour {
         connectRemote();
     }
     
-    
+    /*
+        The connectRemote method establishes a TCP connection
+        to rcAddress and rcPort and updates connection flags
+    */
     void connectRemote() {
         client = new TcpClient();
         ep = new IPEndPoint(IPAddress.Parse(rcAddress), rcCPort);
@@ -69,9 +78,10 @@ public class RCBehavior_TCP : MonoBehaviour {
     }
 	
     /*
-     * The update method checks if a key on the keyboard was pressed
-     * during the current frame and sends the appropriate command to 
-     * the remote control car if a control key was pressed.
+     * The update method checks if keyboard input corresponding to a car 
+     * control command was given and sends the command to the car. The function
+     * also makes calls to updateHeading() and updateDistance() and closes
+     * the TCP connection when the connectionClosed flag is set.
      */
 	void Update () {
         if(connected) {
@@ -181,6 +191,7 @@ public class RCBehavior_TCP : MonoBehaviour {
         //       because interpolation may be implemented in the future
         xform.Translate(Vector3.right * trans); 
     }
+    
     /*
         The updateCommand function is called once per update to check
         for user input commands to control the car. If a command is given, 

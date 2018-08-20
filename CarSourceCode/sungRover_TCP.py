@@ -10,10 +10,10 @@ import time
 from Adafruit_BNO055 import BNO055
 
 """
-    Instances of the TCP_CarControl class accept a TCP connection
-    and use the Adafruit_PCA9685, Adafruit_MotorHAT, BNO055 to provide
+    Instances of the sungRover_TCP class accept a TCP connection
+    and use the Adafruit_PCA9685, Adafruit_MotorHAT, and BNO055 to provide
     the connected machine with a means to control the car and receive
-    heading information.
+    heading and distance information.
 """
 class TCP_CarControl:
     """
@@ -28,17 +28,15 @@ class TCP_CarControl:
     """
     def __init__(self, myIP = None, connectionPort = None):
         print("Instantiating new CarControlTest")
-        # NOTE: Wheel rotations per second, wheel circumference and feet per 
-        # world coordinate unit are temporary values that need to updated when
-        # actual values are known
-        # self.WHEEL_ROT_S = Number of Wheel Rotations per Second = 1
-        # self.WHEEL_ROT_S = 81 / 30
-        #self.WHEEL_ROT_S = 3.243
-        self.WHEEL_ROT_S = 2.243
-        # self.WHEEL_CIRC = Circumference of the Car's Wheels = 
-        # 2 * PI * Wheel Radius (2") = 2 * 3.14 * 0.165 ft = 1.05 ft   
+        # self.WHEEL_ROT_S = Number of Wheel Rotations per Second 
+        # Full Battery Life
+        #self.WHEEL_ROT_S = 3.243   
+        #Half battery life
+        self.WHEEL_ROT_S = 1.62     
+        # self.WHEEL_CIRC = Circumference of the Car's Wheels 
+        # 2 * PI * Wheel Radius (2.75")  
         self.WHEEL_CIRC = 0.23 * 3.14 
-        # Conversion factor for feet per world coordinate unit, 100ft per WC unit
+        # Conversion factor for feet per world coordinate unit
         self.WORLD_FT = 5.33
         self.MAX_MESSAGE_LENGTH = 16
         self.sock = None
@@ -58,7 +56,7 @@ class TCP_CarControl:
         self.backward = False
 
         if connectionPort is None:
-            self.TCP_PORT = 1060
+            self.TCP_PORT = 1070
         else:
             self.TCP_PORT = connectionPort
         if myIP is None:
@@ -175,7 +173,6 @@ class TCP_CarControl:
         startTime = time.time()
        
         if command == 'W':
-            # Run both motors forward
             self.setDCMotors(1)
             while(runTime < timeSlice):
                 runTime = time.time() - self.dcOneTime
@@ -222,9 +219,6 @@ class TCP_CarControl:
         heading data through a TCP connection
     """
     def handleConnections(self, cSock, cAddr):
-        # handle the connection by sending heading data and recieving commands
-        # Currently the heading is only sent if a command is recieved and the 
-        # car has moved, requiring a heading update
         print("Handling the New Connection")
         while self.connectionOpen:
             if self.isMoving:
@@ -291,13 +285,11 @@ class TCP_CarControl:
     """
     def setDCMotors(self, dcSet) :
         if dcSet == 0:
-            # Stop - Release the motors
             self.myMotor1.run(Adafruit_MotorHAT.RELEASE)
             self.myMotor2.run(Adafruit_MotorHAT.RELEASE)
             self.pwm.set_pwm(1, 0, 0) 
             self.pwm.set_pwm(0, 0, 0)
         elif dcSet == 1:
-            # Forward
             self.isMoving = True
             self.dcOneTime = time.time()
             self.dcTwoTime = time.time()
@@ -306,7 +298,6 @@ class TCP_CarControl:
             self.myMotor2.setSpeed(self.dcTranSpd)
             self.myMotor2.run(Adafruit_MotorHAT.BACKWARD)
         elif dcSet == 2:
-            # Backward
             self.isMoving = True
             self.backward = True
             self.dcOneTime = time.time()
@@ -316,13 +307,11 @@ class TCP_CarControl:
             self.myMotor2.setSpeed(self.dcTranSpd)
             self.myMotor1.run(Adafruit_MotorHAT.FORWARD)
         elif dcSet == 3:
-            # Left
             self.myMotor1.setSpeed(self.dcRotSpd)
             self.myMotor1.run(Adafruit_MotorHAT.FORWARD)
             self.myMotor2.setSpeed(self.dcRotSpd)
             self.myMotor2.run(Adafruit_MotorHAT.BACKWARD)
         elif dcSet == 4:
-            # Right
             self.myMotor1.setSpeed(self.dcRotSpd)
             self.myMotor2.run(Adafruit_MotorHAT.FORWARD)
             self.myMotor2.setSpeed(self.dcRotSpd)
@@ -356,7 +345,6 @@ class TCP_CarControl:
         calculated distance
     """
     def calculateDistance(self) :
-        # Update the time each motor has been running
         self.dcOneTime = time.time() - self.dcOneTime
         self.dcTwoTime = time.time() - self.dcTwoTime
         self.isMoving = False
@@ -367,26 +355,6 @@ class TCP_CarControl:
             dist = dist * -1
             self.backward = False
         return dist
-        
-    # NOTE: The sendDistance() and sendHeading() functions need to be refactored
-    #       to eliminate duplicate code.
-    """
-        The sendDistance function sends the given numeric distance
-        to the given socket using sendall. A string representation
-        of the numberic distance is sent with the length of the string
-        preceding it. If the number is more than 15 digits, then it is
-        truncated to 15 digits to ensure that is may be parsed as a single
-        precision float
-        @param cSock The socket that the given data is written to
-        @param distance The distance to be written to the given socket
-    """
-    def sendDistance(self, cSock, distance):
-        toSend = str(distance)
-        if len(toSend) > self.MAX_MESSAGE_LENGTH :
-            toSend = toSend[:self.MAX_MESSAGE_LENGTH]
-        msHead = str(len(toSend)) + "l"
-        message = msHead + toSend
-        cSock.sendall(message.encode('utf-8'))
 
     """
         The sendData function sends the given numeric data
@@ -412,7 +380,6 @@ class TCP_CarControl:
     """
     def printEulerAndCalibration(self) :
         heading, roll, pitch = self.bno.read_euler()
-        # Read the calibration status, 0=uncalibrated and 3=fully calibrated.
         sys, gyro, accel, mag = self.bno.get_calibration_status()
         print('Heading={0:0.2F} Roll={1:0.2F} Pitch={2:0.2F} Sys_cal={3} Gyro_cal={4} Accel_cal={5} Mag_cal={6}'.format(
                heading, roll, pitch, sys, gyro, accel, mag))

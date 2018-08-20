@@ -4,7 +4,7 @@ using UnityEngine;
 using ASL.PortalSystem;
 
 /*
-	The RCScene class is the scene manager for the RC_PC_Demo_3 scene 
+	The RCScene class is the scene manager for the CrossRealityDemo scene 
 */
 public class RCScene : MonoBehaviour {
 	private ASL.Manipulation.Objects.ObjectInteractionManager objManager;
@@ -15,9 +15,7 @@ public class RCScene : MonoBehaviour {
 	private GameObject player;
 	
 	/*
-		The Awake method is called for the RCScene after all Start
-		methods have completed to instantiate game objects for the
-		scene across the Photon Unity Network.
+		The Awake method initializes instance variables for the class
 	*/
 	void Awake() {
 		objsInstantiated = false;
@@ -26,8 +24,11 @@ public class RCScene : MonoBehaviour {
 	}
 	
 	/*
-		The update function for the RCScene class updates members
-		and functions for the scene that must be addressed once per frame.
+		The update function for the RCScene class calls the 
+		instantiateSceneObjects() function the first time that
+		PhotonNetwork.inRoom returns true. The function also
+		calls the playerCarTransition method the first time
+		that the RCBehavior.isCarOwned() method returns true.
 	*/
 	void Update () {
 		if(!objsInstantiated) {
@@ -94,24 +95,3 @@ public class RCScene : MonoBehaviour {
 	}
 }
 
-/*
-	-------------------		OLD CODE	 ----------------------------
-	// FROM playerCarTransition() 
-	if(player != null) {
-		player.GetComponent<PlayerController>().setTransEnabled(false);
-		player.GetComponent<SmoothMouseLook>().enabled = false;
-		MeshRenderer tempRend;
-		Transform xform = GameObject.Find("Player Avatar").GetComponent<Transform>();
-		for (int i = 0; i < xform.childCount - 1; i++)
-		{
-			tempRend = xform.GetChild(i).GetComponent<MeshRenderer>();
-			if(tempRend != null)
-				tempRend.enabled = false;
-		}
-		player.transform.position = clickPosition;
-	}
-	else {
-		print("Error: Game Object: 'Player Avatar' could not be located in the scene." +
-		" RCScene.playerCarTransition() line 101");
-	}
-*/

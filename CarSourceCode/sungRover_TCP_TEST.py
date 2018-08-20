@@ -8,11 +8,13 @@ import logging
 import sys
 import time
 
+
 """
-    Instances of the TCP_CarControl class accept a TCP connection
-    and use the Adafruit_PCA9685, Adafruit_MotorHAT, BNO055 to provide
-    the connected machine with a means to control the car and receive
-    heading information.
+    The sungRover_TCP_TEST class was written for testing purposes.
+    The class is used to simulate communication with the car using
+    a loopback address instead of actually connecting to the car. 
+    This class is useful when developing in a location where access
+    to the car is not possible.
 """
 class TCP_CarControl:
     """
