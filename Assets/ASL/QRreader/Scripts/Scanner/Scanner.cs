@@ -57,6 +57,7 @@ namespace BarcodeScanner.Scanner
 		public Scanner(ScannerSettings settings) : this(settings, null, null) {}
 		public Scanner(IParser parser, IWebcam webcam) : this(null, parser, webcam) {}
 
+		//CRCS Modification - gets the texture temp which is from the RC cam
         public void setTexture(Texture2D Temp)
         {
             texture = Temp;
@@ -319,6 +320,7 @@ namespace BarcodeScanner.Scanner
 				}
 
                 // Get the image as an array of Color32
+                //CRCS Modification - looks for QR codes in the texture (RC cam) instead of webcam
                 //pixels = Camera.GetPixels(pixels);
                 pixels = texture.GetPixels32();
                 parserPixelAvailable = true;
