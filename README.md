@@ -10,7 +10,7 @@ The culmination of the VR/AR/PC/RC teamwork done by Saam, Ben, Justin, Albert, S
 5. Move with W-A-S-D and the Mouse (enable gravity `G` enable clipping `C`)
 6. Ensure all Clients are connected
 7. Activate portals by selecting the empty check box at the top of the `Portals` prefab
-### Connected as a Client
+### Connecting as a Client
 1. Run `git clone https://github.com/UWB-ARSandbox/Summer2018CRCSProject.git` to clone the repository
 2. Open the `Summer2018CRCSProject/Assets/ASL/Scenes/CrossRealityDemoClient` Client scene for a PC player
 3. Ensure the Master is connected
