@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ASL.LocalEventSystem;
 using ASL.Manipulation.Objects;
 using System.Linq;
 

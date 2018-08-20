@@ -31,7 +31,6 @@ namespace ASL.PortalSystem
             Debug.Assert(button != null);
         }
 
-        // Update is called once per frame
         void Update()
         {
             //need portal to control and cam for click raycast

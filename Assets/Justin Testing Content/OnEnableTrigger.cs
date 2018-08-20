@@ -2,19 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnEnableTrigger : MonoBehaviour
+namespace ASL
 {
-
-    public ASLLocalEventManager.LocalEvents[] EventsToTrigger;
-
-    void OnEnable()
+    namespace LocalEventSystem
     {
-        Debug.Log(gameObject.name + " is triggering events");
-        foreach (ASLLocalEventManager.LocalEvents ev in EventsToTrigger)
+        /// <summary>
+        /// Utility script using the local event system. Provides ability to trigger any local event
+        /// when this game object is enabled.
+        /// </summary>
+        public class OnEnableTrigger : MonoBehaviour
         {
-            Debug.Log("Triggering on enable event: " + ev.ToString());
-            ASLLocalEventManager.Instance.Trigger(gameObject, ev);
+
+            public ASLLocalEventManager.LocalEvents[] EventsToTrigger;
+
+            void OnEnable()
+            {
+                Debug.Log(gameObject.name + " is triggering events");
+                foreach (ASLLocalEventManager.LocalEvents ev in EventsToTrigger)
+                {
+                    Debug.Log("Triggering on enable event: " + ev.ToString());
+                    ASLLocalEventManager.Instance.Trigger(gameObject, ev);
+                }
+            }
         }
     }
-
 }

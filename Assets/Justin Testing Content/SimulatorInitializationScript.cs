@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ASL.Manipulation.Objects;
+using ASL.LocalEventSystem;
 
+// Script used when making the simulator camera rig a networked object, have transitioned to separting the VR SDK scripts and the
+// networked repressentation of a VR player.
 public class SimulatorInitializationScript : LocalEventHandler {
 
     public Vector3 origin;
@@ -55,7 +58,5 @@ public class SimulatorInitializationScript : LocalEventHandler {
             }
         }
         gameObject.GetComponent<VRTK.VRTK_SDKManager>().enabled = true;
-
-        //ASLLocalEventManager.Instance.Trigger(GameObject.FindGameObjectsWithTag("Local Primary Camera"), ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
     }
 }
