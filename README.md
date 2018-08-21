@@ -56,8 +56,3 @@ The culmination of the VR/AR/PC/RC teamwork done by Saam, Ben, Justin, Albert, S
 - Real Estate, touring homes virtually
 - Safety training
 - Tour of a site (residential, commercial, university, shopping complex)
-
-<details>
-<Summary> Test </Summary>
-This is a test.
-</details>
