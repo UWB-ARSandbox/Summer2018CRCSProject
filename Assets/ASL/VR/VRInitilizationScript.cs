@@ -34,11 +34,23 @@ namespace ASL
 
             VRTK.VRTK_SDKManager sdkManager;
 
+            /// <summary>
+            /// The VR device to be used by the player.
+            /// </summary>
             public SupportedDevices DeviceToUse = SupportedDevices.Simulator; // Set for VR SDK to use
+            /// <summary>
+            /// Starting position for the VR user
+            /// </summary>
             public Vector3 origin; // Starting point VR user
 
             // References to GameObjects containing the SDK Setup scripts.
+            /// <summary>
+            /// Reference to the Simulator SDK setup
+            /// </summary>
             public GameObject simulator;
+            /// <summary>
+            /// Reference to the SteamVR SDK setup
+            /// </summary>
             public GameObject steamVR;
 
             // Networked visual representation for this VR user.
@@ -46,6 +58,9 @@ namespace ASL
 
             private ObjectInteractionManager objectInteractionManager;
 
+            /// <summary>
+            /// Getting initial required references.
+            /// </summary>
             private void Awake()
             {
                 objectInteractionManager = GameObject.Find("ObjectInteractionManager").GetComponent<ObjectInteractionManager>();
@@ -80,6 +95,23 @@ namespace ASL
                 }
             }
 
+
+            /// <summary>
+            /// Event handler for local events relating to the creation of a VR player.
+            /// </summary>
+            /// <param name="sender">Object that triggered the event</param>
+            /// <param name="args">The event being triggered</param>
+            /// <event>VRAvatarCreationFailed</event>
+            /// <description>This event is handled by attempting to create an avatar until successful.</description>
+            /// <event>VRAvatarCreationSucceeded</event>
+            /// <description>This event is triggered after the VR avatar is sucessfully created across PUN.
+            /// Once created, the VRTK scripts will be enabled the appropriate SDK loaded.</description>
+            /// <event>SimulatorActivated</event>
+            /// <description>This event is triggered after the simulator has been activated, triggers the creation of
+            /// a VR player avatar.</description>
+            /// <event>SteamVRActivated</event>
+            /// <description>This event is triggered after the simulator has been activated, triggers the creation of
+            /// a VR player avatar.</description>
             protected override void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
             {
                 switch (args.MyEvent)
@@ -113,8 +145,10 @@ namespace ASL
                 }
             }
 
-            // Gets the appropraite GameObject references for setting up the VR Avatar and passes the references
-            // to the avatar.
+            /// <summary>
+            /// Gets the appropriate GameObject references for setting up the VR Avatar and passes the references
+            /// to the avatar.
+            /// </summary>
             private void InitializeAvatar()
             {
                 Debug.Log("initilizing the follow scripts for the case: " + DeviceToUse.ToString());
@@ -141,9 +175,11 @@ namespace ASL
                 GameObject.Find("PortalManager").GetComponent<PortalManager>().SetPlayer(GameObject.FindGameObjectWithTag("Local Primary Camera"));
             }
 
-            // This function is called in response to the VR SDK Setup script being enabled.
-            // Once enabled the VR avatar reference objects can be located for the purpose of the
-            // VRAvatarInitialization.Initialize function.
+            /// <summary>
+            /// This function is called in response to the VR SDK Setup script being enabled.
+            /// Once enabled the VR avatar reference objects can be located for the purpose of the
+            /// VRAvatarInitialization.Initialize function.
+            /// </summary>
             private void GetSimulatorReferencePoints()
             {
                 switch (DeviceToUse)

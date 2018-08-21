@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using ASL.PortalSystem;
 
-// This script enables the user to control an avatar with a simple set of movement commands.
-// PlayerController allows the user to toggle between interacting with gravity and encountering
-// collisions with colliders.
+/// <summary>
+/// This script enables the user to control an avatar with a simple set of movement commands.
+/// PlayerController allows the user to toggle between interacting with gravity and encountering
+/// collisions with colliders.
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
     #region Public Fields
@@ -27,9 +29,9 @@ public class PlayerController : MonoBehaviour
     private float distToGround;
     #endregion Private Fields
 
-    // Start
-    // Most important parts of initilization are getting references to the CharacterController and
-    // Collider. These enable movement and toggling of clipping.
+    /*
+     * Getting initial references required for controlling the player avatar.
+     */
     void Start()
     {
         transEnabled = true;
@@ -41,13 +43,12 @@ public class PlayerController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         previousGState = gravityEnabled;
         distToGround = _collider.bounds.extents.y;
-
-        GameObject.Find("PortalManager").GetComponent<PortalManager>().player = this.gameObject;
     }
 
-    // Update
-    // Checks for user input to update state of the playercontroller. Takes updated state and calls
-    // appropriate method for controlling movement of the player.
+    /* 
+     * Checks for user input to update state of the playercontroller. Takes updated state and calls
+     *  appropriate method for controlling movement of the player.
+    */
     void Update()
     {   
         // Clipping refers to when collisions occur and prevent movement through colliders. Toggling off
@@ -63,6 +64,9 @@ public class PlayerController : MonoBehaviour
         }       
     }
 
+    /// <summary>
+    /// Update movement once every frame.
+    /// </summary>
     private void LateUpdate()
     {
 
@@ -71,6 +75,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /* 
+     * This function allows the player to travel through colliders. Uses the physics system to ignore interaction between layers.
+    */
     private void toggleClipping()
     {
         clippingEnabled = !clippingEnabled;
@@ -87,16 +94,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    /*
+     * Toggles gravity & saves previous state.
+     */
     private void toggleGravity()
     {
         previousGState = gravityEnabled;
         gravityEnabled = !gravityEnabled;
     }
 
-    // RigidBodyMovement
-    // This movement update method takes user input and applies forces through the CharacterController component to
-    // move the player.
+    /*
+     * This function reads from the axis input and key inputs to move the player in response to user input.
+     */
     private void updateMovment()
     {
         Vector3 forward = transform.forward;
@@ -135,13 +144,13 @@ public class PlayerController : MonoBehaviour
         _controller.Move((forward * Time.deltaTime * Speed) + (strafe * Time.deltaTime * Speed));
     }
 
-    /*
-        The setTransEnabled method assigns the given value 
-        to the transEnabled field. If the value is false then
-        the player will not be translated with user input from
-        keyboard keys.
-        @param enabled The new value assigned to the transEnabled field.
-    */
+    /// <summary>
+    /// The setTransEnabled method assigns the given value 
+    /// to the transEnabled field.If the value is false then
+    /// the player will not be translated with user input from
+    /// keyboard keys.
+    /// </summary>
+    /// <param name="enabled">The new value assigned to the transEnabled field.</param>
     public void setTransEnabled(bool enabled) {
         transEnabled = enabled;
     }

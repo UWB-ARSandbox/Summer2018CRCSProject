@@ -144,8 +144,10 @@ namespace ASL
             ASLLocalEventManager.Instance.Trigger(this, ASLLocalEventManager.LocalEvents.PCPlayerCreationSucceeded);
         }
 
-        // Uses public fields to assign properties to the PC player.
-        // Future Development: Material could be replaced with a PUN event to synchronize. 
+        /// <summary>
+        /// Uses public fields to assign properties and initial values to the PC player.
+        /// </summary>    
+        /// Future Development: Material could be replaced with a PUN event to synchronize.
         private void SetInitialProperties()
         {
             myPlayer.GetComponent<MeshRenderer>().sharedMaterial = avatarMaterial;
