@@ -12,7 +12,7 @@ The culmination of the VR/AR/PC/RC teamwork done by Saam, Ben, Justin, Albert, S
 7. Activate portals by activating the 'Portals' GameObject in the hierarchy (click 'Portals' in hierarchy then check the empty checkbox in the Inspector)
 ### Connecting as a PC Master with RC Car Use
 1. Run `git clone https://github.com/UWB-ARSandbox/Summer2018CRCSProject.git` to clone the repository
-2. Use the ASL RC Car Tutorial at https://drive.google.com/open?id=1R2MzQxzncyRmByJ1abZf69f4Thv8fwrT to power the car, connect to the car, start the cameras, calibrate the sensor, and start listening for TCP connections. 
+2. Use the ASL RC Car Tutorial at https://drive.google.com/open?id=1R2MzQxzncyRmByJ1abZf69f4Thv8fwrT to power the car, connect to the car, start the cameras, calibrate the sensor, and start listening for TCP connections 
 3. Open the `Summer2018CRCSProject/Assets/ASL/Scenes/CrossRealityDemo.unity` Master scene for a PC player with RC car use
 4. Ensure the `Master Client` checkbox is selected in the `NetworkManager` GameObject in the heirarchy
 5. Press play and you should appear in the starting room
