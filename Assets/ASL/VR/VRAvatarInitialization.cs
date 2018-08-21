@@ -14,7 +14,9 @@ namespace ASL
         public class VRAvatarInitialization : MonoBehaviour
         {
 
-
+            /// <summary>
+            /// VR Device this avatar will represent.
+            /// </summary>
             VRDevice device;
 
             // References to networked avatar components

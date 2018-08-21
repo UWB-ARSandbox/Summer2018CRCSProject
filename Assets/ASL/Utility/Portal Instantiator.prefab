@@ -713,9 +713,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563f40aa2767ed4468c565c60ab65e3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  portalName: Portal
+  setDestination: 0
+  destinationName: 
   includeSelector: 1
   selectorDirection: {x: 0, y: 0, z: 0, w: 0}
   selectorPosition: {x: -1.77, y: -0.2, z: 0}
+  playerAvaliable: 0
 --- !u!114 &114224762522543502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -728,6 +732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1245451599998434}
+  playerCam: {fileID: 0}
 --- !u!114 &114799890555287018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -746,3 +751,4 @@ MonoBehaviour:
   idleMat: {fileID: 2100000, guid: 224ade5f608a5f94e957de7690b9c084, type: 2}
   copyCamMat: {fileID: 2100000, guid: c1e565ede84a13c4dbf7d9630bbdb1c3, type: 2}
   webCamMat: {fileID: 2100000, guid: 90ac7f7b4becf7e4fb8cbef763821d60, type: 2}
+  portalName: 
