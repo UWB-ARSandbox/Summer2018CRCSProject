@@ -3,19 +3,19 @@
 The culmination of the VR/AR/PC/RC teamwork done by Saam, Ben, Justin, Albert, Stan, and Kelvin. For this project our goal was cross reality collaboration within a synchronized enviroment. We made a demo that shows a VR player using the Vive, PC person using Windows/Mac, and an RC car that is used by a PC person all interacting with one another.  
 ## How To Run the Demo
 ### Connecting as a PC Master without RC Car Use
-1. Run `git clone https://github.com/UWB-ARSandbox/Summer2018CRCSProject.git` to clone the repositor3
+1. Run `git clone https://github.com/UWB-ARSandbox/Summer2018CRCSProject.git` to clone the repository
 2. Open the `Summer2018CRCSProject/Assets/ASL/Scenes/CrossRealityDemoPC.unity` Master scene for a PC player
 3. Ensure the `Master Client` checkbox is selected in the `NetworkManager` GameObject in the hierarchy 
 4. Press play and you should appear in the starting room
 5. Move with W-A-S-D and the Mouse (enable gravity `G` enable clipping `C`)
 6. Ensure all Clients are connected
-7. Activate portals by selecting the empty check box at the top of the `Portals` prefab
+7. Activate portals by activating the 'Portals' GameObject in the hierarchy (click 'Portals' in hierarchy then check the empty checkbox in the Inspector)
 ### Connecting as a PC Master with RC Car Use
 1. Run `git clone https://github.com/UWB-ARSandbox/Summer2018CRCSProject.git` to clone the repository
 2. Use the ASL RC Car Tutorial at https://drive.google.com/open?id=1R2MzQxzncyRmByJ1abZf69f4Thv8fwrT to power the car, connect to the car, start the cameras, calibrate the sensor, and start listening for TCP connections. 
-3. Open the master client scene for a PC player with RC Car Control, `Summer2018CRCSProject/Assets/ASL/Scenes/CrossRealityDemo.unity` 
+3. Open the `Summer2018CRCSProject/Assets/ASL/Scenes/CrossRealityDemo.unity` Master scene for a PC player with RC car use
 4. Ensure the `Master Client` checkbox is selected in the `NetworkManager` GameObject in the heirarchy
-5. Press play and you should appear outside the hallway
+5. Press play and you should appear in the starting room
 6. Move with W-A-S-D and look with the Mouse (enable gravity `G` enable clipping `C`)
 7. Ensure all Clients are connected
 8. Activate portals by activating the 'Portals' GameObject in the hierarchy (click 'Portals' in hierarchy then check the empty checkbox in the Inspector)
@@ -27,7 +27,7 @@ The culmination of the VR/AR/PC/RC teamwork done by Saam, Ben, Justin, Albert, S
 1. Run `git clone https://github.com/UWB-ARSandbox/Summer2018CRCSProject.git` to clone the repository
 2. Open the `Summer2018CRCSProject/Assets/ASL/Scenes/CrossRealityDemoClient` Client scene for a PC player
 3. Ensure the Master is connected
-4. Ensure the `Master` checkbox is deselected in the `NetworkManager` prefab
+4. Ensure the `Master Client` checkbox is deselected in the `NetworkManager` prefab
 5. Ensure the Port and Room name in the `NetworkManager` prefab are the same as the Master's
 6. Press play and you should appear in the starting room
 7. Move with W-A-S-D and the Mouse (enable gravity `G` enable clipping `C`)
