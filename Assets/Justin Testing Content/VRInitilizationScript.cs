@@ -16,8 +16,8 @@ namespace ASL
         /// </summary>
         public class VRInitilizationScript : LocalEventHandler
         {
-            // Enum of supported events.
-            // Must match order in VRTK_SDKManager
+            /// Enum of supported events.
+            /// <important>Must match order in VRTK_SDKManager</important>
             public enum SupportedDevices
             {
                 SteamVR,

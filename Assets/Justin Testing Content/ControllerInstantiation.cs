@@ -7,6 +7,10 @@ using ASL.LocalEventSystem;
 
 namespace ASL
 {
+    /// <summary>
+    /// This script handles the creation of a PC player. Having an instance of this script on a GameObject will instantiate a PC player
+    /// and then delete the GameObject afterwards. Primarily intended to be used through ASL Player prefab.
+    /// </summary>
     public class ControllerInstantiation : LocalEventHandler
     {
 
@@ -31,7 +35,8 @@ namespace ASL
         private GameObject myFPSCamera;
 
         // Working implementation for the billboard text labels was dropped to focus on supporting different
-        // VR devices. Future work could be put into fixing the orientation of the text.
+        // VR devices.
+        // Future Development:  Fix the orientation of the text.
         private BillboardText myLabel;
 
         void Awake()
@@ -45,6 +50,19 @@ namespace ASL
             InstantiatePCPlayer();
         }
 
+        /// <summary>
+        /// Event handler for local events relating to the creation of a PC player.
+        /// </summary>
+        /// <param name="sender">Object that triggered the event</param>
+        /// <param name="args">The event being triggered</param>
+        /// <event>PCPlayerCreationFailed</event>
+        /// <description>This event is handled by attempting to create an avatar until successful.</description>
+        /// <event>PCPlayerCreationSucceeded</event>
+        /// <description>This event is triggered after the PC player is sucessfully created across PUN.
+        /// Components are enabled and disabled depending on owner to prevent camera and control inputs.</description>
+        /// <event>PortalManagerPlayerSet</event>
+        /// <description>This event is triggered after the Portal manager has a valid player reference. This script does
+        /// will have served its purpose of creating the PC player and can be removed from the scene.</description>
         protected override void OnLocalEvent(object sender, ASLLocalEventManager.LocalEventArgs args)
         {
             switch (args.MyEvent)
@@ -66,13 +84,16 @@ namespace ASL
                     }
                 default:
                     {
-                        Debug.Log(this.name + ": Event not handled");
                         break;
                     }
             }
         }
 
-        // Event handler that will toggle components that should only be run by the owner of this player.
+        /// <summary>
+        /// This function enables or disables components of a PC player depending on the owner status of the
+        /// PC player. If local user owns the Player Avatar then control scripts will be enabled, if not then
+        /// they will be disabled.
+        /// </summary>
         private void SucessfulCreationEventHandler()
         {
             if (myPlayer.GetComponent<PhotonView>().isMine)
@@ -106,8 +127,9 @@ namespace ASL
             }
         }
 
-        // Instantiation function that uses the local event manager
-        // to signal success and to trigger time sensitive code execution.
+        /// <summary>
+        /// This function instantiates a PC player through PUN. Raises local event reflecting status of the instantation.
+        /// </summary>
         private void InstantiatePCPlayer()
         {
             myPlayer = mObjectInteractionManager.InstantiateOwnedObject("Player Avatar");
@@ -120,10 +142,10 @@ namespace ASL
             SetInitialProperties();
 
             ASLLocalEventManager.Instance.Trigger(this, ASLLocalEventManager.LocalEvents.PCPlayerCreationSucceeded);
-
         }
 
         // Uses public fields to assign properties to the PC player.
+        // Future Development: Material could be replaced with a PUN event to synchronize. 
         private void SetInitialProperties()
         {
             myPlayer.GetComponent<MeshRenderer>().sharedMaterial = avatarMaterial;
@@ -131,7 +153,10 @@ namespace ASL
             myPlayer.transform.localScale = initialScale;
         }
 
-
+        /// <summary>
+        /// This function sets a tag that is used by portals for synchronizing the copy camera with this player.
+        /// Should only be called after a networked instance of the PC player has been instantiated and activated.
+        /// </summary>
         private void SetPortalManagerPlayer()
         {
             myFPSCamera.tag = "Local Primary Camera";
