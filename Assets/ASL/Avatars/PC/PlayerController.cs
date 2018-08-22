@@ -9,11 +9,22 @@ using ASL.PortalSystem;
 public class PlayerController : MonoBehaviour
 {
     #region Public Fields
+    /// <summary>
+    /// Speed the player avatar moves
+    /// </summary>
     public float Speed = 5f;
-
+    /// <summary>
+    /// Downward velocity applied to the player when not grounded.
+    /// </summary>
     public float Gravity = -9.81f;
+    /// <summary>
+    /// Button to press to toggle between clipping through objects.
+    /// </summary>
     public KeyCode ToggleClippingButton = KeyCode.C;
-    public KeyCode toggleGravityButton = KeyCode.G;
+    /// <summary>
+    /// Button to press to toggle gravity.
+    /// </summary>
+    public KeyCode ToggleGravityButton = KeyCode.G;
     #endregion Public Fields
 
     #region Private Fields
@@ -58,7 +69,7 @@ public class PlayerController : MonoBehaviour
             toggleClipping();
         }
 
-        if (Input.GetKeyDown(toggleGravityButton))
+        if (Input.GetKeyDown(ToggleGravityButton))
         {
             toggleGravity();
         }       
