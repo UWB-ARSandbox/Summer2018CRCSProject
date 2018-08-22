@@ -3,75 +3,95 @@ using UnityEngine.Events;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-namespace ASL
+
+/// <summary>
+/// Contains all classes relating to triggering and handling message passing
+/// between local components in ASL.
+/// </summary>
+namespace ASL.LocalEventSystem
 {
-    namespace LocalEventSystem
+
+    /// <summary>
+    /// This script implements a singleton pattern and maintains a public event
+    /// that other scripts can subscribe to for using message passing, delegates,
+    /// and events to synchronize the scene.
+    /// </summary>
+    public class ASLLocalEventManager : MonoBehaviour
     {
-        public class ASLLocalEventManager : MonoBehaviour
+        private static ASLLocalEventManager _instance = null;
+
+        /// <summary>
+        /// Statically avaliable singleton instance
+        /// </summary>
+        public static ASLLocalEventManager Instance { get { return _instance; } }
+        /// <summary>
+        /// Event handler using LocalEventArgs, other scripts can use delegation to have an
+        /// internal function invoked upon the local event being triggered elsewhere.
+        /// </summary>
+        public static event EventHandler<LocalEventArgs> LocalEventTriggered;
+
+        /// <summary>
+        /// Event Argument that contains a LocalEvent code (Enum)
+        /// </summary>
+        public class LocalEventArgs : EventArgs
         {
-            private static ASLLocalEventManager _instance = null;
+            public LocalEvents MyEvent { get; set; }
+        }
 
-            public static ASLLocalEventManager Instance { get { return _instance; } }
-            public static event EventHandler<LocalEventArgs> LocalEventTriggered;
+        /// <summary>
+        /// Enum of supported events.
+        /// </summary>
+        public enum LocalEvents
+        {
+            VRPlayerActivated,
+            VRAvatarCreationSucceeded,
+            VRAvatarCreationFailed,
+            SimCameraRigCreationFailed,
+            SimCameraRigCreationSucceeded,
+            SimCameraRigActivated,
+            SimulatorActivated,
+            SteamVRActivated,
+            PCPlayerActivated,
+            PCPlayerCreationSucceeded,
+            PCPlayerCreationFailed,
+            PrimaryCameraSet,
+            PortalManagerPlayerSet,
+            PortalCreationSucceeded,
+            PortalCreationFailed,
+            TriggerPortalCreation,
+        }
 
-            // Event Argument that contains a LocalEvent code (Enum)
-            public class LocalEventArgs : EventArgs
+        void Awake()
+        {
+            if (Instance == null)
             {
-                public LocalEvents MyEvent { get; set; }
+                _instance = this;
             }
-
-            // Enum of supported events.
-            public enum LocalEvents
+            else if (Instance != this)
             {
-                VRPlayerActivated,
-                VRAvatarCreationSucceeded,
-                VRAvatarCreationFailed,
-                SimCameraRigCreationFailed,
-                SimCameraRigCreationSucceeded,
-                SimCameraRigActivated,
-                SimulatorActivated,
-                SteamVRActivated,
-                PCPlayerActivated,
-                PCPlayerCreationSucceeded,
-                PCPlayerCreationFailed,
-                PrimaryCameraSet,
-                PortalManagerPlayerSet,
-                PortalCreationSucceeded,
-                PortalCreationFailed,
-                TriggerPortalCreation,
+                Destroy(gameObject);
             }
+        }
 
-            void Awake()
+        /// <summary>
+        /// This function sends a message to ever script subscribed to the EventHandler delegate.
+        /// </summary>
+        /// <param name="sender">Object associated with triggering this event.</param>
+        /// <param name="eventToTrigger">A LocalEvents enum value representing the event to be triggered.</param>
+        /// <returns>boolean reflecting whether there are any observers for the event.</returns>
+        public bool Trigger(object sender, LocalEvents eventToTrigger)
+        {
+            if (LocalEventTriggered != null)
             {
-                if (Instance == null)
-                {
-                    _instance = this;
-                }
-                else if (Instance != this)
-                {
-                    Destroy(gameObject);
-                }
+                LocalEventTriggered(sender, new LocalEventArgs { MyEvent = eventToTrigger });
+                return true;
             }
-
-            /// <summary>
-            /// This function sends a message to ever script subscribed to the EventHandler delegate.
-            /// </summary>
-            /// <param name="sender">Object associated with triggering this event.</param>
-            /// <param name="eventToTrigger">A LocalEvents enum value representing the event to be triggered.</param>
-            /// <returns></returns>
-            public bool Trigger(object sender, LocalEvents eventToTrigger)
+            else
             {
-                if (LocalEventTriggered != null)
-                {
-                    LocalEventTriggered(sender, new LocalEventArgs { MyEvent = eventToTrigger });
-                    return true;
-                }
-                else
-                {
-                    //Debug.Log("No subscribers to Local Events");
-                    return false;
-                }
+                //Debug.Log("No subscribers to Local Events");
+                return false;
             }
         }
     }
+
 }
