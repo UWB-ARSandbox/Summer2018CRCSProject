@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ASL.PlayerSystem;
 
 /*
 	The RCScene class is the scene manager for the RC_PC_Demo_3 scene 

@@ -82,10 +82,10 @@ namespace ASL.PortalSystem
         }
 
         /// <summary>
-        /// Assign a GameObject as the player to be used by portals managed by the portal manager. 
+        /// Assign a GameObject as the player to be used by portals managed by the portal manager.
+        /// Uponsetting the player triggers corresponding local event.
         /// </summary>
         /// <param name="p">Player to be assigned.</param>
-        /// Sets the player and triggers local event for other scripts to respond to the event.
         public void SetPlayer(GameObject p)
         {
             player = p;
@@ -602,6 +602,9 @@ namespace ASL.PortalSystem
             return keyEnumerator.Current;
         }
 
+        /// <summary>
+        /// Debugging method displaying the state of all of the portals tracked by the manager.
+        /// </summary>
         internal void printPortalStates()
         {
             int index = 0;

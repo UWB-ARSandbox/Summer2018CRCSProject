@@ -161,11 +161,6 @@ MonoBehaviour:
   externalCamera: {fileID: 0}
   externalCameraConfigPath: externalcamera.cfg
   trackingSpace: 1
---- !u!1 &63301294 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1118472765003572, guid: e566af531adec4442817b44f7ff1be72,
-    type: 2}
-  m_PrefabInternal: {fileID: 1246758722}
 --- !u!1 &78178793
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,11 +786,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &245920656 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1221843308623818, guid: e566af531adec4442817b44f7ff1be72,
-    type: 2}
-  m_PrefabInternal: {fileID: 1246758722}
 --- !u!1 &302276290
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,11 +2541,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &1064057141 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1512944965413290, guid: e566af531adec4442817b44f7ff1be72,
-    type: 2}
-  m_PrefabInternal: {fileID: 1246758722}
 --- !u!1 &1095556888
 GameObject:
   m_ObjectHideFlags: 0
@@ -2984,11 +2969,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f533ce839475954cb13167217532056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1312567733 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1761958790903588, guid: e566af531adec4442817b44f7ff1be72,
-    type: 2}
-  m_PrefabInternal: {fileID: 1246758722}
 --- !u!4 &1312567734 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4043693955702500, guid: e566af531adec4442817b44f7ff1be72,
@@ -3751,11 +3731,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1491300314}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1522742729 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1271745666572026, guid: e566af531adec4442817b44f7ff1be72,
-    type: 2}
-  m_PrefabInternal: {fileID: 1246758722}
 --- !u!1 &1567383239
 GameObject:
   m_ObjectHideFlags: 0
@@ -3832,11 +3807,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1567383239}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1572788669 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1102851963143422, guid: e566af531adec4442817b44f7ff1be72,
-    type: 2}
-  m_PrefabInternal: {fileID: 1246758722}
 --- !u!1001 &1641866850
 Prefab:
   m_ObjectHideFlags: 0
@@ -4184,12 +4154,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoPopulateObjectReferences: 1
-  actualBoundaries: {fileID: 1312567733}
-  actualHeadset: {fileID: 1522742729}
-  actualLeftController: {fileID: 63301294}
-  actualRightController: {fileID: 245920656}
-  modelAliasLeftController: {fileID: 1572788669}
-  modelAliasRightController: {fileID: 1064057141}
+  actualBoundaries: {fileID: 0}
+  actualHeadset: {fileID: 0}
+  actualLeftController: {fileID: 0}
+  actualRightController: {fileID: 0}
+  modelAliasLeftController: {fileID: 0}
+  modelAliasRightController: {fileID: 0}
   cachedSystemSDKInfo:
     baseTypeName: VRTK.SDK_BaseSystem
     fallbackTypeName: VRTK.SDK_FallbackSystem
