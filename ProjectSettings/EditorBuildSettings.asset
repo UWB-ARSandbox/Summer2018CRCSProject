@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Justin Testing Content/VRIntegrationMaster.unity
     guid: 213bede696b17ea4492615b57ebe6fe3
+  - enabled: 1
+    path: Assets/ASL/RC/Scenes/RC_PC_4_MC.unity
+    guid: daa20086409eaf249afc3b65ce8fec7a
   m_configObjects: {}

@@ -46,20 +46,7 @@ public class WebStream : MonoBehaviour {
     void GetStream() {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sourceURL);
         WebResponse response = request.GetResponse();
-        //  - For Debug -
-        /*
-        if(left)
-            print("Left: Received response with Content Length: " + response.ContentLength);
-        else
-            print("Received response with Content Length: " + response.ContentLength);
-        */
-        // - End Debug -
         stream = response.GetResponseStream();
-        // - For Debug -
-        /* 
-        print("Stream created with Content Length: " + response.ContentLength);
-        */
-        // -End Debug -
         StartCoroutine(FillFrame());
     }
 
@@ -73,52 +60,16 @@ public class WebStream : MonoBehaviour {
      * start again on the next update.
      */
     IEnumerator FillFrame() {
-        // - For Debug -
-        // print("Starting Coroutine");
-        // - End Debug -
         Byte[] imageData = new Byte[150000];
         while(true) {
             int totalBytes = StreamLength(stream);
-            // - For Debug -
-            /*
-            if (left)
-                print("Left: Stream Length: " + totalBytes);
-            else
-                print("Stream Length: " + totalBytes);
-            */
-            // - End Debug -
-            if (totalBytes == -1)
-            {
-                // - For Debug -
-                // print("Yielding Coroutine, because there are no bytes to read from the stream");
-                // - End Debug -
-                yield break;
-            }
+                if (totalBytes == -1)
+                    yield break;
             int remainingBytes = totalBytes;
-            while(remainingBytes > 0)
-            {
-                // - For Debug -
-                /*
-                if (left)
-                    print("Left: In Read Loop ... Remaining: " + remainingBytes);
-                else
-                    print("In Read Loop ... Remaining: " + remainingBytes);
-                */
-                // - End Debug -
+            while(remainingBytes > 0) {
                 remainingBytes -= stream.Read(imageData, totalBytes - remainingBytes, remainingBytes);
-                // - For Debug -
-                // print("Yielding for one update ..");
-                // - End Debug -
                 yield return null;
             }
-            // - For Debug -
-            /*
-            if(left)
-                print("Left: Loading Image and Exiting Coroutine");
-            else
-                print("Loading Image and Exiting Coroutine");
-            */
-            // - End Debug -
             MemoryStream memStream = new MemoryStream(imageData, 0, totalBytes, false, true);
             texture.LoadImage(memStream.GetBuffer());
             frame.material.mainTexture = texture;
@@ -166,3 +117,46 @@ public class WebStream : MonoBehaviour {
         return -1;
     }
 }
+
+/*
+    ------------------     Old Code     ---------------------
+    // Debug Prints from GetStream()
+         //  - For Debug -
+        if(left)
+            print("Left: Received response with Content Length: " + response.ContentLength);
+        else
+            print("Received response with Content Length: " + response.ContentLength);
+        // - End Debug -
+        // - For Debug -
+        print("Stream created with Content Length: " + response.ContentLength);
+        // -End Debug -
+    
+    // Debug Prints from FillFrame()
+        // - For Debug -
+        // print("Starting Coroutine");
+        // - End Debug -
+        // - For Debug -
+        if (left)
+            print("Left: Stream Length: " + totalBytes);
+        else
+            print("Stream Length: " + totalBytes);
+        // - End Debug -
+        // - For Debug -
+        // print("Yielding Coroutine, because there are no bytes to read from the stream");
+        // - End Debug -
+        // - For Debug -
+        if (left)
+            print("Left: In Read Loop ... Remaining: " + remainingBytes);
+        else
+            print("In Read Loop ... Remaining: " + remainingBytes);
+        // - End Debug -
+        // - For Debug -
+        // print("Yielding for one update ..");
+        // - End Debug -
+        // - For Debug -
+        if(left)
+            print("Left: Loading Image and Exiting Coroutine");
+        else
+            print("Loading Image and Exiting Coroutine");
+        // - End Debug - 
+*/
