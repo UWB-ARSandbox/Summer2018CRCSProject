@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ASL.PlayerSystem;
+using ASL.LocalEventSystem;
 using ASL.PortalSystem;
 
 /*
@@ -66,8 +66,7 @@ public class RCScene : MonoBehaviour {
 		
 		if(player != null) {
 			player.tag = "Local Primary Camera";
-			GameObject.Find("PortalManager").GetComponent<PortalManager>().player = player;
-			ASLLocalEventManager.Instance.Trigger(player.GetComponent<Camera>(), ASLLocalEventManager.LocalEvents.PlayerInstanceActive);
+			GameObject.Find("PortalManager").GetComponent<PortalManager>().SetPlayer(player);
 		}
 		else 
 			print("Error: RCScene.instantiateSceneObjects() Line 59. Unable to instantiate 'Player Avatar'");
