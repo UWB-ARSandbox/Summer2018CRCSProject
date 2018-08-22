@@ -12,7 +12,9 @@ namespace ASL
         /// </summary>
         public class OnEnableTrigger : MonoBehaviour
         {
-
+            /// <summary>
+            /// Events that will be triggered.
+            /// </summary>
             public ASLLocalEventManager.LocalEvents[] EventsToTrigger;
 
             void OnEnable()

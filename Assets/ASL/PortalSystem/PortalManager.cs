@@ -6,6 +6,9 @@ using ASL.LocalEventSystem;
 using ASL.Manipulation.Objects;
 using System.Linq;
 
+/// <summary>
+/// Contains all classes relating to portals and their behaviour in ASL.
+/// </summary>
 namespace ASL.PortalSystem
 {
     /// <summary>

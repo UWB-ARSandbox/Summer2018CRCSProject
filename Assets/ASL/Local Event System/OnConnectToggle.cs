@@ -13,12 +13,33 @@ namespace ASL
     public class OnConnectToggle : Photon.PunBehaviour
     {
 
+        /// <summary>
+        /// Components that will be enabled
+        /// </summary>
         public MonoBehaviour[] ScriptsToActivate;
+        /// <summary>
+        ///  Components that will be disabled.
+        /// </summary>
         public MonoBehaviour[] ScriptsToDeactivate;
+        /// <summary>
+        /// GameObjects that will be activated.
+        /// </summary>
         public GameObject[] GameObjectsToActivate;
+        /// <summary>
+        /// GameObjects that will be deactivated.
+        /// </summary>
         public GameObject[] GameObjectsToDeactivate;
+        /// <summary>
+        /// Events that will be triggered.
+        /// </summary>
         public ASLLocalEventManager.LocalEvents[] EventsToTrigger;
+        /// <summary>
+        /// Camera that will be activated.
+        /// </summary>
         public Camera[] CamerasToActivate;
+        /// <summary>
+        /// Cameras that will be deactivated.
+        /// </summary>
         public Camera[] CamerasToDeactivate;
 
         /// <summary>

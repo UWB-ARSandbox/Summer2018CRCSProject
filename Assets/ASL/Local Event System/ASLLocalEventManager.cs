@@ -35,6 +35,9 @@ namespace ASL.LocalEventSystem
         /// </summary>
         public class LocalEventArgs : EventArgs
         {
+            /// <summary>
+            /// The type of event used as a parameter for local events.
+            /// </summary>
             public LocalEvents MyEvent { get; set; }
         }
 

@@ -19,6 +19,9 @@ namespace ASL.PortalSystem
         
         private PortalManager portalManager = null;     //for linking/unlinking portal
         private Portal sourcePortal = null;             //portal to control
+        /// <summary>
+        /// Camera used for determining clicks, via raycasting, hitting the selector button.
+        /// </summary>
         public Camera playerCam = null;                //for raycasting select
         private int sourcePortalID = -1;
         private int destPortalID = -1;
