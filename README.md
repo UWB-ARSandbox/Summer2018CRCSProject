@@ -32,15 +32,20 @@ The culmination of the VR/AR/PC/RC teamwork done by Saam, Ben, Justin, Albert, S
 6. Press play and you should appear in the starting room
 7. Move with W-A-S-D and the Mouse (enable gravity `G` enable clipping `C`)
 ### Connecting as a VR Client
-1.
-2.
-3.
-4.
+1. Run `git clone https://github.com/UWB-ARSandbox/Summer2018CRCSProject.git` to clone the repository
+2. Open the `Summer2018CRCSProject/Assets/ASL/Scenes/CrossRealityDemoVRClient` Client scene for a VR player
+3. Ensure the Master is connected
+4. Ensure the `Master Client` checkbox is deselected in the `NetworkManager` prefab
+5. Ensure the Port and Room name in the `NetworkManager` prefab are the same as the Master's
+6. Navigate to the GameObject `VRTK_SDKManager` in the hierarchy, ensure the field for device to use reflect your VR device
+7. Press play and you should appear in the starting room
+8. Move by holding the trigger button to project a beam that indicates the destination to teleport to.
 ## Known Issues
 - Portals teleport PC players to random locations occasionally
+- Orientation when exiting a portal is not consistent between player types and portal angles
 - Portals must be deactivated prior to launch by master and reactivated when all players connect to the room
-- VR player must re-sync body parts at run-time after joining ASL (in order for others to view VR player)
 - RC car's localization is limited to battery life, rear tire grab and non constant acceleration
+- Player identification tags (billboardtext) not working consistently betweeen different player types.
 ## Future Enhancements
 - Allowing VR player to control RC car
 - Scanning more campus locations
@@ -51,6 +56,7 @@ The culmination of the VR/AR/PC/RC teamwork done by Saam, Ben, Justin, Albert, S
 - Changing RC cars rechargable battery pack
 - Adding AR to the Demo (Tango or Hololens)
 - Adding path lines to lead players to correct location
+- Adding more control options for VR players
 ## Future Applications
 - Search and Rescue mission
 - Real Estate, touring homes virtually
