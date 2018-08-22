@@ -6,6 +6,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace ASL {
+    /// <summary>
+    /// Contains all classes responsible for creating and controlling
+    /// user controlled entities in ASL.
+    /// </summary>
     namespace PlayerSystem {
         [AddComponentMenu("Camera-Control/Smooth Mouse Look")]
         /// <summary>
