@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Contains all classes relating to portals and their behaviour in ASL.
+/// </summary>
 namespace ASL.PortalSystem
 {
     /// <summary>

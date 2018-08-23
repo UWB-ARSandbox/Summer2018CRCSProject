@@ -9,6 +9,16 @@ TagManager:
   - CarView
   - Local Player
   - Local Primary Camera
+  - Simulator Camera Rig
+  - Simulator Right Controller
+  - Simulator Left Controller
+  - Simulator HMD
+  - Simulator Capsule
+  - SteamVR HMD
+  - SteamVR Capsule
+  - SteamVR Camera Rig
+  - SteamVR Left Controller
+  - SteamVR Right Controller
   layers:
   - Default
   - TransparentFX

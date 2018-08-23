@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using ASL.LocalEventSystem;
 using ASL.Manipulation.Objects;
 using System.Linq;
 
+/// <summary>
+/// Contains all classes relating to portals and their behaviour in ASL.
+/// </summary>
 namespace ASL.PortalSystem
 {
     /// <summary>
@@ -78,6 +82,17 @@ namespace ASL.PortalSystem
             newPortal.transform.parent = transform.Find("Unregistered Portals").transform;
 
             return p;
+        }
+
+        /// <summary>
+        /// Assign a GameObject as the player to be used by portals managed by the portal manager.
+        /// Uponsetting the player triggers corresponding local event.
+        /// </summary>
+        /// <param name="p">Player to be assigned.</param>
+        public void SetPlayer(GameObject p)
+        {
+            player = p;
+            ASLLocalEventManager.Instance.Trigger(gameObject, ASLLocalEventManager.LocalEvents.PortalManagerPlayerSet);
         }
 
         /*
@@ -590,6 +605,9 @@ namespace ASL.PortalSystem
             return keyEnumerator.Current;
         }
 
+        /// <summary>
+        /// Debugging method displaying the state of all of the portals tracked by the manager.
+        /// </summary>
         internal void printPortalStates()
         {
             int index = 0;

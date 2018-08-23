@@ -569,17 +569,12 @@ Prefab:
     - target: {fileID: 114961132145658658, guid: c42b35311518a4d4fb01b26d9f17a5a8,
         type: 2}
       propertyPath: RoomName
-      value: CRDemo
+      value: ASLVRDemo
       objectReference: {fileID: 0}
     - target: {fileID: 114961132145658658, guid: c42b35311518a4d4fb01b26d9f17a5a8,
         type: 2}
       propertyPath: MasterClient
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114961132145658658, guid: c42b35311518a4d4fb01b26d9f17a5a8,
-        type: 2}
-      propertyPath: Port
-      value: 51289
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c42b35311518a4d4fb01b26d9f17a5a8, type: 2}
@@ -628,89 +623,9 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114832630846332626, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: actualBoundaries
-      value: 
-      objectReference: {fileID: 1538998609}
-    - target: {fileID: 114832630846332626, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: actualHeadset
-      value: 
-      objectReference: {fileID: 1538998608}
-    - target: {fileID: 114832630846332626, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: actualLeftController
-      value: 
-      objectReference: {fileID: 1538998607}
-    - target: {fileID: 114832630846332626, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: actualRightController
-      value: 
-      objectReference: {fileID: 1538998605}
-    - target: {fileID: 114832630846332626, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: modelAliasLeftController
-      value: 
-      objectReference: {fileID: 1538998606}
-    - target: {fileID: 114832630846332626, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: modelAliasRightController
-      value: 
-      objectReference: {fileID: 1538998604}
-    - target: {fileID: 114072618646078894, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: DeviceToUse
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114072618646078894, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: origin.x
-      value: -81
-      objectReference: {fileID: 0}
-    - target: {fileID: 114072618646078894, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: origin.y
-      value: -67.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 114072618646078894, guid: f750e3edc045173449e2be0f8c9de547,
-        type: 2}
-      propertyPath: origin.z
-      value: 12.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f750e3edc045173449e2be0f8c9de547, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1538998604 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1142951850729990, guid: f750e3edc045173449e2be0f8c9de547,
-    type: 2}
-  m_PrefabInternal: {fileID: 1538998603}
---- !u!1 &1538998605 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1980768078854578, guid: f750e3edc045173449e2be0f8c9de547,
-    type: 2}
-  m_PrefabInternal: {fileID: 1538998603}
---- !u!1 &1538998606 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1189916657528382, guid: f750e3edc045173449e2be0f8c9de547,
-    type: 2}
-  m_PrefabInternal: {fileID: 1538998603}
---- !u!1 &1538998607 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1923875078149092, guid: f750e3edc045173449e2be0f8c9de547,
-    type: 2}
-  m_PrefabInternal: {fileID: 1538998603}
---- !u!1 &1538998608 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1608603790450954, guid: f750e3edc045173449e2be0f8c9de547,
-    type: 2}
-  m_PrefabInternal: {fileID: 1538998603}
---- !u!1 &1538998609 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1177774814787484, guid: f750e3edc045173449e2be0f8c9de547,
-    type: 2}
-  m_PrefabInternal: {fileID: 1538998603}
 --- !u!1 &1810433229
 GameObject:
   m_ObjectHideFlags: 0
