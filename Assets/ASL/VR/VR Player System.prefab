@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 92540732073551414}
   m_Layer: 0
   m_Name: Camera (head)
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -810,7 +810,7 @@ GameObject:
   - component: {fileID: 114160350617190900}
   m_Layer: 10
   m_Name: Vive Body
-  m_TagString: Untagged
+  m_TagString: SteamVR Capsule
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3394,7 +3394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05f28f927e04f744ab32fad4cba27e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeviceToUse: 1
+  DeviceToUse: 0
   origin: {x: 0, y: 0, z: 0}
   simulator: {fileID: 1187724499465508}
   steamVR: {fileID: 1225868594130100}
@@ -3586,8 +3586,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe5040c2eaa9ff147b80ded004191c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectToFollow: {fileID: 0}
-  gameObjectToChange: {fileID: 0}
+  gameObjectToFollow: {fileID: 1605183270005168}
+  gameObjectToChange: {fileID: 1726493496878076}
   followsPosition: 1
   smoothsPosition: 0
   maxAllowedPerFrameDistanceDifference: 0.003
