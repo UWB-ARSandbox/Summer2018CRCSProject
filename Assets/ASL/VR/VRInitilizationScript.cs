@@ -163,6 +163,7 @@ namespace ASL.VirtualReality
                     {
                         myVRAvatar.GetComponent<VRAvatarInitialization>().Initialize(VRAvatarInitialization.VRDevice.Simulator,
                             cameraRigReference, headMountedDisplayReference, leftControllerReference, rightControllerReference, capsuleBodyReference);
+
                             
                         break;
                     }
@@ -174,6 +175,8 @@ namespace ASL.VirtualReality
                         break;
                     }
             }
+
+            cameraRigReference.transform.position = origin;
             GameObject.Find("PortalManager").GetComponent<PortalManager>().SetPlayer(GameObject.FindGameObjectWithTag("Local Primary Camera"));
         }
 
