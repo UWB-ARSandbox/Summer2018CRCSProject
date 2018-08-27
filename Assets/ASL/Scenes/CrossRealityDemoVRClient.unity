@@ -666,17 +666,26 @@ Prefab:
     - target: {fileID: 114072618646078894, guid: f750e3edc045173449e2be0f8c9de547,
         type: 2}
       propertyPath: origin.x
-      value: -81
+      value: 5.02
       objectReference: {fileID: 0}
     - target: {fileID: 114072618646078894, guid: f750e3edc045173449e2be0f8c9de547,
         type: 2}
       propertyPath: origin.y
-      value: -67.75
+      value: 0.56
       objectReference: {fileID: 0}
     - target: {fileID: 114072618646078894, guid: f750e3edc045173449e2be0f8c9de547,
         type: 2}
       propertyPath: origin.z
-      value: 12.5
+      value: 6.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1402871634768916, guid: f750e3edc045173449e2be0f8c9de547, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114049902125203900, guid: f750e3edc045173449e2be0f8c9de547,
+        type: 2}
+      propertyPath: index
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f750e3edc045173449e2be0f8c9de547, type: 2}

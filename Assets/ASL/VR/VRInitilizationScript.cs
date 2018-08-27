@@ -201,7 +201,7 @@ namespace ASL.VirtualReality
                 case SupportedDevices.SteamVR:
                     {
                         cameraRigReference = GameObject.FindGameObjectWithTag("SteamVR Camera Rig");
-                        headMountedDisplayReference = GameObject.FindGameObjectWithTag("StreamVR HMD");
+                        headMountedDisplayReference = GameObject.FindGameObjectWithTag("SteamVR HMD");
                         leftControllerReference = GameObject.FindGameObjectWithTag("SteamVR Left Controller");
                         rightControllerReference = GameObject.FindGameObjectWithTag("SteamVR Right Controller");
                         capsuleBodyReference = GameObject.FindGameObjectWithTag("SteamVR Capsule");
