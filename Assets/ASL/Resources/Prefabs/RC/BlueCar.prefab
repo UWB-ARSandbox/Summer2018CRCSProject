@@ -511,7 +511,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1304877829411308}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f257e2d901d7d6244b8cd228069a95ec, type: 3}
   m_Name: 
@@ -520,3 +520,5 @@ MonoBehaviour:
   rightCamera: {fileID: 1936116895083966, guid: 526508966b5159d43805a6b8fb0b0216,
     type: 2}
   QRReader: {fileID: 1086007522965034, guid: 15e19dc10dc9fdf42b3b5a831974aae6, type: 2}
+  debug_x: 0
+  debug_y: 0

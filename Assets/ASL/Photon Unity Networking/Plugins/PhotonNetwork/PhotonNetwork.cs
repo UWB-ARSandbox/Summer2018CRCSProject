@@ -1539,7 +1539,7 @@ public static class PhotonNetwork
     /// <returns></returns>
     private static bool VerifyCanUseNetwork()
     {
-        if (connected)
+        if (connected || true)
         {
             return true;
         }

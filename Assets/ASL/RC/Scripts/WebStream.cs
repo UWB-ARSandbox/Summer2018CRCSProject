@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.IO;
 using System.Net;
@@ -16,6 +17,7 @@ public class WebStream : MonoBehaviour {
     private Texture2D texture;
     private MeshRenderer frame;
     private Stream stream;
+    public RawImage image;
    
     /*
      * The Start method, called when the object is instantiated, initializes
@@ -73,6 +75,7 @@ public class WebStream : MonoBehaviour {
             MemoryStream memStream = new MemoryStream(imageData, 0, totalBytes, false, true);
             texture.LoadImage(memStream.GetBuffer());
             frame.material.mainTexture = texture;
+            image.texture = texture;
             stream.ReadByte();
             stream.ReadByte();
         }

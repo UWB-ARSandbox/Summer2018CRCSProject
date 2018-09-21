@@ -19,6 +19,7 @@ TagManager:
   - SteamVR Camera Rig
   - SteamVR Left Controller
   - SteamVR Right Controller
+  - Driver Seat
   layers:
   - Default
   - TransparentFX
