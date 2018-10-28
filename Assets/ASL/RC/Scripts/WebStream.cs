@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using System.IO;
 using System.Net;
+using System.Threading;
 
 public class WebStream : MonoBehaviour {
     // Opentopia.com Webcam IP Adress
@@ -18,12 +19,12 @@ public class WebStream : MonoBehaviour {
     private MeshRenderer frame;
     private Stream stream;
     public RawImage image;
-   
+
     /*
      * The Start method, called when the object is instantiated, initializes
-     * variables for the script, assigns the appropriate sorting layer to 
+     * variables for the script, assigns the appropriate sorting layer to
      * the MeshRenderer for the object, and calls the GetStream method.
-     */ 
+     */
     void Start()
     {
         if (left)
@@ -32,7 +33,7 @@ public class WebStream : MonoBehaviour {
             sourceURL = "http://172.24.1.1:8070/?action=stream";
         frame = this.GetComponent<MeshRenderer>();
         texture = new Texture2D(2, 2);
-        GetStream();
+        StartCoroutine( GetStream() );
     }
 
     public Texture getTextureFeed()
@@ -42,22 +43,23 @@ public class WebStream : MonoBehaviour {
 
     /*
      * The GetStream method creates and sends an HTTP GET request
-     * to the sourceURL, receives the response from the address, 
+     * to the sourceURL, receives the response from the address,
      * and starts the FillFrame coroutine.
      */
-    void GetStream() {
+    private IEnumerator GetStream() {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sourceURL);
         WebResponse response = request.GetResponse();
         stream = response.GetResponseStream();
         StartCoroutine(FillFrame());
+        yield return null;
     }
 
     /*
      * The FillFrame method uses a MemoryStream created from reading
-     * the bytes in the stream to load the image into a texture and 
-     * attach it to the MeshRenderer. The StreamLength() method is 
+     * the bytes in the stream to load the image into a texture and
+     * attach it to the MeshRenderer. The StreamLength() method is
      * called to determine the number of bytes to read.
-     * @return IEnumerator The IEnumerator that determines How long 
+     * @return IEnumerator The IEnumerator that determines How long
      * the coroutine will yield. In most cases the coroutine will
      * start again on the next update.
      */
@@ -75,7 +77,11 @@ public class WebStream : MonoBehaviour {
             MemoryStream memStream = new MemoryStream(imageData, 0, totalBytes, false, true);
             texture.LoadImage(memStream.GetBuffer());
             frame.material.mainTexture = texture;
-            image.texture = texture;
+
+            if(image) {
+                image.texture = texture;
+            }
+
             stream.ReadByte();
             stream.ReadByte();
         }
@@ -83,7 +89,7 @@ public class WebStream : MonoBehaviour {
 
     /*
      * The StreamLength method returns the total number of bytes in
-     * the stream excluding header and metadata information. 
+     * the stream excluding header and metadata information.
      */
     int StreamLength(Stream s) {
         int b;
@@ -92,12 +98,12 @@ public class WebStream : MonoBehaviour {
         bool atEOL = false;
         while ((b = stream.ReadByte()) != -1)
         {
-            if (b == 10) continue; 
+            if (b == 10) continue;
             if (b == 13)
-            { 
+            {
                 if (atEOL)
                 {
-                    stream.ReadByte(); 
+                    stream.ReadByte();
                     return result;
                 }
                 if (line.StartsWith("Content-Length:"))
@@ -133,7 +139,7 @@ public class WebStream : MonoBehaviour {
         // - For Debug -
         print("Stream created with Content Length: " + response.ContentLength);
         // -End Debug -
-    
+
     // Debug Prints from FillFrame()
         // - For Debug -
         // print("Starting Coroutine");
@@ -161,5 +167,5 @@ public class WebStream : MonoBehaviour {
             print("Left: Loading Image and Exiting Coroutine");
         else
             print("Loading Image and Exiting Coroutine");
-        // - End Debug - 
+        // - End Debug -
 */

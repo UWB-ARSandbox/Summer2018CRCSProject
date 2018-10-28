@@ -42,7 +42,7 @@ public class RCBehavior_TCP : MonoBehaviour
     private bool Grip_Clicked;
 
     /*
-     * The Start method initializes variables used by the script, 
+     * The Start method initializes variables used by the script,
      * creates a new  TcpClient and connects the client to the host.
      */
     void Start()
@@ -81,7 +81,7 @@ public class RCBehavior_TCP : MonoBehaviour
 
     /*
      * The update method checks if a key on the keyboard was pressed
-     * during the current frame and sends the appropriate command to 
+     * during the current frame and sends the appropriate command to
      * the remote control car if a control key was pressed.
      */
     void Update()
@@ -96,7 +96,7 @@ public class RCBehavior_TCP : MonoBehaviour
             debug_x = z.GetComponent<TrackpadComs>().x;
             debug_y = z.GetComponent<TrackpadComs>().y;
         }
-        
+
         if (z.GetComponent<TrackpadComs>().Grip_Pressed && !Grip_Clicked)
         {
             Debug.Log("-----------------moving player ---------------");
@@ -122,7 +122,7 @@ public class RCBehavior_TCP : MonoBehaviour
                 {
                     touchpadDrive();
                 }
-                
+
             }
         }
         else
@@ -163,7 +163,7 @@ public class RCBehavior_TCP : MonoBehaviour
         The getData function attempts to read and return a numeric
         value from sock, the NetworkStream associated with the current
         TcpClient. The function returns -1 if a value cannot be read from
-        the stream. The function assumes that the value will be 
+        the stream. The function assumes that the value will be
         preceded by the length of the value and the character 'l'.
         @return float The new value read from the stream
      */
@@ -192,7 +192,7 @@ public class RCBehavior_TCP : MonoBehaviour
             return -1;
     }
     /*
-        The setNewHeading method uses interpolation to rotate the 
+        The setNewHeading method uses interpolation to rotate the
         game object to the given target heading.
         @param target The new rotation for the game object to interpolate toward
      */
@@ -227,8 +227,8 @@ public class RCBehavior_TCP : MonoBehaviour
 
     /*
         The setTranslation function applies the given float
-        to the transform, xform, of the game object. 
-        @param trans The translation to be applied to the 
+        to the transform, xform, of the game object.
+        @param trans The translation to be applied to the
         current game object
     */
     void setTranslation(float trans)
@@ -239,7 +239,7 @@ public class RCBehavior_TCP : MonoBehaviour
     }
     /*
         The updateCommand function is called once per update to check
-        for user input commands to control the car. If a command is given, 
+        for user input commands to control the car. If a command is given,
         then sendCommand is called and dirty flags are updated appropriately
     */
     void updateCommand()
@@ -330,7 +330,7 @@ public class RCBehavior_TCP : MonoBehaviour
             distanceDirty = true;
             sendCommand();
         }
-       
+
         else if (Input.GetKey(KeyCode.E))
         {
             sBuff = Encoding.Default.GetBytes("E");
@@ -375,7 +375,7 @@ public class RCBehavior_TCP : MonoBehaviour
      * The overidden OnMouseDown method is called when a mouse down event
      * is triggered within the collider of the gameobject that owns the script.
      * The method disables the MeshRenderer for all children of the game object
-     * and instantiates one instance of each camera feed prefab 
+     * and instantiates one instance of each camera feed prefab
      * (leftCamera and rightCamera).
      */
     void OnMouseDown()
@@ -398,10 +398,10 @@ public class RCBehavior_TCP : MonoBehaviour
     }
 
     /*
-        The startCarFirstPerson method locally instantiates instances of the 
+        The startCarFirstPerson method locally instantiates instances of the
         LeftCam, RightCam, and QRReader prefabs. The method also scales and
         translates the LeftCam and RightCam instances to completely cover the
-        main camera. 
+        main camera.
     */
     void startCarFirstPerson()
     {
@@ -433,7 +433,7 @@ public class RCBehavior_TCP : MonoBehaviour
         the QRReader prefab to be used by the RC car for scanning
         QR codes and syncing the virtual position to absolute.
         TO DO: The QR Scanning feature has not been fully integrated
-            and requires further testing. 
+            and requires further testing.
     */
     void startQR()
     {
