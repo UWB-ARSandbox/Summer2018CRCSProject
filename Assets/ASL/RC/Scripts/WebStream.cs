@@ -33,7 +33,7 @@ public class WebStream : MonoBehaviour {
             sourceURL = "http://172.24.1.1:8070/?action=stream";
         frame = this.GetComponent<MeshRenderer>();
         texture = new Texture2D(2, 2);
-        StartCoroutine( GetStream() );
+        GetStream();
     }
 
     public Texture getTextureFeed()
@@ -46,12 +46,11 @@ public class WebStream : MonoBehaviour {
      * to the sourceURL, receives the response from the address,
      * and starts the FillFrame coroutine.
      */
-    private IEnumerator GetStream() {
+    private void GetStream() {
         HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sourceURL);
         WebResponse response = request.GetResponse();
         stream = response.GetResponseStream();
         StartCoroutine(FillFrame());
-        yield return null;
     }
 
     /*
